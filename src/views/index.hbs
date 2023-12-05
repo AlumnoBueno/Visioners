@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="../css/main.css" rel="stylesheet" type="text/css" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
+</head>
+
+<body>
+<script>
+
+
+  const formulario = document.getElementById("signup-form");
+ const inputs = document.querySelectorAll('#signup-form input')
+
+ const expresiones = {
+	nombre: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
+  apellidos: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
+}
+
+
+
+const validarFormulario = (e) =>{
+  switch (e.target.name) {
+		case "nombre":
+			if(expresiones.nombre.test(e.target.value)){
+        document.getElementById("grupo__nombre").classList.remove('formulario__grupo-incorrecto')
+        document.getElementById("grupo__nombre").classList.add('formulario__grupo-correcto')
+      }else{
+        document.getElementById("grupo__nombre").classList.add('formulario__grupo-incorrecto')
+      }
+		break;
+	}
+}
+
+
+
+
+
+
+  formulario.addEventListener("submit",function(event){
+    event.preventDefault();
+
+  
+  })
+
+  inputs.forEach((input) => {
+	input.addEventListener('keyup', validarFormulario);
+	input.addEventListener('blur', validarFormulario);
+});
+
+
+</script>
+
+  <!--CARRUSEL-->
+
+  <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+        aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+        aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+        aria-label="Slide 3"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3"
+        aria-label="Slide 4"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="../img/oppenhaimer.png" class="img-fluid centrar d-block w-60" alt="oppenhaimer">
+      </div>
+      <div class="carousel-item">
+        <img src="../img/napoleon.png" class="img-fluid centrar d-block w-60" alt="napoleon">
+      </div>
+      <div class="carousel-item">
+        <img src="../img/super_mario.png" class="img-fluid centrar d-block w-60" alt="super_mario">
+      </div>
+      <div class="carousel-item">
+        <img src="../img/spiderman.png" class="img-fluid centrar d-block w-60" alt="spiderman">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+      data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+      data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+  <br>
+  <h1 style="color: aliceblue;">CARTELERA</h1>
+
+
+ <div id="filmmodule" class="container text-center">
+  <div class="collapse show mb-3" id="filmsCollapse" aria-expanded="false">
+    <div class="container d-flex flex-wrap px-0 mx-0 mx-md-auto">
+      {{#each peliculas}}
+      <div class="grid-afiche animate__bounce"><a href="./film/{{id}}">
+        <img src='./img/caratulas/{{caratula}}' alt={{caratula}} class="animate__bounce">
+        </a>
+      </div>
+       {{/each}}
+    </div>
+   </div>
+</div>
+
+
+
+
+</body>
+
+</html>

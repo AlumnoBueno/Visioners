@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+   
+
+    <style>
+        body {
+            overflow-x: hidden;
+        }
+
+        .infoMovil {
+            display: none;
+        }
+
+        p {
+            color: aliceblue;
+        }
+
+        #film-card {
+            text-align: center;
+        }
+
+        .foto img{
+            height: 428px;
+            width: 280px;
+            border-radius: 0.75em;
+        }
+
+        .first_name{
+            color: aliceblue;
+        }
+
+        #dateSelector{
+        font-weight: bold;
+         font-size: 1rem;
+          border: none;
+           background-color: rgb(161, 51, 51);
+            color: rgb(255, 255, 255) !important; 
+            padding: 0.4rem !important;
+        }
+
+
+
+
+        @media all and (max-width: 480px) {
+            #film-info {
+                color: aliceblue;
+                margin-left: 5%;
+            }
+
+            .foto img{
+                height: 278px;
+            width: 180px;
+            border-radius: 0.75em;
+            }
+
+
+        }
+    </style>
+
+
+           <script>
+                        
+        document.body.onload = function() {
+            let horarios = document.getElementById("horario");
+
+   
+            let listaHorario = document.getElementById("horario").innerHTML.split(",")
+
+           listaHorario.forEach(horario =>{
+                let botonHorario = document.createElement("button");
+                botonHorario.innerHTML=horario;
+                botonHorario.className="btn btn-secondary"
+                botonHorario.value = horario
+                document.getElementById("horario").appendChild(botonHorario)
+            })
+
+            let horarioSpan = document.getElementById('horario');
+            let botones = horarioSpan.querySelectorAll('button');
+            let textoSpan = horarioSpan.childNodes[0];
+            horarioSpan.removeChild(textoSpan); 
+            
+document.getElementById("dateSelector").addEventListener('change',() => {buscarPorFecha()})
+            desplegableFechas() 
+            eliminarBoton()
+
+
+
+
+
+
+}
+
+function desplegableFechas(){
+    let fechaActual = new Date();
+  
+
+// Mostrar la fecha actual
+let formatoFechaActual = new Intl.DateTimeFormat('es-ES', { dateStyle: 'full' });
+console.log('Fecha actual:', formatoFechaActual.format(fechaActual));
+
+// Iterar desde hoy hasta 5 días más adelante
+for (let i = 0; i <= 4; i++) {
+  let fechaFutura = new Date(fechaActual);
+  fechaFutura.setDate(fechaFutura.getDate() + i);
+  console.log(fechaFutura)
+
+  // Formatear la fecha
+  let formatoFecha = new Intl.DateTimeFormat('es-ES', { dateStyle: 'full' });
+  let fechaFormateada = formatoFecha.format(fechaFutura);
+
+  let selectFecha = document.getElementById("dateSelector");
+  let opcionFecha = document.createElement("option");
+  opcionFecha.innerHTML=fechaFormateada;
+  opcionFecha.value=fechaFutura;
+  selectFecha.appendChild(opcionFecha)
+
+  // Mostrar la fecha futura
+  {{!-- console.log(`Fecha dentro de ${i} día(s): ${fechaFormateada}`); --}}
+}
+}
+
+
+function eliminarBoton(){
+    let botones = document.querySelectorAll('.btn');
+
+// Obtener el último botón con la clase 'btm'
+let ultimoBoton = botones[botones.length - 1];
+
+// Eliminar el último botón seleccionado
+ultimoBoton.remove();
+}
+
+function buscarPorFecha(){
+    const fechaSeleccionada = document.getElementById("dateSelector").value;
+
+    const fecha = new Date(fechaSeleccionada);
+    const year = fecha.getFullYear();
+    const month = String(fecha.getMonth() + 1).padStart(2, '0');
+    const day = String(fecha.getDate()).padStart(2, '0');
+  
+    const fechaFinal =  `${year}-${month}-${day}`;
+    
+
+        const idPelicula = {{pelicula.id}}
+         
+
+     fetch(`/buscarPorFecha/${fechaFinal}/${idPelicula}`)
+        .then(response => response.json())
+         .then(data => {
+          // Mostrar los resultados en el div 'resultados'
+          const resultadosDiv = document.getElementById('horario');
+          // Actualizar los datos en la página sin recargar
+
+          resultadosDiv.innerHTML="";
+
+        data.forEach(elemento =>{
+            
+                let enlace = document.createElement("a");
+                enlace.href = `/entradas/{{pelicula.id}}/${elemento.hora}/${fechaFinal}/${elemento.id_sala}`
+                 document.getElementById("horario").appendChild(enlace)
+                let botonHorario = document.createElement("button");
+                botonHorario.type="submit"
+                botonHorario.innerHTML=elemento.hora;
+                botonHorario.className="btn btn-secondary"
+                botonHorario.value = elemento.hora
+                enlace.appendChild(botonHorario)          
+        })
+
+        })
+        .catch(error => {
+          console.error('Error al buscar por fecha:', error);
+        });
+}
+
+
+    </script>
+
+
+</head>
+
+<body>
+
+  {{#if error}}
+            <p>{{error}}</p>
+            {{/if}}
+    <div id="rt-main" class="mb12">
+        <div class="rt-grid-12">
+            <div class="rt-block component-block main-overlay-dark">
+                <div id="rt-mainbody">
+                    <div class="component-content">
+                        <div class="peli-info" id="header">
+                            <div class="row">
+                                <div class="col-md-4 col-xs-6" id="film-card">
+                                    <h1 class="first_name" >{{pelicula.titulo}}</h1>
+                                    <br>
+                                    <div class="foto"><img src="../img/caratulas/{{pelicula.caratula}}"
+                                          ></div>
+                                    <a href="https://www.youtube.com/watch?v=gYApro2YXQQ" data-lity=""><button
+                                            class="peli-boto-trailer"><i class="fa fa-play-circle"></i>
+                                            Trailer</button></a>
+                                    <div class="peli-botons"></div>
+                                </div>
+                                <div class="col-md-8" id="film-info">
+                                    <div style="width: 90%; text-aling:center">
+                                        <div class="description">
+                                            <br>
+                                            <br>
+                                            <br>
+                                            <p><b>Sinopsis</b>: {{pelicula.sinopsis}}</p>
+                                            <p><b>Sinopsis</b>: 
+                                            {{#each horario}}
+                                            {{hora}}</p>
+                                            {{/each}}
+                                        </div>
+                                        <div class="extraInfo">
+                                            <div>
+                                                <p><b>Duración</b>: {{pelicula.duracion}} minutos</p>
+                                                <p><b>Dirección</b>: {{pelicula.direccion}}</p>
+                                                <p><b>Género</b>: {{pelicula.genero}}</p>
+                                                <select id="dateSelector"></select>
+                                                <br>
+                                                <br>
+                                                <p><b>Horario</b>: 
+                                               
+                                                <span id="horario"></span></p>
+                                              
+                                            </div>
+                                        </div>
+                                    </div>
+                                     
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+    </div>
+</body>
+
+</html>
