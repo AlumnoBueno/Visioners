@@ -4,20 +4,28 @@ import bcrypt from  'bcrypt';
 
 const router = Router();
 
-function storeUser(req,res) {
-    const data = req.body;
-    bcrypt.hash(data.password,12).then(hash => {
-       
-        data.password =hash;
-         req.getConnection((err,conn) => {
-             conn.query('INSERT INTO users SET ?',[data], (err,rows) => {
-                 res.redirect("index.hbs")
-             })
-         })
-     
-      })
-}
+export const login = async (req,res) => {
+    try{
+        const data = req.body;
 
-export default{
-    storeUser
+         const [comprobar] = await pool.query('SELECT * FROM usuarios WHERE email = ?',[data.email])
+             if(comprobar.length> 0){
+                console.log(comprobar)
+                console.log(comprobar.length)
+                const [result] = await pool.query('SELECT * FROM peliculas');
+                    res.render('index.hbs',{peliculas:result})
+                    console.log("q ase tonto")
+             }else{
+                bcrypt.hash(data.password,12).then(async hash => {
+                    data.password =hash;
+                    const [usuario] = await pool.query('INSERT INTO usuarios SET ?',[data])
+                    const [result] = await pool.query('SELECT * FROM peliculas');
+                    res.render('index.hbs',{peliculas:result})
+                })
+             }
+      
+
+    }catch(err){
+        res.status(500).json({message:err.message})
+    }
 }
