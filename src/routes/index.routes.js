@@ -14,12 +14,14 @@ const router = Router();
          const [result] = await pool.query('SELECT * FROM peliculas');
          console.log(req.user)
          console.log("dentro")
-         res.render('index.hbs',{peliculas:result,status:"DENTRO",user:req.user})
+         const [generos] = await pool.query('SELECT DISTINCT genero FROM peliculas');
+         res.render('index.hbs',{peliculas:result,generos:generos,status:"DENTRO",user:req.user})
          
         }else{
             const [result] = await pool.query('SELECT * FROM peliculas');
             console.log("fuera")
-            res.render('index.hbs',{peliculas:result,user:"no"})
+            const [generos] = await pool.query('SELECT DISTINCT genero FROM peliculas');
+            res.render('index.hbs',{peliculas:result,generos:generos,user:"no"})
         }
      }catch(err){
          res.status(500).json({message:err.message})
@@ -91,7 +93,7 @@ router.get('/buscarPorFecha/:fecha/:id', async(req, res) => {
 
 //LOGIN
 
-router.post('/signup',login)
+router.post('/',login)
 
 
 //AUTH
@@ -102,6 +104,14 @@ router.post('/signin',signin)
 //LOGOUT
 router.get('/logout',logout);
 
+
+//GENEROS
+router.get('/filtrar', async(req, res) => {
+    const generoSeleccionado = req.query.genero;
+    
+    const [comprobar] = await pool.query('SELECT * FROM peliculas WHERE genero=?',[generoSeleccionado])
+    res.json(comprobar)
+})
 
 
 export default router;

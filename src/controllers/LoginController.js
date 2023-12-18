@@ -13,8 +13,8 @@ export const login = async (req,res) => {
                 console.log(comprobar)
                 console.log(comprobar.length)
                 const [result] = await pool.query('SELECT * FROM peliculas');
-                    res.render('index.hbs',{peliculas:result})
-                    console.log("q ase tonto")
+                    res.render('index.hbs',{peliculas:result,mostrarModal: true})
+                    
              }else{
                 bcrypt.hash(data.password,12).then(async hash => {
                     data.password =hash;
