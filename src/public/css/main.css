@@ -13,8 +13,12 @@ body, html {
     display:block;
 }
 
+html {
+  scroll-behavior: smooth;
+}
 
 .menu-index{
+
   font-size: 22px;
   color: rgb(255, 255, 255);
 }
@@ -31,12 +35,23 @@ body, html {
   margin-left: 2%;
 } 
 
+.modalLogo{
+  width: 40%;
+  height: auto;
+  margin-left: 27%;
+}
+
 .logo{
   width: 40%;
   height: auto;
 }
 
+hr {
+ 
 
+color: #ffffff; /* Color de la línea horizontal */
+  
+}
 
 
 
@@ -50,7 +65,6 @@ body, html {
 .grid-afiche img {
   height: 328px;
   width: 230px;
-  border-radius: 0.75em;
   transition: transform 0.3s ease;
 }
 
@@ -78,4 +92,7 @@ body, html {
 .invalid{
 	border: solid 2px red;
 }
+
+
+
 

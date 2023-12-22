@@ -5,7 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
+
+
+ <script>
+   async function bloquearButacas() {
+      const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+      const butacaIds = Array.from(checkboxes).map(checkbox => checkbox.value);
+      console.log(butacaIds)
+
+      try {
+        const response = await fetch('/bloquear-butacas', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ butacaIds })
+        });
+        console.log(JSON.stringify({ butacaIds }))
+        if (response.ok) {
+          alert('Butacas bloqueadas correctamente.');
+        } else {
+          alert('Error al bloquear las butacas.');
+        }
+      } catch (error) {
+        console.error(error);
+        alert('Hubo un error en la solicitud.');
+      } 
+    }
+    
+
+    
+
+</script> 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 <body>
-    <h1>{{cartelera.hora}}</h1>
+
+    <div class="mx-auto" style="width: 190px;">
+        {{#each salas}}
+      
+  <input class="form-check-input" type="checkbox" value="{{numero}}" {{#unless disponible}} style="background-color: black;" disabled{{/unless}}>
+  <i class="fa-solid fa-couch"></i>
+ 
+   {{/each}}
+   </div>
+   <button onclick="bloquearButacas()">dsfsdff</button>
+
+ 
+   
 </body>
 </html>

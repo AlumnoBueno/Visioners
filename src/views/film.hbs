@@ -162,7 +162,7 @@ function buscarPorFecha(){
         data.forEach(elemento =>{
             
                 let enlace = document.createElement("a");
-                enlace.href = `/entradas/{{pelicula.id}}/${elemento.hora}/${fechaFinal}/${elemento.id_sala}`
+                enlace.href = `../entradas/${elemento.id_sala}`
                  document.getElementById("horario").appendChild(enlace)
                 let botonHorario = document.createElement("button");
                 botonHorario.type="submit"
@@ -186,9 +186,8 @@ function buscarPorFecha(){
 
 <body>
 
-  {{#if error}}
-            <p>{{error}}</p>
-            {{/if}}
+    
+
     <div id="rt-main" class="mb12">
         <div class="rt-grid-12">
             <div class="rt-block component-block main-overlay-dark">
@@ -201,10 +200,6 @@ function buscarPorFecha(){
                                     <br>
                                     <div class="foto"><img src="../img/caratulas/{{pelicula.caratula}}"
                                           ></div>
-                                    <a href="https://www.youtube.com/watch?v=gYApro2YXQQ" data-lity=""><button
-                                            class="peli-boto-trailer"><i class="fa fa-play-circle"></i>
-                                            Trailer</button></a>
-                                    <div class="peli-botons"></div>
                                 </div>
                                 <div class="col-md-8" id="film-info">
                                     <div style="width: 90%; text-aling:center">
@@ -229,13 +224,14 @@ function buscarPorFecha(){
                                                 <p><b>Horario</b>: 
                                                
                                                 <span id="horario"></span></p>
-                                              
+                                                <div class="container">
                                             </div>
                                         </div>
                                     </div>
                                      
                                 </div>
                             </div>
+                            
                         </div>
                     </div>
                     <br>
@@ -243,6 +239,14 @@ function buscarPorFecha(){
             </div>
 
         </div>
+        <br>
+        <h1 style="color: aliceblue; text-align:center">TRAILER</h1>
+        <br>
+        <div class="container">
+<div class="ratio" style="--bs-aspect-ratio: 40%;" >
+        <iframe src={{pelicula.trailer}} title="YouTube video" allowfullscreen=""></iframe>
+</div>
+</div>
     </div>
     
     </div>

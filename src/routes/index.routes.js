@@ -35,6 +35,7 @@ router.get('/film/:id',isLoggedIn,async(req,res)=>{
        const {id} = req.params;
        const [pelicula] = await pool.query('SELECT * FROM peliculas where id = ?',[id]);
        const mostrarPelicula = pelicula[0];
+       
       
         if(req.user){
        res.render('film.hbs',{pelicula: mostrarPelicula,status:"DENTRO",user:req.user})
@@ -47,26 +48,19 @@ router.get('/film/:id',isLoggedIn,async(req,res)=>{
 })
 
 
-router.get('/entradas/:id/:hora/:fecha/:sala',async(req,res)=>{
+router.get('/entradas/:id',async(req,res)=>{
     try{
        
-    
-    //    const fecha = new Date(req.params.fecha);
-    //    const year = fecha.getFullYear();
-    //    const month = String(fecha.getMonth() + 1).padStart(2, '0');
-    //    const day = String(fecha.getDate()).padStart(2, '0');
-     
-    //    const fechaFinal =  `${year}-${month}-${day}`;
-       console.log(req.params)
+       const {id} = req.params
+       console.log(id)
 
-       const [result] = await pool.query('SELECT * from cartelera where id_pelicula = ? and id_sala = ? and hora = ? and fecha = ?',
-       [req.params.id,req.params.sala,req.params.hora,req.params.fecha]);
-
-       const carte = result[0];
+       const [result] = await pool.query('SELECT * from butacas where sala_id = ?',[id]);
+        
        
-       res.render("entradas.hbs",{cartelera:carte});
-
-
+       const sala = result;
+       console.log(sala)
+      
+       res.render("entradas.hbs",{salas:sala});
 
 
     }catch(err){
@@ -112,6 +106,43 @@ router.get('/filtrar', async(req, res) => {
     const [comprobar] = await pool.query('SELECT * FROM peliculas WHERE genero=?',[generoSeleccionado])
     res.json(comprobar)
 })
+
+router.get('/comprobar',async(req,res) => {
+    const email = req.query.email;
+    const [comprobar2] = await pool.query('SELECT * FROM usuarios WHERE email = ?',[email])
+console.log(comprobar2.length)
+    if(comprobar2.length == 1){
+    res.json({error:true})
+    }else{
+        res.json({error:true})
+    }
+    
+})
+
+
+//butacas
+
+router.post('/bloquear-butacas', async (req, res) => {
+    const { butacaIds } = req.body;
+  
+    try {
+      
+        const { butacaIds } = req.body;
+        console.log(butacaIds)
+       for (const butacaId of butacaIds) {
+         await pool.execute('UPDATE butacas SET disponible = FALSE WHERE butaca_id = ?', [butacaId]);
+       }
+       res.status(200).send('Butacas bloqueadas correctamente.');
+    } catch (error) {
+      console.error(error);
+      res.status(500).send('Error al bloquear las butacas.');
+    }
+  });
+  
+ 
+  
+
+
 
 
 export default router;

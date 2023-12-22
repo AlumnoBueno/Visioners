@@ -87,6 +87,8 @@
     function validarEmail(message, e){
       const field = e.target;
       const fieldValue = e.target.value;
+    
+        
 
       if (fieldValue.trim().length === 0 || !regexEmail.test(fieldValue)) {
         field.classList.add("invalid")
@@ -105,12 +107,14 @@
       const field = e.target;
       const fieldValue = e.target.value;
 
+        
       if (fieldValue.trim().length === 0) {
         field.classList.add("invalid")
         field.nextElementSibling.classList.add("error")
         field.nextElementSibling.innerText = message;
         error = true;
-      } else {
+      }
+       else {
         field.classList.remove("invalid")
         field.nextElementSibling.classList.remove("error")
         field.nextElementSibling.innerText = "";
@@ -146,7 +150,6 @@
     function filtrarPeliculas(){
 
       var genero = document.getElementById("generoSelect").value;
-     
        fetch(`/filtrar?genero=${genero}`, { method: 'GET' })
        .then(response => response.json())
        .then(data => {
@@ -181,15 +184,30 @@
     }
 
 
+    function correo(){
+      var email = campoEmail.value
+      console.log(email)
+      fetch(`/comprobar?email=${email}`, { method: 'GET' })
+       .then(response => response.json())
+       .then(data => {
+        if(data.error){
+          event.preventDefault()
+        }
+       })
+    }
+
+
+
     campoNombre.addEventListener("blur", (e) =>  validarNombre("Introduce un nombre correcto", e))
     campoApellidos.addEventListener("blur", (e) => validarApellido("Introduce un apellido correcto", e))
     campoTelefono.addEventListener("blur", (e) => validarTelefono("Introduce un telefono correcto", e))
-    campoEmail.addEventListener("blur", (e) => validarPassword("Introduce un email correcto", e))
+    campoEmail.addEventListener("blur", (e) => validarEmail("Introduce un email correcto", e))
     campoPassword.addEventListener("blur", (e) => validarPassword("De 8 a 15 digitos con al menos un simbolo,mayúscula y número", e))
     document.getElementById("enviarSignup").addEventListener("click",ver);
      document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('generoSelect').addEventListener('change', filtrarPeliculas)
     });
+    document.getElementById("prueba").addEventListener("click",correo);
     
 
   </script>
@@ -231,9 +249,12 @@
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
       <span class="visually-hidden">Next</span>
     </button>
+    
   </div>
   <br>
-  <h1 style="color: aliceblue;">CARTELERA</h1>
+  <hr class="w-75 mx-auto">
+  <br>
+  <h1 style="color: aliceblue;" id="cartelera">CARTELERA</h1>
 
 
   <div id="filmmodule" class="container text-center">
@@ -257,7 +278,7 @@
       </div>
     </div>
   </div>
-
+  <br>
 
 
 
