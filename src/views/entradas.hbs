@@ -24,6 +24,7 @@
         });
         console.log(JSON.stringify({ butacaIds }))
         if (response.ok) {
+          const butacas =  butacaIds
           alert('Butacas bloqueadas correctamente.');
         } else {
           alert('Error al bloquear las butacas.');
@@ -41,17 +42,43 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 <body>
 
+{{#each reserva}}
+<h1 style="color: aliceblue;"> SESION</h1>
+<div class="container d-flex align-items-center justify-content-center" style="max-width: 640px;">
+<div class="card mb-3 border-0 bg-transparent text-white" style="max-width: 500px; ">
+  <div class="row g-0">
+    <div class="col-md-4">
+      <img src="../img/caratulas/{{caratula}}" class="img-fluid rounded-start" alt="oppenheimer">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body justify-content-center">
+        <h5 class="card-title "><p>{{titulo}}</p></h5>
+        <p class="card-text">Sala: {{nombre_sala}}</p>
+        <p class="card-text">Duración: {{duracion}} minutos</p>
+        <p class="card-text">Género: {{genero}}</p>
+        <p class="card-text">Fecha: {{fecha}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<br>
+<br>
+<br>
+<h1 style="color: aliceblue;"> RESERVA SU ASIENTO</h1>
+<form action="/procesar-checkboxes" method="POST">
+ {{/each}}
     <div class="mx-auto" style="width: 190px;">
         {{#each salas}}
       
-  <input class="form-check-input" type="checkbox" value="{{numero}}" {{#unless disponible}} style="background-color: black;" disabled{{/unless}}>
+  <input class="form-check-input" type="checkbox" value="{{numero}}" name="opciones" {{#unless disponible}} style="background-color: black;" disabled{{/unless}}>
   <i class="fa-solid fa-couch"></i>
  
    {{/each}}
    </div>
-   <button onclick="bloquearButacas()">dsfsdff</button>
+   <button type="submit" value="enviar" style="float: right;">Siguiente</button>
 
- 
+ </form>
    
 </body>
 </html>

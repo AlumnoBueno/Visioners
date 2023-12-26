@@ -55,12 +55,13 @@ router.get('/entradas/:id',async(req,res)=>{
        console.log(id)
 
        const [result] = await pool.query('SELECT * from butacas where sala_id = ?',[id]);
-        
-       
+       const [result2] = await pool.query('SELECT s.nombre_sala,p.titulo,p.duracion,p.genero,p.caratula,c.hora,c.fecha from butacas b,cartelera c,peliculas p,salas s where b.sala_id = c.id_sala and s.id = b.sala_id and c.id_pelicula = p.id and b.sala_id = ? LIMIT 1;',[id]);
        const sala = result;
+       const reserva = result2;
        console.log(sala)
+       console.log(reserva)
       
-       res.render("entradas.hbs",{salas:sala});
+       res.render("entradas.hbs",{salas:sala,reserva:reserva});
 
 
     }catch(err){
@@ -129,16 +130,57 @@ router.post('/bloquear-butacas', async (req, res) => {
       
         const { butacaIds } = req.body;
         console.log(butacaIds)
-       for (const butacaId of butacaIds) {
-         await pool.execute('UPDATE butacas SET disponible = FALSE WHERE butaca_id = ?', [butacaId]);
-       }
+    //    for (const butacaId of butacaIds) {
+    //       await pool.execute('UPDATE butacas SET disponible = FALSE WHERE butaca_id = ?', [butacaId]);
+    //     }
        res.status(200).send('Butacas bloqueadas correctamente.');
     } catch (error) {
       console.error(error);
       res.status(500).send('Error al bloquear las butacas.');
     }
   });
+
+
+  router.post('/procesar-checkboxes', (req, res) => {
+    const opcionesSeleccionadas = req.body.opciones;
+    
+
+    // opcionesSeleccionadas es un array con los valores de los checkboxes seleccionados
+    if (opcionesSeleccionadas.length > 1) {
+        // Redirige a otra página y pasa los valores seleccionados como parámetros en la URL
+        res.redirect(`/compra?opciones=${opcionesSeleccionadas.join(',')}`);
+    } else if(opcionesSeleccionadas.length == 1){
+        res.redirect(`/compra?opciones=${opcionesSeleccionadas}`);
+    }
+    else {
+        res.send('No se seleccionó ningún checkbox.');
+    }
+});
   
+
+router.get('/compra', async (req, res) => {
+   
+    const opciones = req.query.opciones.split(',');
+    let compra;
+
+    for (const butacaId of opciones) {
+         const [result] = await pool.query('SELECT p.titulo,p.duracion,p.genero,c.hora,b.numero,c.fecha from butacas b,cartelera c,peliculas p where b.sala_id = c.id_sala and c.id_pelicula = p.id and b.numero=?',[butacaId])
+
+         if (result.length > 0) {
+            compra = result; // Asignar el resultado a comprobar si hay resultados
+        }
+    }
+
+    
+       
+       
+       
+   
+  
+    // Aquí puedes utilizar los valores de las opciones seleccionadas para realizar consultas SQL u otras operaciones en la base de datos
+
+    res.render(`compra.hbs`,{compra:compra});
+});
  
   
 
