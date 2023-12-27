@@ -144,7 +144,7 @@ router.post('/bloquear-butacas', async (req, res) => {
   router.post('/procesar-checkboxes', (req, res) => {
     const opcionesSeleccionadas = req.body.opciones;
     var opciones = 0;
-    if(opcionesSeleccionadas >= 10){
+    if(opcionesSeleccionadas >= 10 || opcionesSeleccionadas <= 10){
         opciones = 1;
     }
     if(opciones == 1){
