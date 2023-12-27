@@ -143,18 +143,28 @@ router.post('/bloquear-butacas', async (req, res) => {
 
   router.post('/procesar-checkboxes', (req, res) => {
     const opcionesSeleccionadas = req.body.opciones;
-    
-
-    // opcionesSeleccionadas es un array con los valores de los checkboxes seleccionados
-    if (opcionesSeleccionadas.length > 1) {
-        // Redirige a otra página y pasa los valores seleccionados como parámetros en la URL
-        res.redirect(`/compra?opciones=${opcionesSeleccionadas.join(',')}`);
-    } else if(opcionesSeleccionadas.length == 1){
+    var opciones = 0;
+    if(opcionesSeleccionadas >= 10){
+        opciones = 1;
+    }
+    if(opciones == 1){
         res.redirect(`/compra?opciones=${opcionesSeleccionadas}`);
+    }else{
+        res.redirect(`/compra?opciones=${opcionesSeleccionadas.join(',')}`);
     }
-    else {
-        res.send('No se seleccionó ningún checkbox.');
-    }
+
+
+
+    // // opcionesSeleccionadas es un array con los valores de los checkboxes seleccionados
+    // if (opcionesSeleccionadas.length > 1) {
+    //     // Redirige a otra página y pasa los valores seleccionados como parámetros en la URL
+    //     res.redirect(`/compra?opciones=${opcionesSeleccionadas.join(',')}`);
+    // } else if(opcionesSeleccionadas.length == 1){
+    //     res.redirect(`/compra?opciones=${opcionesSeleccionadas}`);
+    // }
+    // else if(!opcionesSeleccionadas) {
+    //     res.send('No se seleccionó ningún checkbox.');
+    // }
 });
   
 
@@ -165,21 +175,16 @@ router.get('/compra', async (req, res) => {
 
     for (const butacaId of opciones) {
          const [result] = await pool.query('SELECT p.titulo,p.duracion,p.genero,c.hora,b.numero,c.fecha from butacas b,cartelera c,peliculas p where b.sala_id = c.id_sala and c.id_pelicula = p.id and b.numero=?',[butacaId])
-
+         console.log(result)
          if (result.length > 0) {
             compra = result; // Asignar el resultado a comprobar si hay resultados
         }
     }
-
     
-       
-       
-       
-   
-  
+
     // Aquí puedes utilizar los valores de las opciones seleccionadas para realizar consultas SQL u otras operaciones en la base de datos
 
-    res.render(`compra.hbs`,{compra:compra});
+    res.render(`compra.hbs`,{compra:compra,opciones:opciones});
 });
  
   
