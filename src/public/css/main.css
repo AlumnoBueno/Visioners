@@ -95,8 +95,8 @@ color: #ffffff; /* Color de la línea horizontal */
 
 @media (max-width: 767px) {
   .grid-afiche img {
-    height: 228px;
-    width: 100px; /* Reducir el tamaño de la imagen para pantallas más pequeñas */
+    height: 268px;
+    width: 160px; /* Reducir el tamaño de la imagen para pantallas más pequeñas */
     /* Otros estilos si es necesario */
   }
 
