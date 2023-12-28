@@ -5,7 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VisiOners</title>
 </head>
-
+<script>
+ document.body.onload = function() {
+     var precio = 0;
+ {{#each resultados}}
+   
+    {{#if status}} 
+     precio +=7;
+     {{else}}
+     precio +=6;
+    {{/if}}
+{{/each}}
+console.log(precio)
+ }
+</script>
 <body>
 
      {{#unless status}} 

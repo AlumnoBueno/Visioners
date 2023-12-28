@@ -99,10 +99,18 @@ color: #ffffff; /* Color de la línea horizontal */
     width: 160px; /* Reducir el tamaño de la imagen para pantallas más pequeñas */
     /* Otros estilos si es necesario */
   }
-
+}
 
 /*CARTELERA*/
 
 .card{
   color: #ffffff;
 }
+
+/*entradas*/
+
+#imagen_entradas{
+  width: 170px;
+  height: 270px;
+}
+   
