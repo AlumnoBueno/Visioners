@@ -6,7 +6,7 @@
     <title>VisiOners</title>
 </head>
 
-
+<link href="../css/main.css" rel="stylesheet" type="text/css" />
 
  <script>
    async function bloquearButacas() {
@@ -71,20 +71,27 @@
 </div>
 </div>
 <br>
-<br>
-<br>
+
+ <hr class="w-75 mx-auto">
+ <br>
 <h1 style="color: aliceblue;"> RESERVA SU ASIENTO</h1>
 <form action="/procesar-checkboxes" method="POST" id="formulario">
  {{/each}}
-    <div class="mx-auto" style="width: 190px;">
+    <div class="mx-auto" style="width: 300px; height:200px; ">
+      <img src="../img/PANTALLA.png" style="width: 270px; height: 40px; ">
+      <br><br>
         {{#each salas}}
       
-  <input class="form-check-input" type="checkbox" value="{{butaca_id}}" name="opciones" {{#unless disponible}} style="background-color: black;" disabled{{/unless}}>
-  <i class="fa-solid fa-couch"></i>
+  <input class="form-check-input" type="checkbox" value="{{butaca_id}}" name="opciones" style="width: 50px;"  {{#unless disponible}} style="background-color: black;" disabled{{/unless}}>
+  
  
    {{/each}}
+   <br>
+    <br>
+
+    <button onclick="validar()" value="enviar" style="float: right;">Siguiente</button>
    </div>
-   <button onclick="validar()" value="enviar" style="float: right;">Siguiente</button>
+  
 
  </form>
    
