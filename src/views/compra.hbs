@@ -5,14 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
   
-{{#each compra }}
+ {{#each compra}}
 <h1 style="color: aliceblue;">{{titulo}}</h1>
+ {{/each}}
+ <h1 style="color: aliceblue;">Butacas</h1>
+ {{#each resultados}}
+<h1 style="color: aliceblue;">{{numero}}</h1>
+ {{/each}}
+  {{#each compra}}
+<h1 style="color: aliceblue;">{{hora}}</h1>
+ {{/each}}
 
 
-{{/each}}
-<h1>{{opciones}}</h1>
+
+
+
 
 </body>
 </html>

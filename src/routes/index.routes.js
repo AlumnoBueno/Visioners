@@ -171,20 +171,25 @@ router.post('/bloquear-butacas', async (req, res) => {
 router.get('/compra', async (req, res) => {
    
     const opciones = req.query.opciones.split(',');
+    console.log(opciones)
     let compra;
-
+    const resultados = [];
     for (const butacaId of opciones) {
-         const [result] = await pool.query('SELECT p.titulo,p.duracion,p.genero,c.hora,b.numero,c.fecha from butacas b,cartelera c,peliculas p where b.sala_id = c.id_sala and c.id_pelicula = p.id and b.numero=?',[butacaId])
-         console.log(result)
+         const [result] = await pool.query('SELECT b.numero,p.titulo,p.duracion,p.genero,c.hora,b.numero,c.fecha from butacas b,cartelera c,peliculas p where b.sala_id = c.id_sala and c.id_pelicula = p.id and b.butaca_id=?' ,[butacaId])
+        
          if (result.length > 0) {
             compra = result; // Asignar el resultado a comprobar si hay resultados
         }
+        for (let i = 0; i < compra.length; i++) {
+            resultados.push(compra[i]);
+          }
     }
+    console.log(resultados)
     
 
     // Aquí puedes utilizar los valores de las opciones seleccionadas para realizar consultas SQL u otras operaciones en la base de datos
 
-    res.render(`compra.hbs`,{compra:compra,opciones:opciones});
+    res.render(`compra.hbs`,{resultados:resultados,compra:compra});
 });
  
   
