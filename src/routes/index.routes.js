@@ -184,7 +184,7 @@ router.get("/compra", isLoggedIn, async (req, res) => {
   const resultados = [];
   for (const butacaId of opciones) {
     const [result] = await pool.query(
-      "SELECT b.numero,p.titulo,p.duracion,p.genero,c.hora,b.numero,c.fecha from butacas b,cartelera c,peliculas p where b.sala_id = c.id_sala and c.id_pelicula = p.id and b.butaca_id=?",
+      "SELECT s.nombre_sala,p.caratula,b.numero,p.titulo,p.duracion,p.genero,c.hora,b.numero,c.fecha from butacas b,cartelera c,peliculas p,salas s where s.id = b.sala_id and b.sala_id = c.id_sala and c.id_pelicula = p.id and b.butaca_id=?",
       [butacaId]
     );
 
