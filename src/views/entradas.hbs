@@ -10,6 +10,8 @@
 
 
  <script>
+
+
    async function bloquearButacas() {
       const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
       const butacaIds = Array.from(checkboxes).map(checkbox => checkbox.value);
@@ -65,7 +67,7 @@
         <p class="card-text">Sala: {{nombre_sala}}</p>
         <p class="card-text">Duración: {{duracion}} minutos</p>
         <p class="card-text">Género: {{genero}}</p>
-        <p class="card-text">Fecha: {{fecha}}</p>
+        <p class="card-text" >Fecha: <span id="fecha">{{fecha}}</span></p>
       </div>
     </div>
   </div>
@@ -97,4 +99,29 @@
  </form>
    
 </body>
+<script>
+  document.body.onload = function() {
+      var fechaTexto = document.getElementById("fecha").innerHTML;
+      var fechaProvida = new Date(fechaTexto);
+
+// Obtener el día y año
+var dia = fechaProvida.getDate();
+var anio = fechaProvida.getFullYear();
+
+// Array con los nombres de los meses en español
+var meses = [
+  "Enero", "Febrero", "marzo", "abril", "mayo", "junio",
+  "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
+];
+
+// Obtener el nombre del mes en español
+var mesNombre = meses[fechaProvida.getMonth()];
+
+// Formatear para el formato "3 de enero de 2024"
+var fechaFormateada = `${dia} de ${mesNombre} de ${anio}`;
+
+  document.getElementById("fecha").innerHTML = fechaFormateada
+  }
+
+</script>
 </html>

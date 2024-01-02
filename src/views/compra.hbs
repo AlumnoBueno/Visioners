@@ -25,58 +25,68 @@
       display: flex;
       align-items: center;
     }
+
+    .invalid{
+	border: solid 2px red;
+}
+
+.error{
+	color: red;
+	position: relative;
+}
     @media (max-width: 768px) {
       /* Ajustar estilos para dispositivos móviles si es necesario */
       .flex-container {
         flex-direction: column;
         align-items: flex-start;
       }
+
+      .short-input {
+      width: 300px; /* Ancho personalizado */
+    }
     }
 </style>
 <script>
- document.body.onload = function() {
-     var precio = 0;
- {{#each resultados}}
-   
-    {{#if status}} 
-     precio +=7;
-     {{else}}
-     precio +=6;
-    {{/if}}
-{{/each}}
-console.log(precio)
 
-document.getElementById("precio").innerHTML = "Precio: " + precio + "€"
- }
+
+
+
+
 </script>
 <body>
 
+{{#unless status}} 
+<form action="/create-checkout-session" id="formulario" method="POST">
 <div class="container">
-    {{#unless status}} 
     <div class="row">
       <div class="col-md-12 col-xs-6">
         <div class="row">
           <div class="col-md-6 mb-2">
             <span style="color: aliceblue;">Nombre</span>
-            <input type="text" class="form-control form-control-sm mb-2 short-input" placeholder="Input 1">
+            <input type="text" class="form-control form-control-sm mb-2 short-input" placeholder="Nombre" name="nombre_no_registrado" id="nombre_no_registrado">
+            <span></span>
           </div>
           <div class="col-md-6 mb-2">
             <span style="color: aliceblue;">Apellidos</span>
-            <input type="text" class="form-control form-control-sm mb-2 short-input" placeholder="Input 2">
+            <input type="text" class="form-control form-control-sm mb-2 short-input" placeholder="Apellidos" name="apellidos_no_registrado" id="apellidos_no_registrado">
+            <span></span>
           </div>
         </div>
         <div class="row">
           <div class="col-md-6 mb-2">
             <span style="color: aliceblue;">Correo</span>
-            <input type="text" class="form-control form-control-sm mb-2 short-input" placeholder="Input 3">
+            <input type="text" class="form-control form-control-sm mb-2 short-input" placeholder="Correo" name="correo_no_registrado" id="correo_no_registrado">
+            <span></span>
           </div>
           <div class="col-md-6 mb-2">
             <span style="color: aliceblue;">Teléfono</span>
-            <input type="text" class="form-control form-control-sm mb-2 short-input" placeholder="Input 4">
+            <input type="text" class="form-control form-control-sm mb-2 short-input" placeholder="Teléfono" name="telefono_no_registrado" id="telefono_no_registrado">
+            <span></span>
           </div>
         </div>
       </div>
     </div>
+    
     {{/unless}}
     <hr>
     <br>
@@ -92,19 +102,19 @@ document.getElementById("precio").innerHTML = "Precio: " + precio + "€"
       <img src="../img/caratulas/{{#each compra}}{{caratula}}{{/each}}"  id="imagen_entradas">
     </div>
     <div class="col-md-8">
-      <div class="card-body justify-content-center">
+      <div class="card-body justify-content-center" id="datos_sesion">
         {{#each compra}}
-<p style="color: aliceblue;">Pelicula: {{titulo}}</p>
-<p style="color: aliceblue;">Fecha: {{fecha}}</p>
+<p style="color: aliceblue;" id="titulo">Pelicula: {{titulo}}</p>
+<p style="color: aliceblue;" id="fecha">Fecha: <span id="fecha_final">{{fecha}}</span></p>
  {{/each}}
- <p style="color: aliceblue;">Butacas:
+ <p style="color: aliceblue;" id="butacas">Butacas:
 {{#each resultados}}
-<span style="color: aliceblue;">{{numero}}</span>
+{{numero}}
  {{/each}}</p>
  
   {{#each compra}}
-<p style="color: aliceblue;">Hora: {{hora}}</p>
-<p style="color: aliceblue;">Sala: {{nombre_sala}}</p>
+<p style="color: aliceblue;" id="hora">Hora: {{hora}}</p>
+<p style="color: aliceblue;" id="sala">Sala: {{nombre_sala}}</p>
  {{/each}} 
  <p style="color: aliceblue;" id="precio"></p>
       </div>
@@ -118,44 +128,208 @@ document.getElementById("precio").innerHTML = "Precio: " + precio + "€"
       <div class="col-md-6">
            <h1 style="color: aliceblue;">PAGO</h1>
         <p>Div ocupando 6 columnas</p>
+         </form>
+          <button type="button" id="dale">ENVIAR</button>
       </div>
     </div>
   </div>
 
-
-
-
-
-
-       
-          
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      
- 
-
 </body>
+<script>
+ var precioFinal = 0
+   document.body.onload = function() {
+     var precio = 0;
+    
+ {{#each resultados}}
+   
+    {{#if status}} 
+     precio +=7;
+     {{else}}
+     precio +=6;
+    {{/if}}
+{{/each}}
+precioFinal = precio
+
+document.getElementById("precio").innerHTML = "Precio: " + precio + "€";
+
+ var fechaTexto = document.getElementById("fecha_final").innerHTML;
+      var fechaProvida = new Date(fechaTexto);
+
+// Obtener el día y año
+var dia = fechaProvida.getDate();
+var anio = fechaProvida.getFullYear();
+
+// Array con los nombres de los meses en español
+var meses = [
+  "Enero", "Febrero", "marzo", "abril", "mayo", "junio",
+  "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
+];
+
+// Obtener el nombre del mes en español
+var mesNombre = meses[fechaProvida.getMonth()];
+
+// Formatear para el formato "3 de enero de 2024"
+var fechaFormateada = `${dia} de ${mesNombre} de ${anio}`;
+
+  document.getElementById("fecha_final").innerHTML = fechaFormateada
+ }
+
+  {{#if status}}
+  error = false;
+  {{else}}
+  error = true;
+
+    const formulario = document.getElementById('formulario');
+
+    const campoNombre = document.querySelector("[name=nombre_no_registrado]");
+      const campoApellidos = document.querySelector("[name=apellidos_no_registrado]");
+    const campoTelefono = document.querySelector("[name=telefono_no_registrado]");
+    const campoCorreo = document.querySelector("[name=correo_no_registrado]");
+   
+
+      const regexNombre = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s']+$/;
+    const regexApellidos = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s'-]+$/;
+    const regexTelefono = /(\+34|0034|34)?[ -]*(6|7)[ -]*([0-9][ -]*){8}/;
+    const regexCorreo = /[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}/;
+
+
+function validarNombre(message, e){
+      const field = e.target;
+      const fieldValue = e.target.value;
+      console.log(fieldValue)
+
+      if (fieldValue.trim().length === 0 || !regexNombre.test(fieldValue)) {
+        field.classList.add("invalid")
+        field.nextElementSibling.classList.add("error")
+        field.nextElementSibling.innerText = message;
+        error = false;
+      } else {
+        field.classList.remove("invalid")
+        field.nextElementSibling.classList.remove("error")
+        field.nextElementSibling.innerText = "";
+        error = true;
+      }
+    }
+
+  function validarApellido(message, e){
+      const field = e.target;
+      const fieldValue = e.target.value;
+
+      if (fieldValue.trim().length === 0 || !regexApellidos.test(fieldValue)) {
+        field.classList.add("invalid")
+        field.nextElementSibling.classList.add("error")
+        field.nextElementSibling.innerText = message;
+        error = true;
+      } else {
+        field.classList.remove("invalid")
+        field.nextElementSibling.classList.remove("error")
+        field.nextElementSibling.innerText = "";
+        error = false;
+      }
+    }
+
+    function validarTelefono(message, e){
+      const field = e.target;
+      const fieldValue = e.target.value;
+
+      if (fieldValue.trim().length === 0 || !regexTelefono.test(fieldValue)) {
+        field.classList.add("invalid")
+        field.nextElementSibling.classList.add("error")
+        field.nextElementSibling.innerText = message;
+        error = true;
+      } else {
+        field.classList.remove("invalid")
+        field.nextElementSibling.classList.remove("error")
+        field.nextElementSibling.innerText = "";
+        error = false;
+      }
+    }
+
+
+    function validarCorreo(message, e){
+      const field = e.target;
+      const fieldValue = e.target.value;
+    
+        
+
+      if (fieldValue.trim().length === 0 || !regexEmail.test(fieldValue)) {
+        field.classList.add("invalid")
+        field.nextElementSibling.classList.add("error")
+        field.nextElementSibling.innerText = message;
+        error = false;
+      } else {
+        field.classList.remove("invalid")
+        field.nextElementSibling.classList.remove("error")
+        field.nextElementSibling.innerText = "";
+        error = true;
+      }
+    }
+
+
+        campoNombre.addEventListener("blur", (e) =>  validarNombre("Introduce un nombre correcto", e))
+    campoApellidos.addEventListener("blur", (e) => validarApellido("Introduce un apellido correcto", e))
+    campoTelefono.addEventListener("blur", (e) => validarTelefono("Introduce un telefono correcto", e))
+     campoCorreo.addEventListener("blur", (e) => validarCorreo("Introduce un correo correcto", e)) 
+{{/if}}
+
+
+  async  function enviarDatos(){
+
+    if(error){
+      alert("Revise los datos")
+    }else{
+      
+      {{#unless status}}
+      var valor_nombre = document.getElementById("nombre_no_registrado").value;
+      var valor_apellidos = document.getElementById("apellidos_no_registrado").value;
+      var valor_correo = document.getElementById("correo_no_registrado").value;
+      var valor_telefono = document.getElementById("telefono_no_registrado").value;
+    {{/unless}}
+
+    var valor_titulo = document.getElementById("titulo").innerHTML;
+    var valor_fecha = document.getElementById("fecha_final").innerHTML;
+    var valor_precio = precioFinal;
+    var valor_hora = document.getElementById("hora").innerHTML;
+     var valor_sala = document.getElementById("sala").innerHTML;
+     var valor_butaca = document.getElementById("butacas").innerHTML;
+      
+
+const datos = {
+  {{#unless status}}
+        nombre: valor_nombre,
+        apellidos: valor_apellidos,
+        correo: valor_correo,
+        telefono: valor_telefono,
+       {{/unless}}
+        titulo: valor_titulo,
+        fecha: valor_fecha,
+        precio: valor_precio,
+        hora: valor_hora,
+        sala: valor_sala,
+        precio: valor_precio,
+        butacas: valor_butaca
+      };
+
+
+ try {
+        const response = await fetch('/create-checkout-session', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(datos)
+        });
+        const data = await response.json();
+        console.log(data);
+        window.location.href = data.url;
+    } catch (error) {
+        console.error('Error:', error);
+      }
+
+    }
+
+
+  }
+  document.getElementById("dale").addEventListener("click",enviarDatos)
+</script>
 </html>

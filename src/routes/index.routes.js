@@ -4,6 +4,7 @@ import { isLoggedIn } from "../controllers/authController.js";
 import { logout } from "../controllers/logoutController.js";
 import { login } from "../controllers/LoginController.js";
 import { signin } from "../controllers/signinController.js";
+import { createSession } from "../controllers/payment.controller.js";
 
 const router = Router();
 
@@ -184,7 +185,7 @@ router.get("/compra", isLoggedIn, async (req, res) => {
   const resultados = [];
   for (const butacaId of opciones) {
     const [result] = await pool.query(
-      "SELECT s.nombre_sala,p.caratula,b.numero,p.titulo,p.duracion,p.genero,c.hora,b.numero,c.fecha from butacas b,cartelera c,peliculas p,salas s where s.id = b.sala_id and b.sala_id = c.id_sala and c.id_pelicula = p.id and b.butaca_id=?",
+      "SELECT s.nombre_sala,p.caratula,b.numero,b.butaca_id,p.titulo,p.duracion,p.genero,c.hora,b.numero,c.fecha from butacas b,cartelera c,peliculas p,salas s where s.id = b.sala_id and b.sala_id = c.id_sala and c.id_pelicula = p.id and b.butaca_id=?",
       [butacaId]
     );
 
@@ -195,7 +196,7 @@ router.get("/compra", isLoggedIn, async (req, res) => {
       resultados.push(compra[i]);
     }
   }
-
+    console.log(resultados)
   if (req.user) {
     res.render("compra.hbs", {
         resultados: resultados, 
@@ -209,5 +210,12 @@ router.get("/compra", isLoggedIn, async (req, res) => {
   
   
 });
+
+
+router.post("/create-checkout-session",createSession);
+router.get("/resumen",async (req, res) => {
+  res.render(`resumen.hbs`);
+});
+
 
 export default router;
