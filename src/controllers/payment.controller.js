@@ -31,7 +31,7 @@ try{
         },
       ],
       mode: "payment",
-      success_url: "http://localhost:3000/resumen",
+      success_url: "https://visioners.onrender.com/resumen",
       cancel_url: "http://localhost:3000/cancel",
     });
 
