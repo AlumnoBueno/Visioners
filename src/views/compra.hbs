@@ -104,17 +104,18 @@
     <div class="col-md-8">
       <div class="card-body justify-content-center" id="datos_sesion">
         {{#each compra}}
-<p style="color: aliceblue;" id="titulo">Pelicula: {{titulo}}</p>
+<p style="color: aliceblue;">Pelicula: <span id="titulo">{{titulo}}</span></p>
 <p style="color: aliceblue;" id="fecha">Fecha: <span id="fecha_final">{{fecha}}</span></p>
  {{/each}}
- <p style="color: aliceblue;" id="butacas">Butacas:
+ <p style="color: aliceblue;">Butacas:
+  <span id="butacas">
 {{#each resultados}}
-{{numero}}
- {{/each}}</p>
+{{numero}},
+ {{/each}}</span></p>
  
   {{#each compra}}
-<p style="color: aliceblue;" id="hora">Hora: {{hora}}</p>
-<p style="color: aliceblue;" id="sala">Sala: {{nombre_sala}}</p>
+<p style="color: aliceblue;" >Hora: <span id="hora">{{hora}}</span></p>
+<p style="color: aliceblue;">Sala:<span id="sala">{{nombre_sala}}</span> </p>
  {{/each}} 
  <p style="color: aliceblue;" id="precio"></p>
       </div>

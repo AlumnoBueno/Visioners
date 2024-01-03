@@ -73,7 +73,7 @@ router.get("/entradas/:id", isLoggedIn, async (req, res) => {
       [id]
     );
     const [result2] = await pool.query(
-      "SELECT s.nombre_sala,p.titulo,p.duracion,p.genero,p.caratula,c.hora,c.fecha from butacas b,cartelera c,peliculas p,salas s where b.sala_id = c.id_sala and s.id = b.sala_id and c.id_pelicula = p.id and b.sala_id = ? LIMIT 1;",
+      "SELECT b.disponible,s.nombre_sala,p.titulo,p.duracion,p.genero,p.caratula,c.hora,c.fecha from butacas b,cartelera c,peliculas p,salas s where b.sala_id = c.id_sala and s.id = b.sala_id and c.id_pelicula = p.id and b.sala_id = ? LIMIT 1;",
       [id]
     );
     const sala = result;
@@ -214,8 +214,44 @@ router.get("/compra", isLoggedIn, async (req, res) => {
 
 router.post("/create-checkout-session",createSession);
 router.get("/resumen",async (req, res) => {
+  var butacas =req.query.butacas;
+  var titulo = req.query.titulo;
+  var hora = req.query.hora;
+  var sala = req.query.sala;
+  console.log(sala)
+  var fecha = req.query.fecha;
+
+  const meses = {
+    enero: '01', febrero: '02', marzo: '03', abril: '04', mayo: '05', junio: '06',
+    julio: '07', agosto: '08', septiembre: '09', octubre: '10', noviembre: '11', diciembre: '12'
+  };
+
+  const partes = fecha.split(' de ');
+  const dia = partes[0].padStart(2, '0'); 
+  const mes = meses[partes[1].toLowerCase()];
+  const anio = partes[2];
+
+  const fechaFinal = `${anio}-${mes}-${dia}`;
+
+  console.log(titulo,hora,fechaFinal)
+  const butacasArray = butacas.split(',').map(butaca => parseInt(butaca.trim(), 10));
+  let ultimoValorEliminado = butacasArray.pop();
+
+  console.log(butacasArray);
+
+      butacasArray.forEach(butaca => {
+        
+         pool.query(`update butacas set disponible = false where numero = ${butaca} and sala_id in( select id from salas where nombre_sala = '${sala}' and fecha = '${fechaFinal}' and hora = '${hora}');`)
+
+      });
+
+  
   res.render(`resumen.hbs`);
 });
+
+
+
+
 
 
 export default router;

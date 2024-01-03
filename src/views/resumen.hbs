@@ -5,7 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+<script>
+     document.body.onload = function() {
+       const queryString = window.location.search;
+
+// Crear un objeto a partir de la cadena de consulta
+const params = new URLSearchParams(queryString);
+
+// Ejemplo: Obtener el valor del parámetro "parametro1"
+const valorParametro1 = params.get('butacas')
+const butacasArray = valorParametro1.split(',').map(butaca => parseInt(butaca.trim(), 10));
+let ultimoValorEliminado = butacasArray.pop();
+console.log(butacasArray);
+     }
+</script>
 <body>
-    <h1>EYYY</h1>
+    <h1 style="color: aliceblue;">{{titulo}}</h1>
 </body>
 </html>
