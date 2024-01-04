@@ -5,6 +5,14 @@ import { logout } from "../controllers/logoutController.js";
 import { login } from "../controllers/LoginController.js";
 import { signin } from "../controllers/signinController.js";
 import { createSession } from "../controllers/payment.controller.js";
+import PDFDocument from 'pdfkit';
+import fs from 'fs';
+import {join, dirname} from 'path'
+import { fileURLToPath } from 'url';
+import path from 'path';
+import { buildPDF } from "../controllers/pdf-service.js";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const router = Router();
 
@@ -245,8 +253,30 @@ router.get("/resumen",async (req, res) => {
 
       });
 
+      await pool.query(`INSERT INTO reservas (titulo_pelicula, fecha, hora, butacas)  SELECT * FROM (SELECT '${titulo}', '${fechaFinal}', '${hora}', '${butacasArray}') AS tmp
+      WHERE NOT EXISTS (
+        SELECT * FROM reservas 
+        WHERE titulo_pelicula = '${titulo}' 
+        AND fecha = '${fechaFinal}'
+        AND hora = '${hora}'
+        AND butacas = '${butacasArray}'
+      )
+      LIMIT 1`);
+
   
   res.render(`resumen.hbs`);
+});
+
+
+router.get('/invoice', (req, res, next) => {
+  const stream = res.writeHead(200, {
+    'Content-Type': 'application/pdf',
+    'Content-Disposition': `attachment;filename=entrada.pdf`,
+  });
+  buildPDF(
+    (chunk) => stream.write(chunk),
+    () => stream.end()
+  );
 });
 
 

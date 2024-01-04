@@ -23,9 +23,11 @@
     "express-handlebars": "^7.1.2",
     "express-myconnection": "^1.0.4",
     "express-session": "^1.17.3",
+    "fs": "^0.0.1-security",
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
     "mysql2": "^3.6.3",
+    "pdfkit": "^0.14.0",
     "stripe": "^14.10.0",
     "util": "^0.12.5"
   },
