@@ -46,7 +46,7 @@ try{
         },
       ],
       mode: "payment",
-      success_url: "https://visioners.onrender.com//resumen?"+queryString,
+      success_url: "https://visioners.onrender.com/resumen?"+queryString,
       cancel_url: "http://localhost:3000/cancel",
     });
 
