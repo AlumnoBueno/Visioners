@@ -13,6 +13,10 @@ try{
     const butacasArray = butacas.split(',').map(butaca => parseInt(butaca.trim(), 10));
     
     const objetoDatos = {
+      nombre:nombre,
+      apellidos:apellidos,
+      correo:correo,
+      telefono:telefono,
       titulo:titulo,
       fecha:fecha,
       butacas: butacasArray,
@@ -42,7 +46,7 @@ try{
         },
       ],
       mode: "payment",
-      success_url: "https://visioners.onrender.com/resumen?"+queryString,
+      success_url: "https://visioners.onrender.com//resumen?"+queryString,
       cancel_url: "http://localhost:3000/cancel",
     });
 

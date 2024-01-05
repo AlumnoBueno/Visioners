@@ -20,8 +20,6 @@ router.get("/", isLoggedIn, async (req, res) => {
   try {
     if (req.user) {
       const [result] = await pool.query("SELECT * FROM peliculas");
-      console.log(req.user);
-      console.log("dentro");
       const [generos] = await pool.query(
         "SELECT DISTINCT genero FROM peliculas"
       );
@@ -221,13 +219,25 @@ router.get("/compra", isLoggedIn, async (req, res) => {
 
 
 router.post("/create-checkout-session",createSession);
-router.get("/resumen",async (req, res) => {
+
+
+
+router.get("/resumen",isLoggedIn,async (req, res) => {
+
+  var correo = null;
+  
   var butacas =req.query.butacas;
+  var correo_no_registrado = req.query.correo;
   var titulo = req.query.titulo;
   var hora = req.query.hora;
   var sala = req.query.sala;
-  console.log(sala)
   var fecha = req.query.fecha;
+
+  if(req.user){
+    var correo = req.user.email;
+  }else{
+    var correo = null;
+  }
 
   const meses = {
     enero: '01', febrero: '02', marzo: '03', abril: '04', mayo: '05', junio: '06',
@@ -245,15 +255,19 @@ router.get("/resumen",async (req, res) => {
   const butacasArray = butacas.split(',').map(butaca => parseInt(butaca.trim(), 10));
   let ultimoValorEliminado = butacasArray.pop();
 
-  console.log(butacasArray);
 
-      butacasArray.forEach(butaca => {
+console.log(butacasArray)
+
+      butacasArray.forEach(async butaca => {
         
-         pool.query(`update butacas set disponible = false where numero = ${butaca} and sala_id in( select id from salas where nombre_sala = '${sala}' and fecha = '${fechaFinal}' and hora = '${hora}');`)
-
+         await pool.query(`update butacas set disponible = false where numero = ${butaca} and sala_id in( select id from salas where nombre_sala = '${sala}' and fecha = '${fechaFinal}' and hora = '${hora}');`)
+       
       });
 
-      await pool.query(`INSERT INTO reservas (titulo_pelicula, fecha, hora, butacas)  SELECT * FROM (SELECT '${titulo}', '${fechaFinal}', '${hora}', '${butacasArray}') AS tmp
+        console.log(correo)
+
+        if (correo){
+      await pool.query(`INSERT INTO reservas (titulo_pelicula, fecha, hora, butacas,email_usuario,email_usuario_no_registrado)  SELECT * FROM (SELECT '${titulo}', '${fechaFinal}', '${hora}', '${butacasArray}','${correo}',null) AS tmp
       WHERE NOT EXISTS (
         SELECT * FROM reservas 
         WHERE titulo_pelicula = '${titulo}' 
@@ -262,13 +276,24 @@ router.get("/resumen",async (req, res) => {
         AND butacas = '${butacasArray}'
       )
       LIMIT 1`);
+        }else{
+          await pool.query(`INSERT INTO reservas (titulo_pelicula, fecha, hora, butacas,email_usuario,email_usuario_no_registrado)  SELECT * FROM (SELECT '${titulo}', '${fechaFinal}', '${hora}', '${butacasArray}',null,'${correo_no_registrado}') AS tmp
+      WHERE NOT EXISTS (
+        SELECT * FROM reservas 
+        WHERE titulo_pelicula = '${titulo}' 
+        AND fecha = '${fechaFinal}'
+        AND hora = '${hora}'
+        AND butacas = '${butacasArray}'
+      )
+      LIMIT 1`);
+        }
 
   
   res.render(`resumen.hbs`);
 });
 
 
-router.get('/invoice', (req, res, next) => {
+router.get('/invoice', isLoggedIn, (req, res, next) => {
   const stream = res.writeHead(200, {
     'Content-Type': 'application/pdf',
     'Content-Disposition': `attachment;filename=entrada.pdf`,
