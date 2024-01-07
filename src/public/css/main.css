@@ -63,8 +63,8 @@ color: #ffffff; /* Color de la línea horizontal */
 }
 
 .grid-afiche img {
-  height: 328px;
-  width: 230px;
+  height: 358px;
+  width: 250px;
   transition: transform 0.3s ease;
 }
 
@@ -93,10 +93,14 @@ color: #ffffff; /* Color de la línea horizontal */
 	border: solid 2px red;
 }
 
+.texto-centrado{
+  text-align: center;
+}
+
 @media (max-width: 767px) {
   .grid-afiche img {
-    height: 268px;
-    width: 160px; /* Reducir el tamaño de la imagen para pantallas más pequeñas */
+    height: 178px;
+    width: 100px; /* Reducir el tamaño de la imagen para pantallas más pequeñas */
     /* Otros estilos si es necesario */
   }
 }
@@ -110,7 +114,64 @@ color: #ffffff; /* Color de la línea horizontal */
 /*entradas*/
 
 #imagen_entradas{
-  width: 170px;
+  width: 270px;
   height: 270px;
 }
    
+
+/*FILM*/
+body {
+  overflow-x: hidden;
+}
+
+.infoMovil {
+  display: none;
+}
+
+p {
+  color: aliceblue;
+}
+
+#film-card {
+  text-align: center;
+}
+
+.foto img{
+  height: 428px;
+  width: 280px;
+}
+
+.first_name{
+  color: aliceblue;
+}
+
+#dateSelector{
+font-weight: bold;
+font-size: 1rem;
+border: none;
+ background-color: rgb(161, 51, 51);
+  color: rgb(255, 255, 255) !important; 
+  padding: 0.4rem !important;
+}
+
+
+
+
+@media all and (max-width: 480px) {
+  #film-info {
+      color: aliceblue;
+      margin-left: 5%;
+  }
+
+  .foto img{
+      height: 278px;
+  width: 180px;
+  border-radius: 0.75em;
+  }
+
+  #imagen_entradas{
+    width: 170px;
+  height: 270px;
+  }
+
+}

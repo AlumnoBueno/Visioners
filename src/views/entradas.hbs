@@ -1,127 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VisiOners</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VisiOners</title>
 </head>
 
 <link href="../css/main.css" rel="stylesheet" type="text/css" />
-
-
- <script>
-
-
-   async function bloquearButacas() {
-      const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-      const butacaIds = Array.from(checkboxes).map(checkbox => checkbox.value);
-      console.log(butacaIds)
-
-      try {
-        const response = await fetch('/bloquear-butacas', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ butacaIds })
-        });
-        console.log(JSON.stringify({ butacaIds }))
-        if (response.ok) {
-          const butacas =  butacaIds
-          alert('Butacas bloqueadas correctamente.');
-        } else {
-          alert('Error al bloquear las butacas.');
-        }
-      } catch (error) {
-        console.error(error);
-        alert('Hubo un error en la solicitud.');
-      } 
-    }
-    
-  function validar() {
-      const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
-      if (checkboxes.length === 0) {
-        alert('Por favor, selecciona al menos una opción');
-        event.preventDefault()
-      } else {
-        document.getElementById('formulario').submit();
-      }
-    }
-    
-
-</script> 
+<script src="../js/entradas.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
 <body>
 
-{{#each reserva}}
-<h1 style="color: aliceblue;"> SESION</h1>
-<div class="container d-flex align-items-center justify-content-center" style="max-width: 640px;">
-<div class="card mb-3 border-0 bg-transparent text-white" style="max-width: 500px; ">
-  <div class="row g-0">
-    <div class="col-md-4">
-      <img src="../img/caratulas/{{caratula}}"  id="imagen_entradas">
-    </div>
-    <div class="col-md-8">
-      <div class="card-body justify-content-center">
-        <h5 class="card-title "><p>{{titulo}}</p></h5>
-        <p class="card-text">Sala: {{nombre_sala}}</p>
-        <p class="card-text">Duración: {{duracion}} minutos</p>
-        <p class="card-text">Género: {{genero}}</p>
-        <p class="card-text" >Fecha: <span id="fecha">{{fecha}}</span></p>
+  {{#each reserva}}
+  <div class="container">
+  <h1 style="color: aliceblue;">SESIÓN</h1>
+</div>
+
+<div class="container d-flex align-items-center justify-content-center">
+  <div class="card mb-3 border-0 bg-transparent text-white" style="max-width: 740px;">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img src="../img/caratulas/{{caratula}}" id="imagen_entradas" class="img-fluid" alt="Carátula de la película">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">{{titulo}}</h5>
+          <p class="card-text">Sala: {{nombre_sala}}</p>
+          <p class="card-text">Duración: {{duracion}} minutos</p>
+          <p class="card-text">Género: {{genero}}</p>
+          <p class="card-text">Fecha: <span id="fecha">{{fecha}}</span></p>
+        </div>
       </div>
     </div>
   </div>
 </div>
-</div>
-<br>
+  <br>
 
- <hr class="w-75 mx-auto">
- <br>
-<h1 style="color: aliceblue;"> RESERVA SU ASIENTO</h1>
-<form action="/procesar-checkboxes" method="POST" id="formulario">
- {{/each}}
-    <div class="mx-auto" style="width: 300px; height:200px;" >
+  <hr class="w-75 mx-auto">
+  <br>
+  <h1 style="color: aliceblue;"> RESERVA SU ASIENTO</h1>
+  <form action="/procesar-checkboxes" method="POST" id="formulario">
+    {{/each}}
+    <div class="mx-auto" style="width: 300px; height:200px;">
       <img src="../img/PANTALLA.png" style="width: 270px; height: 40px; ">
       <br><br>
-        {{#each salas}}
-      
-  <input class="form-check-input" type="checkbox" value="{{butaca_id}}" name="opciones" style="width: 50px;"  {{#unless disponible}} style="background-color: black;" disabled{{/unless}}>
-  
- 
-   {{/each}}
-   <br>
-    <br>
+      {{#each salas}}
+      <input class="form-check-input" type="checkbox" value="{{butaca_id}}" name="opciones" style="width: 50px;"
+        {{#unless disponible}} style="background-color: black;" disabled{{/unless}}>
+      {{/each}}
+      <br>
+      <br>
 
-    <button onclick="validar()" value="enviar" style="float: right;">Siguiente</button>
-   </div>
-  
-
- </form>
-   
+      <button onclick="validar()" value="enviar" style="float: right;">Siguiente</button>
+    </div>
+  </form>
 </body>
-<script>
-  document.body.onload = function() {
-      var fechaTexto = document.getElementById("fecha").innerHTML;
-      var fechaProvida = new Date(fechaTexto);
-
-// Obtener el día y año
-var dia = fechaProvida.getDate();
-var anio = fechaProvida.getFullYear();
-
-// Array con los nombres de los meses en español
-var meses = [
-  "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-  "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
-];
-
-// Obtener el nombre del mes en español
-var mesNombre = meses[fechaProvida.getMonth()];
-
-// Formatear para el formato "3 de enero de 2024"
-var fechaFormateada = `${dia} de ${mesNombre} de ${anio}`;
-
-  document.getElementById("fecha").innerHTML = fechaFormateada
-  }
-
-</script>
 </html>

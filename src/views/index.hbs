@@ -7,210 +7,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>VisiOners</title>
   <link href="../css/main.css" rel="stylesheet" type="text/css" />
+   <script src="../js/index.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 </head>
 
 <body>
-  <script>
-
-    error = true;
-
-
-    const formulario = document.getElementById('signup-form');
-    const botonEnvio = formulario.querySelector('input[type="submit"]');
-
-    const campoNombre = document.querySelector("[name=nombre]");
-    const campoApellidos = document.querySelector("[name=apellidos]");
-    const campoTelefono = document.querySelector("[name=telefono]");
-    const campoEmail = document.querySelector("[name=email]");
-    const campoPassword = document.querySelector("[name=password]");
-
-
-    const regexNombre = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s']+$/;
-    const regexApellidos = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s'-]+$/;
-    const regexTelefono = /(\+34|0034|34)?[ -]*(6|7)[ -]*([0-9][ -]*){8}/;
-    const regexEmail = /[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}/;
-    const regexPassword = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
-
-    function validarNombre(message, e){
-      const field = e.target;
-      const fieldValue = e.target.value;
-
-      if (fieldValue.trim().length === 0 || !regexNombre.test(fieldValue)) {
-        field.classList.add("invalid")
-        field.nextElementSibling.classList.add("error")
-        field.nextElementSibling.innerText = message;
-        error = false;
-      } else {
-        field.classList.remove("invalid")
-        field.nextElementSibling.classList.remove("error")
-        field.nextElementSibling.innerText = "";
-        error = true;
-      }
-    }
-
-    function validarApellido(message, e){
-      const field = e.target;
-      const fieldValue = e.target.value;
-
-      if (fieldValue.trim().length === 0 || !regexApellidos.test(fieldValue)) {
-        field.classList.add("invalid")
-        field.nextElementSibling.classList.add("error")
-        field.nextElementSibling.innerText = message;
-        error = true;
-      } else {
-        field.classList.remove("invalid")
-        field.nextElementSibling.classList.remove("error")
-        field.nextElementSibling.innerText = "";
-        error = false;
-      }
-    }
-
-
-    function validarTelefono(message, e){
-      const field = e.target;
-      const fieldValue = e.target.value;
-
-      if (fieldValue.trim().length === 0 || !regexTelefono.test(fieldValue)) {
-        field.classList.add("invalid")
-        field.nextElementSibling.classList.add("error")
-        field.nextElementSibling.innerText = message;
-        error = true;
-      } else {
-        field.classList.remove("invalid")
-        field.nextElementSibling.classList.remove("error")
-        field.nextElementSibling.innerText = "";
-        error = false;
-      }
-    }
-
-    function validarEmail(message, e){
-      const field = e.target;
-      const fieldValue = e.target.value;
-    
-        
-
-      if (fieldValue.trim().length === 0 || !regexEmail.test(fieldValue)) {
-        field.classList.add("invalid")
-        field.nextElementSibling.classList.add("error")
-        field.nextElementSibling.innerText = message;
-        error = false;
-      } else {
-        field.classList.remove("invalid")
-        field.nextElementSibling.classList.remove("error")
-        field.nextElementSibling.innerText = "";
-        error = true;
-      }
-    }
-
-    function validarPassword(message, e){
-      const field = e.target;
-      const fieldValue = e.target.value;
-
-        
-      if (fieldValue.trim().length === 0) {
-        field.classList.add("invalid")
-        field.nextElementSibling.classList.add("error")
-        field.nextElementSibling.innerText = message;
-        error = true;
-      }
-       else {
-        field.classList.remove("invalid")
-        field.nextElementSibling.classList.remove("error")
-        field.nextElementSibling.innerText = "";
-        error = false;
-      }
-    }
  
-      function ver(){
-         const formulario = document.getElementById('signup-form');
-         const inputs = formulario.querySelectorAll('input');
-
-        let inputsVacios = false;
-
-         inputs.forEach(function(input) {
-        const valorInput = input.value.trim();
-      
-        if (valorInput === '') {
-          inputsVacios = true;
-          return;
-        }
-        });
-
-        if(inputsVacios){
-           alert("Rellene todos los campos")
-            event.preventDefault();
-        }
-       else if(error){
-          console.log("fddf")
-          event.preventDefault();
-        }
-      }
-
-    function filtrarPeliculas(){
-
-      var genero = document.getElementById("generoSelect").value;
-       fetch(`/filtrar?genero=${genero}`, { method: 'GET' })
-       .then(response => response.json())
-       .then(data => {
-        console.log(data)
-        if(data.length === 0){
-          window.location.reload()
-          window.scrollTo(0, scrollPosition);
-        }
-        var contenedorPeliculas = document.getElementById("contenedorPeliculas")
-        contenedorPeliculas.innerHTML = "";
-
-        data.forEach(pelicula => {
-          var contenedor = document.createElement("div");
-          contenedor.className = "grid-afiche animate__bounce";
-            contenedorPeliculas.appendChild(contenedor)
-            var enlace = document.createElement("a");
-            enlace.href=`/film/${pelicula.id}`;
-            var imagen = document.createElement("img");
-            imagen.src = `./img/caratulas/${pelicula.caratula}`;
-            imagen.className = `peliculas animate__bounce`;
-            enlace.appendChild(imagen)
-            contenedor.appendChild(enlace)
-        })
-
-        console.log(data);
-
-       
-    })
-
-
-      
-    }
-
-
-    function correo(){
-      var email = campoEmail.value
-      console.log(email)
-      fetch(`/comprobar?email=${email}`, { method: 'GET' })
-       .then(response => response.json())
-       .then(data => {
-        if(data.error){
-          event.preventDefault()
-        }
-       })
-    }
-
-
-
-    campoNombre.addEventListener("blur", (e) =>  validarNombre("Introduce un nombre correcto", e))
-    campoApellidos.addEventListener("blur", (e) => validarApellido("Introduce un apellido correcto", e))
-    campoTelefono.addEventListener("blur", (e) => validarTelefono("Introduce un telefono correcto", e))
-    campoEmail.addEventListener("blur", (e) => validarEmail("Introduce un email correcto", e))
-    campoPassword.addEventListener("blur", (e) => validarPassword("De 8 a 15 digitos con al menos un simbolo,mayúscula y número", e))
-    document.getElementById("enviarSignup").addEventListener("click",ver);
-     document.addEventListener('DOMContentLoaded', function() {
-      document.getElementById('generoSelect').addEventListener('change', filtrarPeliculas)
-    });
-    document.getElementById("prueba").addEventListener("click",correo);
-    
-
-  </script>
 
   <!--CARRUSEL-->
 
@@ -254,10 +56,11 @@
   <br>
   <hr class="w-75 mx-auto">
   <br>
-  <h1 style="color: aliceblue;" id="cartelera">CARTELERA</h1>
+  
 
 
-  <div id="filmmodule" class="container text-center">
+  <div id="filmmodule" class="container">
+    <h1 style="color: aliceblue;" id="cartelera">CARTELERA</h1>
 <form id="filtrarForm">
      <select id="generoSelect" name="genero">
           <option>Todos los géneros</option>
@@ -266,9 +69,10 @@
           {{/each}}
         </select>
 </form>
+<br>
       
     <div class="collapse show mb-3" id="filmsCollapse" aria-expanded="false">
-      <div class="container d-flex flex-wrap px-0 mx-0 mx-md-auto" id="contenedorPeliculas">
+      <div class="container d-flex flex-wrap px-0 mx-0 mx-md-auto justify-content-center align-items-center" id="contenedorPeliculas">
         {{#each peliculas}}
         <div class="grid-afiche animate__bounce"><a href="./film/{{id}}">
             <img src='./img/caratulas/{{caratula}}' alt={{caratula}} class="peliculas animate__bounce" genero={{genero}}>
@@ -279,6 +83,32 @@
     </div>
   </div>
   <br>
+   <hr class="w-75 mx-auto">
+   <br>
+   
+  <div class="container">
+    <h1 style="color: aliceblue;">Aqui estamos</h1>
+  <div class="row">
+    <div class="col-md-6">
+      <!-- Texto centrado -->
+      <div class="texto-centrado">
+        <h2 style="color: aliceblue;">Dirección</h2>
+        <p style="color: aliceblue;">Avenida del vivero</p>
+        <h2 style="color: aliceblue;">Teléfono</h2>
+        <p style="color: aliceblue;">667898567</p>
+        <h2 style="color: aliceblue;">Como llegar:</h2>
+        <h4 style="color: aliceblue;">En autobús:</h4>
+        <p style="color: aliceblue;">Avenida del vivero</p>
+        <h4 style="color: aliceblue;">En tren:</h4>
+        <p style="color: aliceblue;">Avenida del vivero</p>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <!-- Imagen a la derecha -->
+      <img src="./img/location.png" alt="Imagen" class="img-fluid">
+    </div>
+  </div>
+</div>
 
 
 
