@@ -114,8 +114,8 @@ color: #ffffff; /* Color de la línea horizontal */
 /*entradas*/
 
 #imagen_entradas{
-  width: 270px;
-  height: 270px;
+  width: 370px;
+  height: 280px;
 }
    
 
@@ -157,7 +157,7 @@ border: none;
 
 
 
-@media all and (max-width: 480px) {
+@media all and (max-width: 780px) {
   #film-info {
       color: aliceblue;
       margin-left: 5%;
@@ -175,3 +175,12 @@ border: none;
   }
 
 }
+
+
+
+
+
+
+
+
+

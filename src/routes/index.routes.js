@@ -304,6 +304,15 @@ router.get('/invoice', isLoggedIn, (req, res, next) => {
   );
 });
 
+router.get('/atencion_cliente', isLoggedIn, (req, res) => {
+  if (req.user) {
+    res.render("atencion_cliente.hbs", {status: "DENTRO",user: req.user,
+    });
+  } else {
+  
+    res.render("atencion_cliente.hbs");
+  }
+});
 
 
 

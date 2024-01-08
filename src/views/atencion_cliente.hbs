@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="../css/formulario.css" rel="stylesheet" type="text/css" />
+    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/solid.js"
+    integrity="sha384-+Ga2s7YBbhOD6nie0DzrZpJes+b2K1xkpKxTFFcx59QmVPaSA8c7pycsNaFwUK6l"
+    crossorigin="anonymous"></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/fontawesome.js"
+    integrity="sha384-7ox8Q2yzO/uWircfojVuCQOZl+ZZBg2D2J5nkpLqzH1HY0C1dHlTKIbpRz/LG23c"
+    crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+</head>
+<body >
+    
+
+    
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 text-center mt-5">
+                <h1 style="color: aliceblue;">Contacta con nosotros</h1>
+            </div>
+        </div>
+    <div class="row">
+      <div class="col-md-6 d-flex align-items-center justify-content-center">
+            <form action=""  id="formulario" class="  rounded-5 shadow-5-strong p-5">
+            
+<!-- Grupo: Nombre -->
+<div class="formulario__grupo" id="grupo__nombre">
+    <label for="nombre" class="formulario__label">Nombre</label>
+    <div class="formulario__grupo-input">
+        <input type="text" class="formulario__input" name="nombre" id="nombre" placeholder="John Doe">
+        <i class="formulario__validacion-estado fas fa-times-circle"></i>
+    </div>
+    <p class="formulario__input-error">El usuario tiene que ser de 2 a 16 dígitos</p>
+</div>
+
+   <!-- Grupo: apellido -->
+   <div class="formulario__grupo" id="grupo__usuario">
+    <label for="usuario" class="formulario__label">Apellido</label>
+    <div class="formulario__grupo-input">
+        <input type="text" class="formulario__input" name="usuario" id="usuario" placeholder="john123">
+        <i class="formulario__validacion-estado fas fa-times-circle"></i>
+    </div>
+    <p class="formulario__input-error">El apellido tiene que ser de 2 a 16 dígitos</p>
+</div>
+
+
+<!-- Grupo: Correo Electronico -->
+<div class="formulario__grupo" id="grupo__correo">
+    <label for="correo" class="formulario__label">Correo electrónico</label>
+    <div class="formulario__grupo-input">
+        <input type="email" class="formulario__input" name="correo" id="correo" placeholder="correo@correo.com">
+        <i class="formulario__validacion-estado fas fa-times-circle"></i>
+    </div>
+    <p class="formulario__input-error">El correo es incorrecto</p>
+</div>
+
+<!-- Grupo: Teléfono -->
+<div class="formulario__grupo" id="grupo__telefono">
+    <label for="telefono" class="formulario__label">Teléfono</label>
+    <div class="formulario__grupo-input">
+        <input type="text" class="formulario__input" name="telefono" id="telefono" placeholder="+34">
+        <i class="formulario__validacion-estado fas fa-times-circle"></i>
+    </div>
+    <p class="formulario__input-error">El teléfono es incorrecto</p>
+</div>
+ </div>
+<!-- Grupo: Teléfono -->
+<div class="col-md-6 d-flex align-items-center justify-content-center">
+
+   
+    <div>
+        <span class="formulario__label">Mensaje</span>
+        <textarea rows="5" cols="50" ></textarea>
+    </div>
+</div>
+
+<!-- Grupo: Terminos y Condiciones -->
+<div class="formulario__grupo text-right" id="grupo__terminos">
+    <label class="formulario__label">
+        <input class="formulario__checkbox" type="checkbox" name="terminos" id="terminos">
+        Acepto los términos y condiciones
+    </label>
+</div>
+
+<div class="formulario__mensaje" id="formulario__mensaje">
+    <p><i class="fas fa-exclamation-triangle"></i> <b>Error:</b> Por favor rellena el formulario correctamente. </p>
+</div>
+
+<div class="formulario__grupo formulario__grupo-btn-enviar">
+    <button type="submit" class="formulario__btn">Enviar</button>
+    <p class="formulario__mensaje-exito" id="formulario__mensaje-exito">¡Formulario enviado exitosamente!</p>
+</div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    
+   
+</body>
+<script>
+    const formulario = document.getElementById('formulario');
+const inputs = document.querySelectorAll('#formulario input');
+
+const expresiones = {
+	usuario: /^[a-zA-Z0-9\_\-]{2,16}$/, // Letras, numeros, guion y guion_bajo
+	nombre: /^[a-zA-ZÀ-ÿ\s]{2,40}$/, // Letras y espacios, pueden llevar acentos.
+	correo: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+	telefono: /^\d{9}$/ // 9 numeros.
+}
+
+const campos = {
+	usuario: false,
+	nombre: false,
+	correo: false,
+	telefono: false
+}
+
+const validarFormulario = (e) => {
+	switch (e.target.name) {
+		case "usuario":
+			validarCampo(expresiones.usuario, e.target, 'usuario');
+		break;
+		case "nombre":
+			validarCampo(expresiones.nombre, e.target, 'nombre');
+		break;
+		case "correo":
+			validarCampo(expresiones.correo, e.target, 'correo');
+		break;
+		case "telefono":
+			validarCampo(expresiones.telefono, e.target, 'telefono');
+		break;
+	}
+}
+
+const validarCampo = (expresion, input, campo) => {
+	if(expresion.test(input.value)){
+		document.getElementById(`grupo__${campo}`).classList.remove('formulario__grupo-incorrecto');
+		document.getElementById(`grupo__${campo}`).classList.add('formulario__grupo-correcto');
+		
+		
+		document.querySelector(`#grupo__${campo} .formulario__input-error`).classList.remove('formulario__input-error-activo');
+		campos[campo] = true;
+	} else {
+		document.getElementById(`grupo__${campo}`).classList.add('formulario__grupo-incorrecto');
+		document.getElementById(`grupo__${campo}`).classList.remove('formulario__grupo-correcto');
+		
+		
+		document.querySelector(`#grupo__${campo} .formulario__input-error`).classList.add('formulario__input-error-activo');
+		campos[campo] = false;
+	}
+}
+
+
+
+inputs.forEach((input) => {
+	input.addEventListener('keyup', validarFormulario);
+	input.addEventListener('blur', validarFormulario);
+});
+
+formulario.addEventListener('submit', (e) => {
+	e.preventDefault();
+
+	const terminos = document.getElementById('terminos');
+	if(campos.usuario && campos.nombre && campos.correo && campos.telefono && terminos.checked ){
+        alert("Enviado");
+		formulario.reset();
+
+		document.getElementById('formulario__mensaje-exito').classList.add('formulario__mensaje-exito-activo');
+		setTimeout(() => {
+			document.getElementById('formulario__mensaje-exito').classList.remove('formulario__mensaje-exito-activo');
+		}, 5000);
+
+		document.querySelectorAll('.formulario__grupo-correcto').forEach((icono) => {
+			icono.classList.remove('formulario__grupo-correcto');
+		});
+	} else {
+		document.getElementById('formulario__mensaje').classList.add('formulario__mensaje-activo');
+	}
+});
+
+</script>
+</html>

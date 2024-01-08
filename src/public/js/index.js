@@ -1,5 +1,6 @@
 error = true;
 
+
     const formulario = document.getElementById('signup-form');
     const botonEnvio = formulario.querySelector('input[type="submit"]');
 
