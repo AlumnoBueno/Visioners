@@ -27,19 +27,27 @@
       width: 140px;
       height: auto;
     }
-    .flex-container {
-      display: flex;
-      align-items: center;
-    }
+   
+    
 
     .invalid{
 	border: solid 2px red;
 }
 
+
 .error{
 	color: red;
 	position: relative;
+  font-size: 13px;
+  
 }
+
+ #butacas::after {
+    content: ',';
+    opacity: 0;
+  }
+
+
     @media (max-width: 768px) {
       /* Ajustar estilos para dispositivos móviles si es necesario */
       .flex-container {
@@ -58,36 +66,52 @@
 {{#unless status}} 
 <form action="/create-checkout-session" id="formulario" method="POST">
 <div class="container">
-    <div class="row">
-      <div class="col-md-12 col-xs-6 ">
-        <h2 style="color: aliceblue;">Información personal</h2>
-        <br>
-        <div class="row">
-          <div class="col-md-6 mb-2 ">
-            <span style="color: aliceblue;">Nombre</span>
-            <input type="text" class="form-control form-control-sm mb-2 short-input" placeholder="Nombre" name="nombre_no_registrado" id="nombre_no_registrado">
-            <span></span>
-          </div>
-          <div class="col-md-6 mb-2">
-            <span style="color: aliceblue;">Apellidos</span>
-            <input type="text" class="form-control form-control-sm mb-2 short-input" placeholder="Apellidos" name="apellidos_no_registrado" id="apellidos_no_registrado">
-            <span></span>
+  <div class="row">
+    <div class="col-md-12 col-xs-6">
+      <h2 style="color: aliceblue;">Información personal</h2>
+      <br>
+      <div class="row">
+        <div class="col-md-6 mb-2 col-12">
+          <div class="d-flex justify-content-center align-items-center"> 
+            <div>
+              <span style="color: aliceblue;">Nombre</span>
+              <input type="text" class="form-control form-control-sm mb-2 short-input" placeholder="Nombre" name="nombre_no_registrado" id="nombre_no_registrado">
+              <span></span>
+            </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-6 mb-2">
-            <span style="color: aliceblue;">Correo</span>
-            <input type="text" class="form-control form-control-sm mb-2 short-input" placeholder="Correo" name="correo_no_registrado" id="correo_no_registrado">
-            <span></span>
+        <div class="col-md-6 mb-2 col-12">
+          <div class="d-flex justify-content-center align-items-center">
+            <div>
+              <span style="color: aliceblue;">Apellidos</span>
+              <input type="text" class="form-control form-control-sm mb-2 short-input" placeholder="Apellidos" name="apellidos_no_registrado" id="apellidos_no_registrado">
+              <span></span>
+            </div>
           </div>
-          <div class="col-md-6 mb-2">
-            <span style="color: aliceblue;">Teléfono</span>
-            <input type="text" class="form-control form-control-sm mb-2 short-input" placeholder="Teléfono" name="telefono_no_registrado" id="telefono_no_registrado">
-            <span></span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 mb-2 col-12"> 
+          <div class="d-flex justify-content-center align-items-center">
+            <div>
+              <span style="color: aliceblue;">Correo</span>
+              <input type="text" class="form-control form-control-sm mb-2 short-input" placeholder="Correo" name="correo_no_registrado" id="correo_no_registrado">
+              <span></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mb-2 col-12"> <!-- Centrar en dispositivos móviles -->
+          <div class="d-flex justify-content-center align-items-center"> <!-- Div adicional para centrar el contenido -->
+            <div>
+              <span style="color: aliceblue;">Teléfono</span>
+              <input type="text" class="form-control form-control-sm mb-2 short-input" placeholder="Teléfono" name="telefono_no_registrado" id="telefono_no_registrado">
+              <span></span>
+            </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 </div>
     
     {{/unless}}
@@ -95,50 +119,53 @@
     <br>
    
   <div class="container">
-    <div class="row">
-      <div class="col-md-6 ">
-         <h1 style="color: aliceblue;">RESUMEN</h1>
-        <div class="container">
-<div class="card mb-3 border-0 bg-transparent text-white" style="max-width: 500px; ">
   <div class="row">
-    <div class="col-md-4">
-      <img src="../img/caratulas/{{#each compra}}{{caratula}}{{/each}}"  id="imagen_compra" alt="{{#each compra}}{{caratula}}{{/each}}">
+    <div class="col-md-6">
+      <h1 style="color: aliceblue;">Resumen</h1>
+      <br>
+      <div class="d-flex justify-content-center">
+        <div class="card mb-3 border-0 bg-transparent text-white" style="max-width: 500px;">
+          <div class="row">
+            <div class="col-md-4 d-flex justify-content-center">
+              <img src="../img/caratulas/{{#each compra}}{{caratula}}{{/each}}" id="imagen_compra" alt="{{#each compra}}{{caratula}}{{/each}}">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body d-flex align-items-center justify-content-center" id="datos_sesion" style="flex-direction: column;" id="datos_sesion">
+                <h5 style="color: aliceblue;" id="precio"></h5>
+                <br>
+                {{#each compra}}
+                <p style="color: aliceblue;"><strong>Pelicula:</strong> <span id="titulo">{{titulo}}</span></p>
+                <p style="color: aliceblue;" id="fecha"><strong>Fecha:</strong>  <span id="fecha_final">{{fecha}}</span></p>
+                {{/each}}
+                <p style="color: aliceblue;"><strong>Butacas:</strong> 
+                  <span id="butacas">
+                    {{#each resultados}}
+                    {{numero}}<span style="color: transparent;">,</span>
+                    {{/each}}
+                  </span>
+                </p>
+                {{#each compra}}
+                <p style="color: aliceblue;"><strong>Hora:</strong> <span id="hora">{{hora}}</span></p>
+                <p style="color: aliceblue;"><strong>Sala:</strong> <span id="sala">{{nombre_sala}}</span></p>
+                {{/each}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="col-md-8">
-      <div class="card-body justify-content-center" id="datos_sesion">
-        {{#each compra}}
-<p style="color: aliceblue;">Pelicula: <span id="titulo">{{titulo}}</span></p>
-<p style="color: aliceblue;" id="fecha">Fecha: <span id="fecha_final">{{fecha}}</span></p>
- {{/each}}
- <p style="color: aliceblue;">Butacas:
-  <span id="butacas">
-{{#each resultados}}
-{{numero}},
- {{/each}}</span></p>
+    <div class="col-md-6">
+      
+  <h1 style="color: aliceblue;">Pago</h1>
+  <br>
  
-  {{#each compra}}
-<p style="color: aliceblue;" >Hora: <span id="hora">{{hora}}</span></p>
-<p style="color: aliceblue;">Sala:<span id="sala">{{nombre_sala}}</span> </p>
- {{/each}} 
- <p style="color: aliceblue;" id="precio"></p>
-      </div>
-    </div>
-  </div>
+   <div class="d-flex justify-content-center">
+  <button type="button" class="btn btn-light btn-lg btn-block text-black" id="dale">Pagar con tarjeta</button>
 </div>
 </div>
-      
-      
-      </div>
-      <div class="col-md-6">
-           <h1 style="color: aliceblue;">PAGO</h1>
-        <p>Div ocupando 6 columnas</p>
-         </form>
-          <button type="button" id="dale">ENVIAR</button>
-      </div>
-    </div>
   </div>
-  
-
+</div>
+ </form>
   
 
 </body>
@@ -146,6 +173,8 @@
 <script>
  var precioFinal = 0
    document.body.onload = function() {
+    var valor_butaca = document.getElementById("butacas").innerText;
+     console.log(valor_butaca)
      var precio = 0;
     
  {{#each resultados}}
@@ -260,7 +289,7 @@ function validarNombre(message, e){
     
         
 
-      if (fieldValue.trim().length === 0 || !regexEmail.test(fieldValue)) {
+      if (fieldValue.trim().length === 0 || !regexCorreo.test(fieldValue)) {
         field.classList.add("invalid")
         field.nextElementSibling.classList.add("error")
         field.nextElementSibling.innerText = message;
@@ -299,7 +328,8 @@ function validarNombre(message, e){
     var valor_precio = precioFinal;
     var valor_hora = document.getElementById("hora").innerHTML;
      var valor_sala = document.getElementById("sala").innerHTML;
-     var valor_butaca = document.getElementById("butacas").innerHTML;
+     var valor_butaca = document.getElementById("butacas").innerText;
+     
       
 
 const datos = {

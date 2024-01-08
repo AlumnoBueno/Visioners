@@ -13,20 +13,21 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
 <body>
-
+<br>
   {{#each reserva}}
   <div class="container">
-  <h1 style="color: aliceblue;">SESIÓN</h1>
+  <h1 style="color: aliceblue;">Sesión</h1>
 </div>
 
 <div class="container d-flex align-items-center justify-content-center">
   <div class="card mb-3 border-0 bg-transparent text-white" style="max-width: 740px;">
     <div class="row g-0">
-      <div class="col-md-4 d-flex align-items-center">
-        <img src="../img/caratulas/{{caratula}}" id="imagen_entradas" class="img-fluid" alt="Carátula de la película {{caratula}}">
+      <div class="col-md-4 d-flex justify-content-center">
+        <img src="../img/caratulas/{{caratula}}" id="imagen_entradas" class="img-fluid" id="imagen_compra" alt="Carátula de la película {{caratula}}">
       </div>
-      <div class="col-md-8">
-        <div class="card-body">
+      <div class="col-md-8 d-flex justify-content-center align-items-cente" >
+        <div class="card-body text-center">
+          <br>
           <h5 class="card-title">{{titulo}}</h5>
           <p class="card-text">Sala: {{nombre_sala}}</p>
           <p class="card-text">Duración: {{duracion}} minutos</p>
@@ -41,9 +42,11 @@
 
   <hr class="w-75 mx-auto">
   <br>
-  <h1 style="color: aliceblue;"> RESERVA SU ASIENTO</h1>
+ <div class="container ">
   <form action="/procesar-checkboxes" method="POST" id="formulario">
     {{/each}}
+     <h1 style="color: aliceblue;">Reserve su asiento</h1>
+     <br>
     <div class="mx-auto" style="width: 300px; height:200px;">
       <img src="../img/pantalla.png" style="width: 270px; height: 40px;" alt="pantalla">
       <br><br>
@@ -55,6 +58,7 @@
       <br>
 
       <button onclick="validar()" value="enviar" style="float: right;">Siguiente</button>
+    </div>
     </div>
   </form>
 </body>

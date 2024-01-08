@@ -1,5 +1,9 @@
 document.body.onload = function() {
-    var fechaTexto = document.getElementById("fecha").innerHTML;
+  convertirFecha();
+}
+
+function convertirFecha() {
+  var fechaTexto = document.getElementById("fecha").innerHTML;
     var fechaProvida = new Date(fechaTexto);
 
 // Obtener el día y año
@@ -25,7 +29,7 @@ document.getElementById("fecha").innerHTML = fechaFormateada
 async function bloquearButacas() {
     const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
     const butacaIds = Array.from(checkboxes).map(checkbox => checkbox.value);
-    console.log(butacaIds)
+   
 
     try {
       const response = await fetch('/bloquear-butacas', {
@@ -53,7 +57,10 @@ function validar() {
     if (checkboxes.length === 0) {
       alert('Por favor, selecciona al menos una opción');
       event.preventDefault()
-    } else {
+    } else if(checkboxes.length > 5) {
+      alert('No puede reservar más de 5 butacas');
+      event.preventDefault()
+    }else{
       document.getElementById('formulario').submit();
     }
   }
