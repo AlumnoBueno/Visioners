@@ -15,27 +15,46 @@
 <body>
 <br>
   {{#each reserva}}
-  <div class="container">
-  <h1 style="color: aliceblue;">Sesión</h1>
-</div>
-
-<div class="container d-flex align-items-center justify-content-center">
-  <div class="card mb-3 border-0 bg-transparent text-white" style="max-width: 740px;">
-    <div class="row g-0">
-      <div class="col-md-4 d-flex justify-content-center">
-        <img src="../img/caratulas/{{caratula}}" id="imagen_entradas" class="img-fluid" id="imagen_compra" alt="Carátula de la película {{caratula}}">
-      </div>
-      <div class="col-md-8 d-flex justify-content-center align-items-cente" >
+ <div class="container">
+  <div class="row">
+    <div class="col-md-6">
+    <h1 style="color: aliceblue;">Precios</h1>
+    <div class="card border-0 bg-transparent text-white">
         <div class="card-body text-center">
           <br>
-          <h5 class="card-title">{{titulo}}</h5>
-          <p class="card-text">Sala: {{nombre_sala}}</p>
-          <p class="card-text">Duración: {{duracion}} minutos</p>
-          <p class="card-text">Género: {{genero}}</p>
-          <p class="card-text">Fecha: <span id="fecha">{{fecha}}</span></p>
+          
+            <div style="background-color: rgb(19, 19, 19); color: white; padding: 10px;">
+                <p class="m-0"><strong>No registrado:</strong>  7 euros</p>
+            </div>
+            <br>
+            <div style="background-color: rgb(19, 19, 19); color: white; padding: 10px;">
+                <p class="m-0"><strong>Registrado:</strong> 6 euros</p>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="col-md-6">
+       <h1 style="color: aliceblue;">Sesión</h1>
+       <br>
+      <div class="card mb-3 border-0 bg-transparent text-white" style="max-width: 740px;">
+        <div class="row g-0">
+          <div class="col-md-4 d-flex justify-content-center">
+            <img src="../img/caratulas/{{caratula}}"   id="imagen_compra" alt="Carátula de la película {{caratula}}">
+          </div>
+          <div class="col-md-8 d-flex justify-content-center align-items-center">
+            <div class="card-body text-center">
+              <br>
+              <h5 class="card-title">{{titulo}}</h5>
+              <p class="card-text">Sala: {{nombre_sala}}</p>
+              <p class="card-text">Duración: {{duracion}} minutos</p>
+              <p class="card-text">Género: {{genero}}</p>
+              <p class="card-text">Fecha: <span id="fecha">{{fecha}}</span></p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+    
   </div>
 </div>
   <br>
