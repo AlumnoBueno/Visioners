@@ -5,9 +5,6 @@ import {join, dirname} from 'path'
 import { fileURLToPath } from 'url';
 import indexRoutes from './routes/index.routes.js';
 import cookieParser from 'cookie-parser';
-
-
-
 import myconnection from 'express-myconnection';
 import session from 'express-session';
 import bodyParser from 'body-parser';
@@ -43,11 +40,6 @@ app.use(bodyParser.urlencoded({
      extended: true
  }));
  app.use(bodyParser.json())
-// app.use(session({
-//     secret: 'secret',
-//     resave: true,
-//     saveUninitialized: true
-// }))
 app.use(cookieParser())
 
 

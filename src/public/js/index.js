@@ -158,14 +158,7 @@ error = true;
             enlace.appendChild(imagen)
             contenedor.appendChild(enlace)
         })
-
-        console.log(data);
-
-       
     })
-
-
-      
     }
 
 

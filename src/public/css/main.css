@@ -8,6 +8,33 @@ body, html {
     background-size: 100% 100%;
 }
 
+
+
+.navbar-nav {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.navbar-nav .nav-link {
+  margin-left: 10px; /* Espacio entre los elementos nav-link (ajústalo según lo desees) */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .centrar{
     margin:auto;
     display:block;
@@ -15,6 +42,10 @@ body, html {
 
 html {
   scroll-behavior: smooth;
+}
+
+h1,h2,h3,h4,h5,p{
+  color: aliceblue;
 }
 
 .menu-index{
@@ -103,6 +134,11 @@ color: #ffffff; /* Color de la línea horizontal */
     width: 100px; /* Reducir el tamaño de la imagen para pantallas más pequeñas */
     /* Otros estilos si es necesario */
   }
+  .menu-index{
+    font-size:  16px;
+    margin-bottom: 1px;
+   
+  }
 }
 
 /*CARTELERA*/
@@ -185,7 +221,57 @@ border: none;
 
 
 
+/*compra*/
+#imagen_compra{
+  width: 180px;
+  height: 280px;
+}
+   .center-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
+  .short-input {
+    width: 460px; /* Ancho personalizado */
+  }
+
+   .custom-img {
+    width: 140px;
+    height: auto;
+  }
+ 
+  
+
+  .invalid{
+border: solid 2px red;
+}
 
 
+.error{
+color: red;
+position: relative;
+font-size: 13px;
+
+}
+
+#butacas::after {
+  content: ',';
+  opacity: 0;
+}
+
+
+  @media (max-width: 768px) {
+    /* Ajustar estilos para dispositivos móviles si es necesario */
+    .flex-container {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .short-input {
+    width: 300px; /* Ancho personalizado */
+  }
+  }
 
 

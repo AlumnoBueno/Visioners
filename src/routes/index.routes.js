@@ -84,9 +84,6 @@ router.get("/entradas/:id", isLoggedIn, async (req, res) => {
     );
     const sala = result;
     const reserva = result2;
-    console.log(sala);
-    console.log(reserva);
-
     if (req.user) {
         res.render("entradas.hbs", {
             salas: sala,
@@ -131,15 +128,20 @@ router.get("/logout", logout);
 router.get("/filtrar", async (req, res) => {
   const generoSeleccionado = req.query.genero;
 
+  try{
   const [comprobar] = await pool.query(
     "SELECT * FROM peliculas WHERE genero=?",
     [generoSeleccionado]
   );
   res.json(comprobar);
+} catch (err) {
+  res.status(500).json({ message: err.message });
+}
 });
 
 router.get("/comprobar", async (req, res) => {
   const email = req.query.email;
+  try{
   const [comprobar2] = await pool.query(
     "SELECT * FROM usuarios WHERE email = ?",
     [email]
@@ -150,25 +152,12 @@ router.get("/comprobar", async (req, res) => {
   } else {
     res.json({ error: true });
   }
-});
-
-//butacas
-
-router.post("/bloquear-butacas", async (req, res) => {
-  const { butacaIds } = req.body;
-
-  try {
-    const { butacaIds } = req.body;
-    console.log(butacaIds);
-    //    for (const butacaId of butacaIds) {
-    //       await pool.execute('UPDATE butacas SET disponible = FALSE WHERE butaca_id = ?', [butacaId]);
-    //     }
-    res.status(200).send("Butacas bloqueadas correctamente.");
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Error al bloquear las butacas.");
+} catch (err) {
+    res.status(500).json({ message: err.message });
   }
 });
+
+
 
 
 router.post("/procesar-checkboxes",isLoggedIn, (req, res) => {
@@ -184,25 +173,23 @@ router.post("/procesar-checkboxes",isLoggedIn, (req, res) => {
   }
 });
 
-router.get("/compra", isLoggedIn, async (req, res) => {
+router.get("/compra",isLoggedIn, async (req, res) => {
   const opciones = req.query.opciones.split(",");
-  console.log(opciones);
   let compra;
   const resultados = [];
+  try{
   for (const butacaId of opciones) {
     const [result] = await pool.query(
       "SELECT s.nombre_sala,p.caratula,b.numero,b.butaca_id,p.titulo,p.duracion,p.genero,c.hora,b.numero,c.fecha from butacas b,cartelera c,peliculas p,salas s where s.id = b.sala_id and b.sala_id = c.id_sala and c.id_pelicula = p.id and b.butaca_id=?",
       [butacaId]
     );
-
     if (result.length > 0) {
-      compra = result; // Asignar el resultado a comprobar si hay resultados
+      compra = result; 
     }
     for (let i = 0; i < compra.length; i++) {
       resultados.push(compra[i]);
     }
   }
-    console.log(resultados)
   if (req.user) {
     res.render("compra.hbs", {
         resultados: resultados, 
@@ -213,8 +200,9 @@ router.get("/compra", isLoggedIn, async (req, res) => {
   } else {
     res.render(`compra.hbs`, { resultados: resultados, compra: compra });
   }
-  
-  
+} catch (err) {
+  res.status(500).json({ message: err.message });
+}
 });
 
 
@@ -251,13 +239,10 @@ router.get("/resumen",isLoggedIn,async (req, res) => {
 
   const fechaFinal = `${anio}-${mes}-${dia}`;
 
-  console.log(titulo,hora,fechaFinal)
+ 
   const butacasArray = butacas.split(',').map(butaca => parseInt(butaca.trim(), 10));
-  let ultimoValorEliminado = butacasArray.pop();
-
-
-console.log(butacasArray)
-
+  butacasArray.pop();
+  try{
       butacasArray.forEach(async butaca => {
         
          await pool.query(`update butacas set disponible = false where numero = ${butaca} and sala_id in( select id from salas where nombre_sala = '${sala}' and fecha = '${fechaFinal}' and hora = '${hora}');`)
@@ -288,8 +273,14 @@ console.log(butacasArray)
       LIMIT 1`);
         }
 
-  
-  res.render(`resumen.hbs`);
+        if (req.user) {
+          res.render("resumen.hbs", {status: "DENTRO",user: req.user,
+          });
+        } else {
+          res.render("resumen.hbs");
+        }} catch (err) {
+          res.status(500).json({ message: err.message });
+        }
 });
 
 

@@ -59,55 +59,151 @@
   
 
 
-  <div id="filmmodule" class="container">
-    <h1 style="color: aliceblue;" id="cartelera">CARTELERA</h1>
-<form id="filtrarForm">
-     <select id="generoSelect" name="genero">
-          <option>Todos los géneros</option>
-          {{#each generos}}
-          <option value="{{genero}}">{{genero}}</option>
-          {{/each}}
+ <div id="filmmodule" class="container">
+    <h1 id="cartelera">CARTELERA</h1>
+    <form id="filtrarForm" class="d-flex justify-content-end">
+        <p>Filtrar por genero:&nbsp;</p><select id="generoSelect" name="genero" style="height: 10%;">
+            <option>Todos los géneros</option>
+            {{#each generos}}
+            <option value="{{genero}}">{{genero}}</option>
+            {{/each}}
         </select>
-</form>
-<br>
-      
+    </form>
+    <br>
     <div class="collapse show mb-3" id="filmsCollapse" aria-expanded="false">
-      <div class="container d-flex flex-wrap px-0 mx-0 mx-md-auto justify-content-center align-items-center" id="contenedorPeliculas">
-        {{#each peliculas}}
-        <div class="grid-afiche animate__bounce"><a href="./film/{{id}}">
-            <img src='./img/caratulas/{{caratula}}' alt={{caratula}} class="peliculas animate__bounce" genero={{genero}}>
-          </a>
+        <div class="container d-flex flex-wrap px-0 mx-0 mx-md-auto justify-content-center align-items-center" id="contenedorPeliculas">
+            {{#each peliculas}}
+            <div class="grid-afiche animate__bounce">
+                <a href="./film/{{id}}">
+                    <img src='./img/caratulas/{{caratula}}' alt={{caratula}} class="peliculas animate__bounce" genero={{genero}}>
+                </a>
+            </div>
+            {{/each}}
         </div>
-        {{/each}}
-      </div>
     </div>
+</div>
   </div>
   <br>
    <hr class="w-75 mx-auto">
    <br>
+  
+
+
+
+
+
    
-  <div class="container">
-    <h1 style="color: aliceblue;">Aqui estamos</h1>
-  <div class="row">
-    <div class="col-md-6">
-      <!-- Texto centrado -->
-      <div class="texto-centrado">
-        <h2 style="color: aliceblue;">Dirección</h2>
-        <p style="color: aliceblue;">Avenida del vivero</p>
-        <h2 style="color: aliceblue;">Teléfono</h2>
-        <p style="color: aliceblue;">667898567</p>
-        <h2 style="color: aliceblue;">Como llegar:</h2>
-        <h4 style="color: aliceblue;">En autobús:</h4>
-        <p style="color: aliceblue;">Avenida del vivero</p>
-        <h4 style="color: aliceblue;">En tren:</h4>
-        <p style="color: aliceblue;">Avenida del vivero</p>
+    <!-- START THE FEATURETTES -->
+<div class="container">
+    
+  <h1 id="cine">EL CINE</h1>
+   
+  <br>
+  <br>
+    <div class="row featurette">
+      <div class="col-md-7">
+        <h3 class="featurette-heading">La Mejor Experiencia Cinematográfica</h3>
+        <BR>
+        <p class="lead">Descubre la magia del séptimo arte en nuestro cine. Sumérgete en la experiencia cinematográfica de las películas ganadoras del premio Oscar.</p>
+      </div>
+      <div class="col-md-5">
+        <img src="../img/logo.png" class="img-fluid mx-auto d-block">
+
       </div>
     </div>
+
+ <br>
+  <br>
+      <hr class="w-50 mx-auto">
+
+       
+  <br>
+<br>
+  <br>
+    <div class="row featurette">
+      <div class="col-md-7 order-md-2">
+        <br>
+        <h2 class="featurette-heading">Experimenta Nuestras 8 Salas con la Última Tecnología</h2>
+        <p class="lead">Cada una de nuestras 8 salas ofrece lo mejor en calidad de imagen y sonido, combinado con la comodidad de asientos ergonómicos. Te invitamos a disfrutar de nuestras instalaciones y a vivir el cine de una manera única e inolvidable.</p>
+      </div>
+      <div class="col-md-5 order-md-1">
+              <img src="../img/sala.jpg" class="img-fluid mx-auto d-block" style="width: 70%;" alt="sala">
+
+      </div>
+    </div>
+<br>
+  <br>
+      <hr class="w-50 mx-auto">
+
+       
+  <br>
+  <br>
+    <div class="row featurette">
+      <div class="col-md-7">
+        <h2 class="featurette-heading">Regístrate para obtener un descuento especial en tus visitas</h2>
+        <BR>
+        <p class="lead">Regístrate ahora para recibir un descuento especial en tu entrada a nuestras salas de cine. Disfruta de lo último en calidad de imagen y sonido junto con la comodidad de nuestros asientos ergonómicos.</p>
+      </div>
+      <div class="col-md-5">
+        <img src="../img/registro.png" class="img-fluid mx-auto d-block" alt="registro">
+
+      </div>
+    </div>
+    </div>
+     <br>
+  <br>
+  
+    
+
+    <!-- /END THE FEATURETTES -->
+
+  </div>
+  
+ 
+
+ <hr class="w-75 mx-auto">
+
+
+
+   
+  <div class="container">
+  <h1 id="estamos">AQUÍ ESTAMOS</h1>
+  <br>
+  <div class="row">
     <div class="col-md-6">
       <!-- Imagen a la derecha -->
       <img src="./img/location.png" alt="Imagen" class="img-fluid" alt="localización">
     </div>
+    <div class="col-md-6 d-flex justify-content-center align-items-center">
+      <!-- Texto centrado -->
+      <div class="texto-centrado">
+        <div class="row">
+          <div class="col-md-6 ">
+            <h5>Dirección</h5>
+            <p>Avenida del vivero</p>
+          </div>
+          <div class="col-md-6">
+            <h5>Teléfono</h5>
+            <p>667898567</p>
+          </div>
+        </div>
+        <br>
+        <br>
+        <div class="row">
+          <div class="col-md-6">
+            <h5>Como llegar (En autobús)</h5>
+            <p>Avenida del vivero</p>
+          </div>
+          <div class="col-md-6">
+            <h5>Como llegar (En tren)</h5>
+            <p>Avenida del vivero</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
   </div>
+  <br>
 </div>
 
 
