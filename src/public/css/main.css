@@ -20,21 +20,6 @@ body, html {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .centrar{
     margin:auto;
     display:block;
@@ -78,7 +63,6 @@ h1,h2,h3,h4,h5,p{
 }
 
 hr {
- 
 
 color: #ffffff; /* Color de la línea horizontal */
   
@@ -87,19 +71,19 @@ color: #ffffff; /* Color de la línea horizontal */
 
 
 /*CARTELERA*/
-.grid-afiche {
+.grid-cartelera {
   padding: 0.4em;
   cursor: pointer;
   text-align: center !important;
 }
 
-.grid-afiche img {
+.grid-cartelera img {
   height: 358px;
   width: 250px;
   transition: transform 0.3s ease;
 }
 
-.grid-afiche:hover img {
+.grid-cartelera:hover img {
   transform: scale(1.03); /* Escala al 110% al pasar el ratón por encima */
 }
 
@@ -129,7 +113,7 @@ color: #ffffff; /* Color de la línea horizontal */
 }
 
 @media (max-width: 767px) {
-  .grid-afiche img {
+  .grid-cartelera img {
     height: 150px;
     width: 100px; /* Reducir el tamaño de la imagen para pantallas más pequeñas */
     /* Otros estilos si es necesario */

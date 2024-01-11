@@ -12,6 +12,7 @@
 <body>
 <br>
 {{#unless status}} 
+<button href="#" class="btn btn-secondary" onclick="history.back();" style="margin-left: 12%">Volver</button>
 <form action="/create-checkout-session" id="formulario" method="POST">
 <div class="container">
   <div class="row">
@@ -162,7 +163,7 @@ var fechaFormateada = `${dia} de ${mesNombre} de ${anio}`;
   {{#if status}}
   error = false;
   {{else}}
-  error = true;
+ 
 
     const formulario = document.getElementById('formulario');
 
@@ -179,6 +180,7 @@ var fechaFormateada = `${dia} de ${mesNombre} de ${anio}`;
 
 
 function validarNombre(message, e){
+   error = true;
       const field = e.target;
       const fieldValue = e.target.value;
       console.log(fieldValue)
@@ -187,12 +189,14 @@ function validarNombre(message, e){
         field.classList.add("invalid")
         field.nextElementSibling.classList.add("error")
         field.nextElementSibling.innerText = message;
-        error = false;
+        error = true;
+        console.log(error)
       } else {
         field.classList.remove("invalid")
         field.nextElementSibling.classList.remove("error")
         field.nextElementSibling.innerText = "";
-        error = true;
+        error = false;
+        console.log(error)
       }
     }
 
@@ -222,11 +226,13 @@ function validarNombre(message, e){
         field.nextElementSibling.classList.add("error")
         field.nextElementSibling.innerText = message;
         error = true;
+        console.log(error)
       } else {
         field.classList.remove("invalid")
         field.nextElementSibling.classList.remove("error")
         field.nextElementSibling.innerText = "";
         error = false;
+        console.log(error)
       }
     }
 
@@ -241,12 +247,12 @@ function validarNombre(message, e){
         field.classList.add("invalid")
         field.nextElementSibling.classList.add("error")
         field.nextElementSibling.innerText = message;
-        error = false;
+        error = true;
       } else {
         field.classList.remove("invalid")
         field.nextElementSibling.classList.remove("error")
         field.nextElementSibling.innerText = "";
-        error = true;
+        error = false;
       }
     }
 
@@ -259,8 +265,8 @@ function validarNombre(message, e){
 
 
   async  function enviarDatos(){
-
-    if(error){
+     
+    if(campoNombre.value === '' || campoApellidos.value === '' || campoTelefono.value === '' || campoCorreo.value === '' || !regexNombre.test(campoNombre.value) ||!regexApellidos.test(campoApellidos.value) || !regexTelefono.test(campoTelefono.value) || !regexCorreo.test(campoCorreo.value)){
       alert("Revise los datos")
     }else{
       

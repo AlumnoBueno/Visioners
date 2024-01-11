@@ -144,7 +144,9 @@
 	transition: .3s ease all;
 }
 
-
+h1,h2{
+	color: aliceblue;
+}
 
 textarea {
     resize: none;

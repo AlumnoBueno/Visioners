@@ -30,10 +30,10 @@
         <div class="navbar-nav">
           <a href="/#cartelera" class="centrar nav-link text-white" ><p class="menu-index">Cartelera</p></a>
          <a href="/#cine" class="centrar nav-link text-white" ><p class="menu-index">El cine</p></a>
-       <a href="/#estamos" class="centrar nav-link text-white"><p class="menu-index">Dónde estamos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p></a>
+       <a href="/#estamos" class="centrar nav-link text-white"><p class="menu-index">Dónde estamos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p></a>
            <br>{{#if status}} 
           <a class="nav-link logged-out" href="#" data-bs-toggle="modal" data-bs-target="#signinModal">{{user.nombre}}</a>
-          <a class="nav-link logged-out" href="/logout">Cerrar Sesión</a>
+          <a class="nav-link logged-out" href="/logout">Logout</a>
            {{else}} 
           <a class="nav-link logged-out" href="#" data-bs-toggle="modal" data-bs-target="#signinModal"><p >Login</p></a>
           <a class="nav-link logged-out" href="#" data-bs-toggle="modal" data-bs-target="#signupModal"><p >Registro</p></a>
@@ -155,6 +155,7 @@
         <li class="nav-item"><a href="accesibilidad.html" class="nav-link px-2 text-white">Accesibilidad</a></li>
     <li class="nav-item"><a href="/atencion_cliente" class="nav-link px-2 text-white">Mapa Web</a></li>
         <li class="nav-item"><a href="/atencion_cliente" class="nav-link px-2 text-white">Atención al cliente</a></li>
+        <li class="nav-item"><a href="/aviso_legal" class="nav-link px-2 text-white">Aviso Legal</a></li>
       </ul>
       <p class="text-center text-white">&copy; 2023 Visi, Inc</p>
     </footer>

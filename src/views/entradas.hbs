@@ -15,8 +15,10 @@
 <body>
 <br>
   {{#each reserva}}
+  <button href="#" class="btn btn-secondary" onclick="history.back();" style="margin-left: 12%">Volver</button>
  <div class="container">
   <div class="row">
+  
     <div class="col-md-6">
     <h1>Precios</h1>
     <div class="card border-0 bg-transparent text-white">
@@ -43,11 +45,11 @@
           </div>
           <div class="col-md-8 d-flex justify-content-center align-items-center">
             <div class="card-body text-center">
-              <br>
               <h5 class="card-title">{{titulo}}</h5>
               <p class="card-text">Sala: {{nombre_sala}}</p>
               <p class="card-text">Duración: {{duracion}} minutos</p>
               <p class="card-text">Género: {{genero}}</p>
+              <p class="card-text">Hora: {{hora}}</p>
               <p class="card-text">Fecha: <span id="fecha">{{fecha}}</span></p>
             </div>
           </div>

@@ -11,7 +11,7 @@ export async function buildPDF(dataCallback, endCallback) {
 
 
   //revisar VARIABLES
-  const url = "https://www.tu_pagina_web.com";
+  const url = "https://www.tu_pagina_web.com"; //modificar para el final
   const qrImageFile = "temp_qr.png";
 
   const __dirname = dirname(fileURLToPath(import.meta.url));

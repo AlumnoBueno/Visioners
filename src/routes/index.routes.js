@@ -305,6 +305,16 @@ router.get('/atencion_cliente', isLoggedIn, (req, res) => {
   }
 });
 
+router.get('/aviso_legal', isLoggedIn, (req, res) => {
+  if (req.user) {
+    res.render("aviso_legal.hbs", {status: "DENTRO",user: req.user,
+    });
+  } else {
+  
+    res.render("aviso_legal.hbs");
+  }
+});
+
 
 
 
