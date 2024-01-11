@@ -17,17 +17,32 @@ export async function buildPDF(dataCallback, endCallback) {
   const __dirname = dirname(fileURLToPath(import.meta.url));
 
   const [results] = await pool.query(
-    "SELECT * FROM reservas WHERE id = (SELECT MAX(id) FROM reservas)"
+    "SELECT titulo_pelicula as Titulo, DATE_FORMAT(fecha,'%d/%m/%Y') as Fecha, hora as Hora, butacas as Butacas, email_usuario as Email, email_usuario_no_registrado as Correo FROM reservas WHERE id = (SELECT MAX(id) FROM reservas)"
   );
+
+  const pelicula = results[0].Titulo;
+
+
+
+  const [foto] = await pool.query(
+    `SELECT caratula from peliculas where titulo = '${pelicula}'`
+  );
+
+  const caratula = foto[0].caratula;
+  
 
   const doc = new PDFDocument({ bufferPages: true, font: "Courier" });
 
   doc.on("data", dataCallback);
   doc.on("end", endCallback);
 
+
   const imagePath = path.join(__dirname, "../public/img/logo.png");
+  const caratulaPath = path.join(__dirname, `../public/img/caratulas/${caratula}`);
   const pdfPath = path.join(__dirname, "entrada.pdf"); // Ruta temporal donde se guardará el PDF
   doc.pipe(fs.createWriteStream(pdfPath));
+  // doc.rect(0, 0, doc.page.width, doc.page.height).fillColor('rgb(87, 87, 87)').fill();
+  // doc.fillColor('white');
   const pageWidth = doc.page.width;
   const pageHeight = doc.page.height;
 
@@ -45,24 +60,32 @@ export async function buildPDF(dataCallback, endCallback) {
     height: imageHeight,
   });
 
+  doc.image(caratulaPath, xPosition+30, yPosition+130, {
+    width: 230,
+    height: 300,
+  });
+
   // ... Tu código existente para generar el PDF y agregar contenido ...
 
   const buffer = await QRCode.toBuffer(url, { errorCorrectionLevel: "H" });
   // Agregar el código QR al PDF
-  doc.image(buffer, xPosition + 80, yPosition + 360, { fit: [100, 100] }); // Ajusta la posición y el tamaño según tus necesidades
+  doc.image(buffer, xPosition + 80, yPosition + 600, { fit: [100, 100] }); // Ajusta la posición y el tamaño según tus necesidades
 
   let textYPosition = yPosition + imageHeight + 20; // Ajustar la distancia del texto desde la imagen
   if (results.length > 0) {
     // Iterar sobre cada fila del resultado y escribir en el PDF
+
     results.forEach((rowData) => {
       for (const key in rowData) {
-        if (Object.prototype.hasOwnProperty.call(rowData, key)) {
-          doc
-            .fontSize(12)
-            .text(`${key}: ${rowData[key]}`, xPosition, textYPosition, {
-              align: "left", // Alineación del texto a la izquierda
-            });
-          textYPosition += 20; // Ajustar el espacio vertical entre líneas
+        if (Object.prototype.hasOwnProperty.call(rowData, key) ) {
+          if(rowData[key] != null ) {
+            doc
+              .fontSize(12)
+              .text(`${key}: ${rowData[key]}`, xPosition, textYPosition+340, {
+                align: "left", // Alineación del texto a la izquierda
+              });
+            textYPosition += 20; // Ajustar el espacio vertical entre líneas
+          }
         }
       }
     });
@@ -71,10 +94,10 @@ export async function buildPDF(dataCallback, endCallback) {
 
     //ENVIO DE CORREO
 
-    if (results[0].email_usuario) {
-      var correo_destino = results[0].email_usuario;
+    if (results[0].Correo) {
+      var correo_destino = results[0].Correo;
     } else {
-      var correo_destino = results[0].email_usuario_no_registrado;
+      var correo_destino = results[0].Email;
     }
    
     const transporter = nodemailer.createTransport({
