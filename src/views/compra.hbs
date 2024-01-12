@@ -8,9 +8,11 @@
     <script></script>
 </head>
 <link href="../css/main.css" rel="stylesheet" type="text/css" />
+<script src="../js/index.js"></script>
 
 <body>
 <br>
+<br><br><br><br>
 {{#unless status}} 
 <button href="#" class="btn btn-secondary" onclick="history.back();" style="margin-left: 12%">Volver</button>
 <form action="/create-checkout-session" id="formulario" method="POST">
@@ -126,14 +128,14 @@
      console.log(valor_butaca)
      var precio = 0;
     
- {{#each resultados}}
+
    
     {{#if status}} 
-     precio +=7;
-     {{else}}
      precio +=6;
+     {{else}}
+     precio +=7;
     {{/if}}
-{{/each}}
+
 precioFinal = precio
 
 document.getElementById("precio").innerHTML = "Precio: " + precio + "€";

@@ -132,35 +132,6 @@ error = true;
         }
       }
 
-    function filtrarPeliculas(){
-
-      var genero = document.getElementById("generoSelect").value;
-       fetch(`/filtrar?genero=${genero}`, { method: 'GET' })
-       .then(response => response.json())
-       .then(data => {
-        console.log(data)
-        if(data.length === 0){
-          window.location.reload()
-          window.scrollTo(0, scrollPosition);
-        }
-        var contenedorPeliculas = document.getElementById("contenedorPeliculas")
-        contenedorPeliculas.innerHTML = "";
-
-        data.forEach(pelicula => {
-          var contenedor = document.createElement("div");
-          contenedor.className = "grid-afiche animate__bounce";
-            contenedorPeliculas.appendChild(contenedor)
-            var enlace = document.createElement("a");
-            enlace.href=`/film/${pelicula.id}`;
-            var imagen = document.createElement("img");
-            imagen.src = `./img/caratulas/${pelicula.caratula}`;
-            imagen.className = `peliculas animate__bounce`;
-            enlace.appendChild(imagen)
-            contenedor.appendChild(enlace)
-        })
-    })
-    }
-
 
     function correo(){
       var email = campoEmail.value
@@ -182,7 +153,5 @@ error = true;
     campoEmail.addEventListener("blur", (e) => validarEmail("Introduce un email correcto", e))
     campoPassword.addEventListener("blur", (e) => validarPassword("De 8 a 15 digitos con al menos un simbolo,mayúscula y número", e))
     document.getElementById("enviarSignup").addEventListener("click",ver);
-     document.addEventListener('DOMContentLoaded', function() {
-      document.getElementById('generoSelect').addEventListener('change', filtrarPeliculas)
-    });
-    document.getElementById("prueba").addEventListener("click",correo);
+ 
+   

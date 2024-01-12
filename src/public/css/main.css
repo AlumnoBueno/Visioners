@@ -234,9 +234,9 @@ border: solid 2px red;
 
 
 .error{
-color: red;
+color: rgb(248, 162, 162);
 position: relative;
-font-size: 13px;
+font-size: 15px;
 
 }
 
@@ -259,3 +259,6 @@ font-size: 13px;
   }
 
 
+  li{
+    color:aliceblue ;
+  }

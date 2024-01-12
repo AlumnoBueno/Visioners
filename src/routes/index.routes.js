@@ -315,6 +315,16 @@ router.get('/aviso_legal', isLoggedIn, (req, res) => {
   }
 });
 
+router.get('/accesibilidad', isLoggedIn, (req, res) => {
+  if (req.user) {
+    res.render("accesibilidad.hbs", {status: "DENTRO",user: req.user,
+    });
+  } else {
+  
+    res.render("accesibilidad.hbs");
+  }
+});
+
 
 
 
