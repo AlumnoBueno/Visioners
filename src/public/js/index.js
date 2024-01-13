@@ -15,11 +15,13 @@ error = true;
     const regexApellidos = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s'-]+$/;
     const regexTelefono = /(\+34|0034|34)?[ -]*(6|7)[ -]*([0-9][ -]*){8}/;
     const regexEmail = /[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}/;
-    const regexPassword = /^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
+    const regexPassword = /^(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\\-])(?=.*[A-Z])(?=.*[0-9]).{8,15}$/;
 
     function validarNombre(message, e){
       const field = e.target;
       const fieldValue = e.target.value;
+
+     
 
       if (fieldValue.trim().length === 0 || !regexNombre.test(fieldValue)) {
         field.classList.add("invalid")
@@ -93,7 +95,7 @@ error = true;
       const fieldValue = e.target.value;
 
         
-      if (fieldValue.trim().length === 0) {
+      if (fieldValue.trim().length === 0 || !regexPassword.test(fieldValue) ) {
         field.classList.add("invalid")
         field.nextElementSibling.classList.add("error")
         field.nextElementSibling.innerText = message;
@@ -122,14 +124,11 @@ error = true;
         }
         });
 
-        if(inputsVacios){
-           alert("Rellene todos los campos")
+        if(inputsVacios ||  !regexNombre.test(campoNombre.value) || !regexApellidos.test(campoApellidos.value) || !regexTelefono.test(campoTelefono.value) || !regexEmail.test(campoEmail.value) || !regexPassword.test(campoPassword.value)){
+           alert("Revise los datos")
             event.preventDefault();
         }
-       else if(error){
-          console.log("fddf")
-          event.preventDefault();
-        }
+       
       }
 
 

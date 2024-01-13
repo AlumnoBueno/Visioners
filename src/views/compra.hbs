@@ -8,7 +8,7 @@
     <script></script>
 </head>
 <link href="../css/main.css" rel="stylesheet" type="text/css" />
-<script src="../js/index.js"></script>
+
 
 <body>
 <br>
@@ -162,9 +162,8 @@ var fechaFormateada = `${dia} de ${mesNombre} de ${anio}`;
   document.getElementById("fecha_final").innerHTML = fechaFormateada
  }
 
-  {{#if status}}
-  error = false;
-  {{else}}
+  {{#unless status}}
+
  
 
     const formulario = document.getElementById('formulario');
@@ -182,7 +181,7 @@ var fechaFormateada = `${dia} de ${mesNombre} de ${anio}`;
 
 
 function validarNombre(message, e){
-   error = true;
+   
       const field = e.target;
       const fieldValue = e.target.value;
       console.log(fieldValue)
@@ -191,14 +190,13 @@ function validarNombre(message, e){
         field.classList.add("invalid")
         field.nextElementSibling.classList.add("error")
         field.nextElementSibling.innerText = message;
-        error = true;
-        console.log(error)
+        
       } else {
         field.classList.remove("invalid")
         field.nextElementSibling.classList.remove("error")
         field.nextElementSibling.innerText = "";
-        error = false;
-        console.log(error)
+        
+        
       }
     }
 
@@ -210,12 +208,12 @@ function validarNombre(message, e){
         field.classList.add("invalid")
         field.nextElementSibling.classList.add("error")
         field.nextElementSibling.innerText = message;
-        error = true;
+        
       } else {
         field.classList.remove("invalid")
         field.nextElementSibling.classList.remove("error")
         field.nextElementSibling.innerText = "";
-        error = false;
+      
       }
     }
 
@@ -227,14 +225,12 @@ function validarNombre(message, e){
         field.classList.add("invalid")
         field.nextElementSibling.classList.add("error")
         field.nextElementSibling.innerText = message;
-        error = true;
-        console.log(error)
+       
       } else {
         field.classList.remove("invalid")
         field.nextElementSibling.classList.remove("error")
         field.nextElementSibling.innerText = "";
-        error = false;
-        console.log(error)
+        
       }
     }
 
@@ -249,12 +245,12 @@ function validarNombre(message, e){
         field.classList.add("invalid")
         field.nextElementSibling.classList.add("error")
         field.nextElementSibling.innerText = message;
-        error = true;
+        
       } else {
         field.classList.remove("invalid")
         field.nextElementSibling.classList.remove("error")
         field.nextElementSibling.innerText = "";
-        error = false;
+       
       }
     }
 
@@ -263,14 +259,23 @@ function validarNombre(message, e){
     campoApellidos.addEventListener("blur", (e) => validarApellido("Introduce un apellido correcto", e))
     campoTelefono.addEventListener("blur", (e) => validarTelefono("Introduce un telefono correcto", e))
      campoCorreo.addEventListener("blur", (e) => validarCorreo("Introduce un correo correcto", e)) 
-{{/if}}
+{{/unless}}
 
 
   async  function enviarDatos(){
+
+    error = false;
      
+     {{#unless status}}
     if(campoNombre.value === '' || campoApellidos.value === '' || campoTelefono.value === '' || campoCorreo.value === '' || !regexNombre.test(campoNombre.value) ||!regexApellidos.test(campoApellidos.value) || !regexTelefono.test(campoTelefono.value) || !regexCorreo.test(campoCorreo.value)){
-      alert("Revise los datos")
-    }else{
+      error = true;
+    }
+    {{/unless}}
+    
+    if(error == true){
+ alert("Revise los datos")
+    }
+    else{
       
       {{#unless status}}
       var valor_nombre = document.getElementById("nombre_no_registrado").value;

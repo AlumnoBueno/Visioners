@@ -1,29 +1,42 @@
 
                         
         document.body.onload = function() {
-            let horarios = document.getElementById("horario");
-
-   
-            let listaHorario = document.getElementById("horario").innerHTML.split(",")
-
-           listaHorario.forEach(horario =>{
-                let botonHorario = document.createElement("button");
-                botonHorario.innerHTML=horario;
-                botonHorario.className="btn btn-secondary"
-                botonHorario.value = horario
-                document.getElementById("horario").appendChild(botonHorario)
-            })
-
-            let horarioSpan = document.getElementById('horario');
-            let botones = horarioSpan.querySelectorAll('button');
-            let textoSpan = horarioSpan.childNodes[0];
-            horarioSpan.removeChild(textoSpan); 
+           horas()
+           
             
 document.getElementById("dateSelector").addEventListener('change',() => {buscarPorFecha()})
             desplegableFechas() 
             eliminarBoton()
+            
 
 }
+
+function horas() {
+  let horarios = document.getElementById("horario");
+
+  let listaHorario = document.getElementById("horario").innerHTML.split(",")
+
+ listaHorario.forEach(horario =>{
+      let botonHorario = document.createElement("button");
+      botonHorario.innerHTML=horario;
+      botonHorario.className="btn btn-secondary"
+      botonHorario.value = horario;
+      
+      document.getElementById("horario").appendChild(botonHorario)
+      botonHorario.setAttribute("data-hora",horario);
+  })
+
+  let horarioSpan = document.getElementById('horario');
+  let botones = horarioSpan.getElementsByClassName("btn-secondary")
+ 
+
+  let textoSpan = horarioSpan.childNodes[0];
+  horarioSpan.removeChild(textoSpan); 
+
+
+ 
+}
+
 
 function desplegableFechas() {
     let fechaActual = new Date();
@@ -36,7 +49,7 @@ function desplegableFechas() {
     selectFecha.innerHTML = ''; // Limpiar el select antes de agregar nuevas fechas
   
     // Iterar desde hoy hasta 2 días más adelante
-    for (let i = 0; i <= 2; i++) {
+    for (let i = 0; i <= 1; i++) {
       let fechaFutura = new Date(fechaActual);
       fechaFutura.setDate(fechaFutura.getDate() + i);
   
@@ -73,15 +86,15 @@ function buscarPorFecha(){
     const day = String(fecha.getDate()).padStart(2, '0');
   
     const fechaFinal =  `${year}-${month}-${day}`;
-
-
+    var ahora = new Date();
+    var horaActual = ahora.getHours()  +":"+ ahora.getMinutes(); // Convertir a un número entero para facilitar la comparación
 
 
     
 
     const peliculaIdElement = document.getElementById('nombre_pelicula');
     const idPelicula = peliculaIdElement.dataset.id;
-    console.log(idPelicula)
+  
          
 
      fetch(`/buscarPorFecha/${fechaFinal}/${idPelicula}`)
@@ -94,7 +107,6 @@ function buscarPorFecha(){
           resultadosDiv.innerHTML="";
 
         data.forEach(elemento =>{
-            
                 let enlace = document.createElement("a");
                 enlace.href = `../entradas/${elemento.id_sala}`
                  document.getElementById("horario").appendChild(enlace)
@@ -102,14 +114,25 @@ function buscarPorFecha(){
                 botonHorario.type="submit"
                 botonHorario.innerHTML=elemento.hora;
                 botonHorario.className="btn btn-secondary"
-                botonHorario.value = elemento.hora
+                botonHorario.value = elemento.hora;
+                botonHorario.setAttribute("data-hora",elemento.hora);
                 enlace.appendChild(botonHorario)          
         })
+
+
 
         })
         .catch(error => {
           console.error('Error al buscar por fecha:', error);
         });
-}
+
+       
+      }
+
+
+
+
+  
+
 
 

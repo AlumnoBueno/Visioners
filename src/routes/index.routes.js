@@ -106,7 +106,7 @@ router.get("/buscarPorFecha/:fecha/:id", async (req, res) => {
   const id = req.params.id;
 
   const [comprobar] = await pool.query(
-    "SELECT * FROM cartelera WHERE id_pelicula=? and fecha = ?",
+    "SELECT * FROM cartelera WHERE id_pelicula=? and fecha = ? AND ((fecha > CURRENT_DATE) OR (fecha = CURRENT_DATE AND hora > (CURRENT_TIME + INTERVAL 1 HOUR)));",
     [id, fecha]
   );
 
@@ -220,6 +220,8 @@ router.get("/resumen",isLoggedIn,async (req, res) => {
   var hora = req.query.hora;
   var sala = req.query.sala;
   var fecha = req.query.fecha;
+ var precio = parseInt(req.query.precio);
+console.log(precio)
 
   if(req.user){
     var correo = req.user.email;
@@ -252,7 +254,7 @@ router.get("/resumen",isLoggedIn,async (req, res) => {
         console.log(correo)
 
         if (correo){
-      await pool.query(`INSERT INTO reservas (titulo_pelicula, fecha, hora, butacas,email_usuario,email_usuario_no_registrado)  SELECT * FROM (SELECT '${titulo}', '${fechaFinal}', '${hora}', '${butacasArray}','${correo}',null) AS tmp
+      await pool.query(`INSERT INTO reservas (titulo_pelicula, fecha, hora, butacas,email_usuario,email_usuario_no_registrado,precio)  SELECT * FROM (SELECT '${titulo}', '${fechaFinal}', '${hora}', '${butacasArray}','${correo}',null,${precio}) AS tmp
       WHERE NOT EXISTS (
         SELECT * FROM reservas 
         WHERE titulo_pelicula = '${titulo}' 
@@ -262,7 +264,7 @@ router.get("/resumen",isLoggedIn,async (req, res) => {
       )
       LIMIT 1`);
         }else{
-          await pool.query(`INSERT INTO reservas (titulo_pelicula, fecha, hora, butacas,email_usuario,email_usuario_no_registrado)  SELECT * FROM (SELECT '${titulo}', '${fechaFinal}', '${hora}', '${butacasArray}',null,'${correo_no_registrado}') AS tmp
+          await pool.query(`INSERT INTO reservas (titulo_pelicula, fecha, hora, butacas,email_usuario,email_usuario_no_registrado,precio)  SELECT * FROM (SELECT '${titulo}', '${fechaFinal}', '${hora}', '${butacasArray}',null,'${correo_no_registrado}',${precio}) AS tmp
       WHERE NOT EXISTS (
         SELECT * FROM reservas 
         WHERE titulo_pelicula = '${titulo}' 
