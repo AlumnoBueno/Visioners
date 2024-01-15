@@ -14,13 +14,14 @@ router.use((req, res, next) => {
     next();
   });
 
+  const directorioPadre = path.join(__dirname, '..');
 
   const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, __dirname); // La carpeta donde se almacenarán las imágenes
+      cb(null, directorioPadre+"/public/img/caratulas"); // La carpeta donde se almacenarán las imágenes
     },
     filename: function (req, file, cb) {
-      cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+      cb(null, file.fieldname + path.extname(file.originalname));
     }
   });
   
