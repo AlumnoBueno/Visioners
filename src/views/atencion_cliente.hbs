@@ -6,20 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="../css/formulario.css" rel="stylesheet" type="text/css" />
-    <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/solid.js"
-    integrity="sha384-+Ga2s7YBbhOD6nie0DzrZpJes+b2K1xkpKxTFFcx59QmVPaSA8c7pycsNaFwUK6l"
-    crossorigin="anonymous"></script>
-  <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/fontawesome.js"
-    integrity="sha384-7ox8Q2yzO/uWircfojVuCQOZl+ZZBg2D2J5nkpLqzH1HY0C1dHlTKIbpRz/LG23c"
-    crossorigin="anonymous"></script>
+   <script src="../js/login.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 </head>
 <body >
     
-
-    
-
     <div class="container-fluid">
         <br><br><br><br>
         <div class="row">
@@ -29,13 +21,13 @@
         </div>
     <div class="row">
       <div class="col-md-6 d-flex align-items-center justify-content-center">
-            <form action=""  id="formulario" class="  rounded-5 shadow-5-strong p-5">
+            <form action="/atencion-cliente"  id="formulario" class="rounded-5 shadow-5-strong p-5">
             
 <!-- Grupo: Nombre -->
 <div class="formulario__grupo" id="grupo__nombre">
     <label for="nombre" class="formulario__label">Nombre</label>
     <div class="formulario__grupo-input">
-        <input type="text" class="formulario__input" name="nombre" id="nombre" placeholder="John Doe">
+        <input type="text" class="formulario__input" name="nombre" id="nombre_formulario" placeholder="John Doe">
         <i class="formulario__validacion-estado fas fa-times-circle"></i>
     </div>
     <p class="formulario__input-error">El usuario tiene que ser de 2 a 16 dígitos</p>
@@ -45,7 +37,7 @@
    <div class="formulario__grupo" id="grupo__usuario">
     <label for="usuario" class="formulario__label">Apellido</label>
     <div class="formulario__grupo-input">
-        <input type="text" class="formulario__input" name="usuario" id="usuario" placeholder="john123">
+        <input type="text" class="formulario__input" name="usuario" id="nombre_usuario" placeholder="john123">
         <i class="formulario__validacion-estado fas fa-times-circle"></i>
     </div>
     <p class="formulario__input-error">El apellido tiene que ser de 2 a 16 dígitos</p>
@@ -56,7 +48,7 @@
 <div class="formulario__grupo" id="grupo__correo">
     <label for="correo" class="formulario__label">Correo electrónico</label>
     <div class="formulario__grupo-input">
-        <input type="email" class="formulario__input" name="correo" id="correo" placeholder="correo@correo.com">
+        <input type="email" class="formulario__input" name="correo" id="nombre_correo" placeholder="correo@correo.com">
         <i class="formulario__validacion-estado fas fa-times-circle"></i>
     </div>
     <p class="formulario__input-error">El correo es incorrecto</p>
@@ -66,7 +58,7 @@
 <div class="formulario__grupo" id="grupo__telefono">
     <label for="telefono" class="formulario__label">Teléfono</label>
     <div class="formulario__grupo-input">
-        <input type="text" class="formulario__input" name="telefono" id="telefono" placeholder="+34">
+        <input type="text" class="formulario__input" name="telefono" id="nombre_telefono" placeholder="+34">
         <i class="formulario__validacion-estado fas fa-times-circle"></i>
     </div>
     <p class="formulario__input-error">El teléfono es incorrecto</p>
@@ -78,7 +70,7 @@
    
     <div>
         <span class="formulario__label">Mensaje</span>
-        <textarea rows="5" cols="50" ></textarea>
+        <textarea rows="5" cols="50" id="texto"></textarea>
     </div>
 </div>
 
@@ -107,8 +99,10 @@
    
 </body>
 <script>
+
     const formulario = document.getElementById('formulario');
 const inputs = document.querySelectorAll('#formulario input');
+
 
 const expresiones = {
 	usuario: /^[a-zA-Z0-9\_\-]{2,16}$/, // Letras, numeros, guion y guion_bajo
@@ -171,8 +165,22 @@ formulario.addEventListener('submit', (e) => {
 
 	const terminos = document.getElementById('terminos');
 	if(campos.usuario && campos.nombre && campos.correo && campos.telefono && terminos.checked ){
-        alert("Enviado");
-		formulario.reset();
+        const valor_nombre = document.getElementById("nombre_formulario").value
+        const valor_usuario = document.getElementById("nombre_usuario").value
+         const valor_correo = document.getElementById("nombre_correo").value
+        const valor_telefono = document.getElementById("nombre_telefono").value
+        const valor_texto = document.getElementById("texto").value
+
+        const data = {valor_nombre,valor_usuario,valor_telefono,valor_correo,valor_texto};
+        console.log(data);
+
+        const xhr = new XMLHttpRequest();
+    xhr.open('POST', '/atencion_cliente', true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify(data));
+formulario.reset();
+alert("Enviado");
+       
 
 		document.getElementById('formulario__mensaje-exito').classList.add('formulario__mensaje-exito-activo');
 		setTimeout(() => {

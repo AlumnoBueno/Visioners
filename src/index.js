@@ -13,6 +13,7 @@ import bodyParser from 'body-parser';
 
 
 
+
 //Initalization
 const app = express();
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -31,7 +32,10 @@ app.engine('.hbs',engine({
 app.set('view engine','hbs');
 
 
+
+
 //Middlewares
+
 app.use(morgan('dev'));
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
@@ -41,6 +45,7 @@ app.use(bodyParser.urlencoded({
  }));
  app.use(bodyParser.json())
 app.use(cookieParser())
+
 
 
 

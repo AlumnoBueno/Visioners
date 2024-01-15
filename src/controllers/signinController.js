@@ -4,18 +4,19 @@ import  jwt  from "jsonwebtoken";
 
 export const signin =  async (req,res) =>{
     try {
-        const { email, password } = req.body;
-        if (!email || !password) {
-            return res.status(400).render( "index.hbs", {
-                message: "Por favor escriba los campos"
-            })
-        }
-        const [result] = await pool.query('SELECT * FROM usuarios WHERE email = ?', [email])
-             if (!result || !await bcrypt.compare(password, result[0].password)) {
-                 res.status(401).render( 'index.hbs', {
-                     message: 'Email o contraseña incorrectos'
-                 })
-             } else {
+        
+        const password = req.body.password;
+         const email = req.body.email;
+      
+         const [result] = await pool.query('SELECT * FROM usuarios WHERE email = ?', [email]);
+        console.log(result)
+             if (result.length == 0 ) {
+                res.status(201).json({ success: false, message: 'Revise los datos' });
+             }
+             else if(!await bcrypt.compare(password, result[0].password)){
+                res.status(201).json({ success: false, message: 'Conraseña incorrecta' });
+             }
+             else{
                  const email = result[0].email;
                  const token = jwt.sign({ email }, process.env.JWT_SECRET, {
                      expiresIn: process.env.JWT_EXPIRES

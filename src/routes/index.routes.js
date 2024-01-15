@@ -11,6 +11,7 @@ import {join, dirname} from 'path'
 import { fileURLToPath } from 'url';
 import path from 'path';
 import { buildPDF } from "../controllers/pdf-service.js";
+import nodemailer from 'nodemailer';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -115,7 +116,7 @@ router.get("/buscarPorFecha/:fecha/:id", async (req, res) => {
 
 //LOGIN
 
-router.post("/", login);
+router.post("/login", login);
 
 //AUTH
 
@@ -133,6 +134,7 @@ router.get("/filtrar", async (req, res) => {
     "SELECT * FROM peliculas WHERE genero=?",
     [generoSeleccionado]
   );
+  console.log(generoSeleccionado)
   res.json(comprobar);
 } catch (err) {
   res.status(500).json({ message: err.message });
@@ -327,7 +329,41 @@ router.get('/accesibilidad', isLoggedIn, (req, res) => {
   }
 });
 
+router.post('/atencion_cliente', isLoggedIn, (req, res) => {
+  console.log("aqui")
+const data = req.body
+  console.log(data);
 
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "visioners2024@gmail.com",
+      pass: "fsbv mmby barw utva",
+    },
+  });
+
+  const mailOptions = {
+    from: "visioners2024@gmail.com",
+    to: `visioners2024@gmail.com`,
+    subject: "Documento adjunto",
+    text: `MENSAJE DE ATENCIÓN AL CLIENTE:
+
+    Nombre: ${data.valor_nombre}
+    Apellido: ${data.valor_usuario}
+    Correo: ${data.valor_correo}
+    Telefono: ${data.valor_telefono}
+    Mensaje:
+     ${data.valor_texto}`
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error("Error al enviar el correo:", error);
+    } else {
+      console.log("Correo electrónico enviado:", info.response);
+    }
+  });
+  });
 
 
 

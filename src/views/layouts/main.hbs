@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VisiOners</title>
     <link href="../css/main.css" rel="stylesheet" type="text/css" />
-   
+   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
@@ -53,12 +53,17 @@
     <div class="modal-dialog">
       <div class="modal-content bg-dark">
         <div class="modal-header">
+           <div id="overlay"></div>
+    <div id="modal2">Registrado completado, ya puede iniciar sesión
+      
+    </div>
+
           <img src="../img/logo.png" class="modalLogo" alt="logo_visioners">
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body p-5">
           <h3 style="color: aliceblue;">Regístrate</h3>
-          <form class="needs-validation"  id="signup-form" action="/" method="POST" novalidate>
+          <form  id="signup-form" action="/login" method="POST">
 
 
 
@@ -84,16 +89,18 @@
       <label for="email">Email:</label>
       <input type="text" id="signup-email" class="form-control mb-3" placeholder="Email" name="email" required>
       <span style="color: rgb(248, 162, 162);">{{#if error}}{{error}}{{/if}}</span>
+      <span id="mensajeError2" style="color: red;"></span>
   </div>
 
    <div class="has-validation position-relative">
        <label for="password">Password:</label>
         <input type="password" id="signup-password" class="form-control mb-3" placeholder="Contraseña" name="password" required>
         <span></span>
+        
   </div>
   <br>
   <div class="d-flex justify-content-end">
-  <button id="enviarSignup" type="submit" class="btn btn-danger" value="registro">Regístrate</button>
+  <button id="enviarSignup" type="button" class="btn btn-danger" value="registro">Regístrate</button>
   </div>      
          
             
@@ -117,33 +124,32 @@
 
 
   <!-- Modal Signin-->
-  <div class="modal fade" id="signinModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalSignin"
-    aria-hidden="true">
+  <div class="modal fade" id="signinModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalSignin" aria-hidden="true">
     <div class="modal-dialog">
-      <div class="modal-content bg-dark">
-        <div class="modal-header">
-          <img src="../img/logo.png" class="modalLogo" alt="logo_visioners"> 
-          
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form id="login-form" action="/signin" method="POST">
-          <h3 style="color: aliceblue;">Inicia sesión</h3>
-            <label for="email">Email</label>
-            <input type="text" id="login-email" class="form-control mb-3" placeholder="Email" name="email" required>
-            <label for="password">Password:</label>
-            <input type="password" id="login-password" class="form-control mb-3" placeholder="Contraseña" name="password" required>
+        <div class="modal-content bg-dark">
+            <div class="modal-header">
+                <img src="../img/logo.png" class="modalLogo" alt="logo_visioners">
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="login-form" action="/signin" method="POST">
+                    <h3 style="color: aliceblue;">Inicia sesión</h3>
+                    <label for="email">Email</label>
+                    <input type="text" id="login-email" class="form-control mb-3" placeholder="Email" name="email" required>
+                    <label for="password">Password:</label>
+                    <input type="password" id="login-password" class="form-control mb-3" placeholder="Contraseña" name="password" required>
 
-      <br>
-             <div class="d-flex justify-content-end">
-    <button type="submit" class="btn btn-danger d-flex justify-content-end">Login</button>
-</div>
-          
-          </form>
+                    <br>
+<span id="mensajeError" style="color: red;"></span>
+                    <div class="d-flex justify-content-end">
+                        <button type="button" onclick="verificarCredenciales()" class="btn btn-danger d-flex justify-content-end">Login</button>
+                    </div>
+
+                </form>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>
 
 
 {{{body}}}

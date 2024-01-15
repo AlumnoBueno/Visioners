@@ -6,9 +6,8 @@
             
 document.getElementById("dateSelector").addEventListener('change',() => {buscarPorFecha()})
             desplegableFechas() 
-            eliminarBoton()
-            
-
+           
+        
 }
 
 function horas() {
@@ -66,16 +65,7 @@ function desplegableFechas() {
     // Al cargar la página, mostrar automáticamente los horarios del día actual
     buscarPorFecha();
   }
-  
-  function eliminarBoton() {
-    let botones = document.querySelectorAll('.btn');
-  
-    // Obtener el último botón con la clase 'btn'
-    let ultimoBoton = botones[botones.length - 1];
-  
-    // Eliminar el último botón seleccionado
-    ultimoBoton.remove();
-  }
+
 
 function buscarPorFecha(){
     const fechaSeleccionada = document.getElementById("dateSelector").value;
