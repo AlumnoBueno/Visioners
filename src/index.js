@@ -8,7 +8,7 @@ import cookieParser from 'cookie-parser';
 import myconnection from 'express-myconnection';
 import session from 'express-session';
 import bodyParser from 'body-parser';
-
+import adminRoutes from "./routes/admin.routes.js"
 
 
 
@@ -34,6 +34,9 @@ app.set('view engine','hbs');
 
 
 
+
+
+
 //Middlewares
 
 app.use(morgan('dev'));
@@ -53,6 +56,7 @@ app.use(cookieParser())
 app.get('/',(req,res)=>{
     res.render("index.hbs")
 })
+app.use(adminRoutes)
 
 
 

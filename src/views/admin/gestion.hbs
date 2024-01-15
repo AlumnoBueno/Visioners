@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visioners - Inicio de Sesión</title>
+   <link href="../css/admin.css" rel="stylesheet" type="text/css" />
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- Agrega la referencia a Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+  <div class="d-flex">
+        <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6 text-center">
+        <img src="../img/logo.png" alt="Imagen" class="img-fluid">
+      </div>
+    </div>
+  </div>
+    </div>
+
+ <div class="container">
+    <div class="row mt-5">
+        <h3 class="text-center text-uppercase p-2" style="color: aliceblue;">Peliculas</h3>
+       
+            <table class="table text-center">
+                <thead>
+                    <tr class="table-dark">
+                        <th scope="col" >Titulo</th>
+                        <th scope="col">Dirección</th>
+                        <th scope="col">Duración</th>
+                        <th scope="col">Género</th>
+                        <th scope="col">Trailer</th>
+                        <th scope="col">Caratula</th>
+                        <th scope="col">Editar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each peliculas}}
+                        <tr>
+                            <td>{{titulo}}</td>
+                            <td>{{direccion}}</td>
+                            <td>{{duracion}}</td>
+                            <td>{{genero}}</td>
+                            <td>{{trailer}}</td>
+                            <td>{{caratula}}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a href="/edit/{{id}}" class="btn btn-warning p-2">
+                                    Editar</a>
+                                    
+                                </div>
+                            </td>
+                        </tr>
+                    {{/each}}
+                </tbody>
+                
+     
+    </div>
+</div>
+
+  <!-- Agrega la referencia a Bootstrap JS y Popper.js (para funcionalidades de Bootstrap) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
