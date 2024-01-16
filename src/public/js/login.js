@@ -21,7 +21,21 @@ function verificarCredenciales() {
             contenedor.innerText = response.message
             console.log(contenedor)
         }else{
-            window.location.href = '/';
+          var modal2 = document.getElementById("modalLogin");
+          var overlay2 = document.getElementById("overlayLogin");
+          console.log(modal2)
+          console.log(overlay2)
+        
+          modal2.style.display = "block";
+          overlay2.style.display = "block";
+
+          // Oculta el mensaje emergente y redirige después de 3 segundos adicionales (puedes ajustar el tiempo)
+          setTimeout(function() {
+              modal2.style.display = "none";
+              overlay2.style.display = "none";
+              window.location.href = '/';
+          }, 3000);
+           
         }
       }
     };
