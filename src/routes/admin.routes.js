@@ -21,7 +21,8 @@ router.use((req, res, next) => {
       cb(null, directorioPadre+"/public/img/caratulas"); // La carpeta donde se almacenarán las imágenes
     },
     filename: function (req, file, cb) {
-      cb(null, file.fieldname + path.extname(file.originalname));
+      cb(null, file.originalname);
+    console.log(file.originalname)
     }
   });
   
@@ -53,12 +54,6 @@ router.post("/login-adm", async (req, res) => {
     }
 
 
-  
-
-
-
-
-
     }
 catch (error) {
     console.error("Error en la autenticación:", error);
@@ -83,8 +78,30 @@ router.get("/edit/:id", async (req, res) => {
 });
 
 
-router.post('/upload', upload.single('caratula'), (req, res) => {
-  res.send('Imagen cargada exitosamente.');
+router.post('/upload', upload.single('caratula1'), async(req, res) => {
+ 
+ 
+  const [peliculas] = await pool.query('SELECT * FROM peliculas');
+
+
+    res.render("admin/gestion.hbs", {peliculas:peliculas})
+});
+
+
+router.post("/edit/:id", async (req, res) => {
+  try {
+    const { titulo,direccion,sinopsis,trailer,caratula } = req.body;
+    const editarPelicula = { titulo,direccion,sinopsis,trailer,caratula }
+    const {id} = req.params
+    await pool.query('UPDATE peliculas set ? where id = ?',[editarPelicula,id])
+    const [peliculas] = await pool.query('SELECT * FROM peliculas');
+
+
+      res.render("admin/gestion.hbs", {peliculas:peliculas})
+   
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
 export default router;
