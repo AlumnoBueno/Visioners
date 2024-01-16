@@ -5,6 +5,9 @@ import { fileURLToPath } from 'url';
 import bcrypt from  'bcrypt';
 import multer from "multer";
 import path from "path";
+import  jwt  from "jsonwebtoken";
+import { isLoggedIn } from "../controllers/authController.js";
+import { promisify } from "util";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const router = Router();
@@ -45,7 +48,18 @@ router.post("/login-adm", async (req, res) => {
     if(!await bcrypt.compare(password, result[0].password)){
       res.status(201).json({ success: false, message: 'Conraseña incorrecta' });
    }else{
-
+    const email = result[0].email;
+    const token = jwt.sign({ email }, process.env.JWT_SECRET, {
+        expiresIn: process.env.JWT_EXPIRES
+    });
+    const cookieOptions = {
+        expires: new Date(
+            Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
+        ),
+        secure: false,
+        httpOnly: true
+    }
+    res.cookie('userAdmin', token, cookieOptions);  
     const [peliculas] = await pool.query('SELECT * FROM peliculas');
 
 
@@ -62,8 +76,21 @@ catch (error) {
 })
 
 
-router.get("/edit/:id", async (req, res) => {
+router.get("/edit/:id",isLoggedIn, async (req, res) => {
   try {
+    if(req.user){
+      const parts = req.headers.cookie.split("=");
+    const lastPart = parts[parts.length - 1];
+      const decoded = await promisify(jwt.verify)(
+        lastPart,
+        process.env.JWT_SECRET
+      );
+
+
+      if (decoded.email != "k0@gmail.com") {
+        res.render("admin/admin_index.hbs")
+      }else{
+     
     const { id } = req.params;
     console.log(id)
     const [pelicula] = await pool.query(
@@ -72,6 +99,10 @@ router.get("/edit/:id", async (req, res) => {
     );
     const mostrarPelicula = pelicula[0];
     res.render("admin/edit.hbs", { pelicula: mostrarPelicula });
+      }
+    }else{
+      res.render("admin/admin_index.hbs")
+    }
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -88,8 +119,10 @@ router.post('/upload', upload.single('caratula1'), async(req, res) => {
 });
 
 
-router.post("/edit/:id", async (req, res) => {
+router.post("/edit/:id", isLoggedIn, async (req, res) => {
   try {
+
+    if (req.user){
     const { titulo,direccion,sinopsis,trailer,caratula } = req.body;
     const editarPelicula = { titulo,direccion,sinopsis,trailer,caratula }
     const {id} = req.params
@@ -98,7 +131,9 @@ router.post("/edit/:id", async (req, res) => {
 
 
       res.render("admin/gestion.hbs", {peliculas:peliculas})
-   
+    }else{
+      res.render("admin/admin_index.hbs")
+    }
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

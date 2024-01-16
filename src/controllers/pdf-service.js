@@ -11,18 +11,26 @@ export async function buildPDF(dataCallback, endCallback) {
 
 
   //revisar VARIABLES
-  const url = "https://www.tu_pagina_web.com"; //modificar para el final
+
+var url;
+
   const qrImageFile = "temp_qr.png";
 
   const __dirname = dirname(fileURLToPath(import.meta.url));
 
   const [results] = await pool.query(
-    "SELECT titulo_pelicula as Titulo, DATE_FORMAT(fecha,'%d/%m/%Y') as Fecha, hora as Hora, butacas as Butacas, email_usuario as Email, email_usuario_no_registrado as Correo FROM reservas WHERE id = (SELECT MAX(id) FROM reservas)"
+    "SELECT titulo_pelicula as Titulo, DATE_FORMAT(fecha,'%d/%m/%Y') as Fecha, hora as Hora, butacas as Butacas, sala as Sala, email_usuario as Email, email_usuario_no_registrado as Correo FROM reservas WHERE id = (SELECT MAX(id) FROM reservas)"
   );
+
+  if (results[0].Correo) {
+     url = `https://visioners.onrender.com/historial/${results[0].Correo}`;
+  } else {
+     url = `https://visioners.onrender.com/historial/${results[0].Email}`;
+  }
 
   const pelicula = results[0].Titulo;
 
-
+ //modificar para el final
 
   const [foto] = await pool.query(
     `SELECT caratula from peliculas where titulo = '${pelicula}'`

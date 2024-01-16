@@ -32,7 +32,7 @@
          <a href="/#cine" class="centrar nav-link text-white" ><p class="menu-index">El cine</p></a>
        <a href="/#estamos" class="centrar nav-link text-white"><p class="menu-index">Ubicación&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p></a>
            <br>{{#if status}} 
-          <a class="nav-link logged-out" href="#" data-bs-toggle="modal" data-bs-target="#signinModal">{{user.nombre}}</a>
+          <a class="nav-link logged-out" href="/historial/{{user.email}}" >{{user.nombre}}</a>
           <a class="nav-link logged-out" href="/logout">Logout</a>
            {{else}} 
           <a class="nav-link logged-out" href="#" data-bs-toggle="modal" data-bs-target="#signinModal"><p >Login</p></a>

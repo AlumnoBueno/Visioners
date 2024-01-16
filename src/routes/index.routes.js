@@ -19,6 +19,22 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const router = Router();
 
+
+
+//LOGIN
+
+router.post("/login", login);
+
+//AUTH
+
+router.post("/signin", signin);
+
+//LOGOUT
+router.get("/logout", logout);
+
+
+//INDEX
+
 router.get("/", isLoggedIn, async (req, res) => {
   try {
     if (req.user) {
@@ -49,6 +65,54 @@ router.get("/", isLoggedIn, async (req, res) => {
   }
 });
 
+
+
+//Filtro de generos
+router.get("/filtrar", async (req, res) => {
+  const generoSeleccionado = req.query.genero;
+
+  try{
+  const [comprobar] = await pool.query(
+    "SELECT * FROM peliculas WHERE genero=?",
+    [generoSeleccionado]
+  );
+ 
+  res.json(comprobar);
+} catch (err) {
+  res.status(500).json({ message: err.message });
+}
+});
+
+
+router.get("/historial/:email", isLoggedIn,async (req, res) => {
+ 
+  try{
+    const {email} = req.params;
+   
+    const [comprobar] = await pool.query(
+      `SELECT r.id,r.titulo_pelicula,DATE_FORMAT(r.fecha, '%d/%m/%Y') as fecha,r.hora,r.butacas,r.precio,r.sala,p.titulo,p.caratula FROM reservas r,peliculas p where r.titulo_pelicula = p.titulo and (r.email_usuario= ? or r.email_usuario_no_registrado= ?) order by r.id desc`,
+      [email,email]
+    );
+
+    const mostrarPeliculasReservadas = comprobar;
+   
+    if(req.user){
+    res.render("historial.hbs", { peliculas: mostrarPeliculasReservadas, status: "DENTRO",
+    user: req.user, });
+    }else{
+      res.render("historial.hbs", { peliculas: mostrarPeliculasReservadas})
+    }
+} catch (err) {
+  res.status(500).json({ message: err.message });
+}
+});
+
+
+
+
+
+//FILM
+
 router.get("/film/:id", isLoggedIn, async (req, res) => {
   try {
     const { id } = req.params;
@@ -71,6 +135,23 @@ router.get("/film/:id", isLoggedIn, async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+
+router.get("/buscarPorFecha/:fecha/:id", async (req, res) => {
+  const fecha = req.params.fecha;
+  const id = req.params.id;
+
+  const [comprobar] = await pool.query(
+    "SELECT * FROM cartelera WHERE id_pelicula=? and fecha = ? AND ((fecha > CURRENT_DATE) OR (fecha = CURRENT_DATE AND hora > (CURRENT_TIME + INTERVAL 1 HOUR)));",
+    [id, fecha]
+  );
+
+  res.json(comprobar);
+});
+
+
+
+
+//ENTRADAS
 
 router.get("/entradas/:id", isLoggedIn, async (req, res) => {
   try {
@@ -104,65 +185,6 @@ router.get("/entradas/:id", isLoggedIn, async (req, res) => {
   }
 });
 
-router.get("/buscarPorFecha/:fecha/:id", async (req, res) => {
-  const fecha = req.params.fecha;
-  const id = req.params.id;
-
-  const [comprobar] = await pool.query(
-    "SELECT * FROM cartelera WHERE id_pelicula=? and fecha = ? AND ((fecha > CURRENT_DATE) OR (fecha = CURRENT_DATE AND hora > (CURRENT_TIME + INTERVAL 1 HOUR)));",
-    [id, fecha]
-  );
-
-  res.json(comprobar);
-});
-
-//LOGIN
-
-router.post("/login", login);
-
-//AUTH
-
-router.post("/signin", signin);
-
-//LOGOUT
-router.get("/logout", logout);
-
-//GENEROS
-router.get("/filtrar", async (req, res) => {
-  const generoSeleccionado = req.query.genero;
-
-  try{
-  const [comprobar] = await pool.query(
-    "SELECT * FROM peliculas WHERE genero=?",
-    [generoSeleccionado]
-  );
-  console.log(generoSeleccionado)
-  res.json(comprobar);
-} catch (err) {
-  res.status(500).json({ message: err.message });
-}
-});
-
-router.get("/comprobar", async (req, res) => {
-  const email = req.query.email;
-  try{
-  const [comprobar2] = await pool.query(
-    "SELECT * FROM usuarios WHERE email = ?",
-    [email]
-  );
-  console.log(comprobar2.length);
-  if (comprobar2.length == 1) {
-    res.json({ error: true });
-  } else {
-    res.json({ error: true });
-  }
-} catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
-
-
 
 router.post("/procesar-checkboxes",isLoggedIn, (req, res) => {
   const opcionesSeleccionadas = req.body.opciones;
@@ -176,6 +198,10 @@ router.post("/procesar-checkboxes",isLoggedIn, (req, res) => {
     res.redirect(`/compra?opciones=${opcionesSeleccionadas.join(",")}`);
   }
 });
+
+
+
+//COMPRA
 
 router.get("/compra",isLoggedIn, async (req, res) => {
   const opciones = req.query.opciones.split(",");
@@ -210,10 +236,16 @@ router.get("/compra",isLoggedIn, async (req, res) => {
 });
 
 
+
+
+//PAGO
 router.post("/create-checkout-session",createSession);
 
 
 
+
+
+//FINAL
 router.get("/resumen",isLoggedIn,async (req, res) => {
 
   var correo = null;
@@ -258,7 +290,7 @@ console.log(precio)
         console.log(correo)
 
         if (correo){
-      await pool.query(`INSERT INTO reservas (titulo_pelicula, fecha, hora, butacas,email_usuario,email_usuario_no_registrado,precio)  SELECT * FROM (SELECT '${titulo}', '${fechaFinal}', '${hora}', '${butacasArray}','${correo}',null,${precio}) AS tmp
+      await pool.query(`INSERT INTO reservas (titulo_pelicula, fecha, hora, butacas,email_usuario,email_usuario_no_registrado,precio,sala)  SELECT * FROM (SELECT '${titulo}', '${fechaFinal}', '${hora}', '${butacasArray}','${correo}',null,${precio},'${sala}') AS tmp
       WHERE NOT EXISTS (
         SELECT * FROM reservas 
         WHERE titulo_pelicula = '${titulo}' 
@@ -268,7 +300,7 @@ console.log(precio)
       )
       LIMIT 1`);
         }else{
-          await pool.query(`INSERT INTO reservas (titulo_pelicula, fecha, hora, butacas,email_usuario,email_usuario_no_registrado,precio)  SELECT * FROM (SELECT '${titulo}', '${fechaFinal}', '${hora}', '${butacasArray}',null,'${correo_no_registrado}',${precio}) AS tmp
+          await pool.query(`INSERT INTO reservas (titulo_pelicula, fecha, hora, butacas,email_usuario,email_usuario_no_registrado,precio,sala)  SELECT * FROM (SELECT '${titulo}', '${fechaFinal}', '${hora}', '${butacasArray}',null,'${correo_no_registrado}',${precio},'${sala}') AS tmp
       WHERE NOT EXISTS (
         SELECT * FROM reservas 
         WHERE titulo_pelicula = '${titulo}' 
@@ -290,6 +322,9 @@ console.log(precio)
 });
 
 
+
+//ENVIO DE ARCHIVO Y CORREO
+
 router.get('/invoice', isLoggedIn, (req, res, next) => {
   const stream = res.writeHead(200, {
     'Content-Type': 'application/pdf',
@@ -301,6 +336,10 @@ router.get('/invoice', isLoggedIn, (req, res, next) => {
   );
 });
 
+
+
+//ATENCION AL CLIENTE
+
 router.get('/atencion_cliente', isLoggedIn, (req, res) => {
   if (req.user) {
     res.render("atencion_cliente.hbs", {status: "DENTRO",user: req.user,
@@ -311,25 +350,6 @@ router.get('/atencion_cliente', isLoggedIn, (req, res) => {
   }
 });
 
-router.get('/aviso_legal', isLoggedIn, (req, res) => {
-  if (req.user) {
-    res.render("aviso_legal.hbs", {status: "DENTRO",user: req.user,
-    });
-  } else {
-  
-    res.render("aviso_legal.hbs");
-  }
-});
-
-router.get('/accesibilidad', isLoggedIn, (req, res) => {
-  if (req.user) {
-    res.render("accesibilidad.hbs", {status: "DENTRO",user: req.user,
-    });
-  } else {
-  
-    res.render("accesibilidad.hbs");
-  }
-});
 
 router.post('/atencion_cliente', isLoggedIn, (req, res) => {
   console.log("aqui")
@@ -366,6 +386,36 @@ const data = req.body
     }
   });
   });
+
+
+
+
+//AVISO LEGAL
+
+router.get('/aviso_legal', isLoggedIn, (req, res) => {
+  if (req.user) {
+    res.render("aviso_legal.hbs", {status: "DENTRO",user: req.user,
+    });
+  } else {
+  
+    res.render("aviso_legal.hbs");
+  }
+});
+
+
+//ACCESIBILIDAD
+
+router.get('/accesibilidad', isLoggedIn, (req, res) => {
+  if (req.user) {
+    res.render("accesibilidad.hbs", {status: "DENTRO",user: req.user,
+    });
+  } else {
+  
+    res.render("accesibilidad.hbs");
+  }
+});
+
+
 
 
 

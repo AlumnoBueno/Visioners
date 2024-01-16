@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="film.js"></script>
+</head>
+<body>
+    <br>  <br>  <br>  <br>    <br>  <br>
+    {{#each peliculas}}
+   
+  
+   <div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <h1 style="color: aliceblue;">Reserva {{id}}</h1>
+      <br>
+      <div class="d-flex justify-content-center">
+        <div class="card mb-3 border-0 bg-transparent text-white" style="max-width: 500px;">
+          <div class="row">
+            <div class="col-md-4 d-flex justify-content-center">
+                 <img src="../img/caratulas/{{caratula}}" id="imagen_compra" alt="{{caratula}}">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body d-flex align-items-center justify-content-center" id="datos_sesion" style="flex-direction: column;" id="datos_sesion">
+                <h5 id="precio"></h5>
+                <br>
+               
+                <p><strong>Pelicula:</strong> <span id="titulo">{{titulo_pelicula}}</span></p>
+                <p  id="fecha"><strong>Fecha:</strong>  <span id="fecha_final">{{fecha}}</span></p>
+            
+                <p><strong>Butacas:</strong> 
+                  <span id="butacas">
+                   
+                    {{butacas}}<span style="color: transparent;">,</span>
+                    
+                  </span>
+                </p>
+             
+                <p><strong>Hora:</strong> <span id="hora">{{hora}}</span></p>
+                <p><strong>Sala:</strong> <span id="sala">{{sala}}</span></p>
+               
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+     {{/each}}
+</body>
+</html>

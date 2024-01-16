@@ -32,11 +32,13 @@ try{
           price_data: {
             product_data: {
               name: titulo,
-              description:`Fecha: ${fecha}   -------------------------------------
-                           ${hora}------------------------------------------------
-                           ${titulo}------------------------------------------
-                           ${sala}------------------------------------------------
-                           ${butacas}`
+              description:`Fecha: ${fecha}-------------   -
+                           Hora: ${hora}---------
+                         Pelicula:  ${titulo}-
+                         Butacas:  ${butacas}-
+                          Sala: ${sala}
+                         
+                          `
              
             },
             currency: "eur",
@@ -46,8 +48,8 @@ try{
         },
       ],
       mode: "payment",
-      success_url: "http://localhost:3000/resumen?"+queryString,
-      cancel_url: "http://localhost:3000/cancel",
+      success_url: "https://visioners.onrender.com/resumen?"+queryString,
+      cancel_url: "https://visioners.onrender.com",
     });
 
    
