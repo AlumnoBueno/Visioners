@@ -86,8 +86,8 @@ router.get("/edit/:id",isLoggedIn, async (req, res) => {
         process.env.JWT_SECRET
       );
 
-
-      if (decoded.email != "k0@gmail.com") {
+        console.log(decoded.email)
+      if (decoded.email != "ka0@gmail.com") {
         res.render("admin/admin_index.hbs")
       }else{
      
