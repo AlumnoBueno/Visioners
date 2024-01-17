@@ -168,18 +168,18 @@ var fechaFormateada = `${dia} de ${mesNombre} de ${anio}`;
 
  
 
-    const formulario = document.getElementById('formulario');
-
-    const campoNombre = document.querySelector("[name=nombre_no_registrado]");
-      const campoApellidos = document.querySelector("[name=apellidos_no_registrado]");
-    const campoTelefono = document.querySelector("[name=telefono_no_registrado]");
-    const campoCorreo = document.querySelector("[name=correo_no_registrado]");
    
 
-      const regexNombre = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s']+$/;
-    const regexApellidos = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s'-]+$/;
-    const regexTelefono = /(\+34|0034|34)?[ -]*(6|7)[ -]*([0-9][ -]*){8}/;
-    const regexCorreo = /[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}/;
+    const campoNombre_compra = document.querySelector("[name=nombre_no_registrado]");
+      const campoApellidos_compra = document.querySelector("[name=apellidos_no_registrado]");
+    const campoTelefono_compra = document.querySelector("[name=telefono_no_registrado]");
+    const campoCorreo_compra = document.querySelector("[name=correo_no_registrado]");
+   
+
+      const regexNombre_compra = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s']+$/;
+    const regexApellidos_compra = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s'-]+$/;
+    const regexTelefono_compra = /(\+34|0034|34)?[ -]*(6|7)[ -]*([0-9][ -]*){8}/;
+    const regexCorreo_compra = /[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}/;
 
 
 function validarNombre(message, e){
@@ -188,7 +188,7 @@ function validarNombre(message, e){
       const fieldValue = e.target.value;
       console.log(fieldValue)
 
-      if (fieldValue.trim().length === 0 || !regexNombre.test(fieldValue)) {
+      if (fieldValue.trim().length === 0 || !regexNombre_compra.test(fieldValue)) {
         field.classList.add("invalid")
         field.nextElementSibling.classList.add("error")
         field.nextElementSibling.innerText = message;
@@ -206,7 +206,7 @@ function validarNombre(message, e){
       const field = e.target;
       const fieldValue = e.target.value;
 
-      if (fieldValue.trim().length === 0 || !regexApellidos.test(fieldValue)) {
+      if (fieldValue.trim().length === 0 || !regexApellidos_compra.test(fieldValue)) {
         field.classList.add("invalid")
         field.nextElementSibling.classList.add("error")
         field.nextElementSibling.innerText = message;
@@ -223,7 +223,7 @@ function validarNombre(message, e){
       const field = e.target;
       const fieldValue = e.target.value;
 
-      if (fieldValue.trim().length === 0 || !regexTelefono.test(fieldValue)) {
+      if (fieldValue.trim().length === 0 || !regexTelefono_compra.test(fieldValue)) {
         field.classList.add("invalid")
         field.nextElementSibling.classList.add("error")
         field.nextElementSibling.innerText = message;
@@ -243,7 +243,7 @@ function validarNombre(message, e){
     
         
 
-      if (fieldValue.trim().length === 0 || !regexCorreo.test(fieldValue)) {
+      if (fieldValue.trim().length === 0 || !regexCorreo_compra.test(fieldValue)) {
         field.classList.add("invalid")
         field.nextElementSibling.classList.add("error")
         field.nextElementSibling.innerText = message;
@@ -257,24 +257,24 @@ function validarNombre(message, e){
     }
 
 
-        campoNombre.addEventListener("blur", (e) =>  validarNombre("Introduce un nombre correcto", e))
-    campoApellidos.addEventListener("blur", (e) => validarApellido("Introduce un apellido correcto", e))
-    campoTelefono.addEventListener("blur", (e) => validarTelefono("Introduce un telefono correcto", e))
-     campoCorreo.addEventListener("blur", (e) => validarCorreo("Introduce un correo correcto", e)) 
+        campoNombre_compra.addEventListener("blur", (e) =>  validarNombre("Introduce un nombre correcto", e))
+    campoApellidos_compra.addEventListener("blur", (e) => validarApellido("Introduce un apellido correcto", e))
+    campoTelefono_compra.addEventListener("blur", (e) => validarTelefono("Introduce un telefono correcto", e))
+     campoCorreo_compra.addEventListener("blur", (e) => validarCorreo("Introduce un correo correcto", e)) 
 {{/unless}}
 
 
   async  function enviarDatos(){
 
-    error = false;
+    error_compra = false;
      
      {{#unless status}}
-    if(campoNombre.value === '' || campoApellidos.value === '' || campoTelefono.value === '' || campoCorreo.value === '' || !regexNombre.test(campoNombre.value) ||!regexApellidos.test(campoApellidos.value) || !regexTelefono.test(campoTelefono.value) || !regexCorreo.test(campoCorreo.value)){
-      error = true;
+    if(campoNombre_compra.value === '' || campoApellidos_compra.value === '' || campoTelefono_compra.value === '' || campoCorreo_compra.value === '' || !regexNombre_compra.test(campoNombre_compra.value) ||!regexApellidos_compra.test(campoApellidos_compra.value) || !regexTelefono_compra.test(campoTelefono_compra.value) || !regexCorreo_compra.test(campoCorreo_compra.value)){
+      error_compra = true;
     }
     {{/unless}}
-    
-    if(error == true){
+    console.log(error_compra)
+    if(error_compra == true){
  alert("Revise los datos")
     }
     else{
