@@ -127,20 +127,25 @@
  var precioFinal = 0
    document.body.onload = function() {
     var valor_butaca = document.getElementById("butacas").innerText;
-     console.log(valor_butaca)
+    var listaButacas = valor_butaca.split(",");
+    listaButacas.pop();
+   
      var precio = 0;
     
 
-   
+      for (let i = 0; i < listaButacas.length; i++) {
     {{#if status}} 
-     precio +=6;
-     {{else}}
-     precio +=7;
-    {{/if}}
+      precio +=6;
+      {{else}}
+      precio +=7; 
+     {{/if}}
+      }
 
-precioFinal = precio
+    precioFinal = precio
 
-document.getElementById("precio").innerHTML = "Precio: " + precio + "€";
+
+
+document.getElementById("precio").innerHTML = "Precio: " + precioFinal + "€";
 
  var fechaTexto = document.getElementById("fecha_final").innerHTML;
       var fechaProvida = new Date(fechaTexto);

@@ -13,7 +13,7 @@
 </head>
 <body >
        <br><br><br><br><br>
-       <button href="#" class="btn btn-secondary" onclick="history.back();" style="margin-left: 12%">Volver</button>
+       <button href="#" class="btn btn-secondary" onclick="window.location.href='https://visioners.onrender.com'" style="margin-left: 12%">Volver</button>
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12 text-center mt-5">
@@ -28,20 +28,20 @@
 <div class="formulario__grupo" id="grupo__nombre">
     <label for="nombre" class="formulario__label">Nombre</label>
     <div class="formulario__grupo-input">
-        <input type="text" class="formulario__input" name="nombre" id="nombre_formulario" placeholder="John Doe">
+        <input type="text" class="formulario__input" name="nombre" id="nombre_formulario" placeholder="Iñaki">
         <i class="formulario__validacion-estado fas fa-times-circle"></i>
     </div>
-    <p class="formulario__input-error">El usuario tiene que ser de 2 a 16 dígitos</p>
+    <p class="formulario__input-error">El nombre no debe contener números</p>
 </div>
 
    <!-- Grupo: apellido -->
    <div class="formulario__grupo" id="grupo__usuario">
-    <label for="usuario" class="formulario__label">Apellido</label>
+    <label for="usuario" class="formulario__label">Apellidos</label>
     <div class="formulario__grupo-input">
-        <input type="text" class="formulario__input" name="usuario" id="nombre_usuario" placeholder="john123">
+        <input type="text" class="formulario__input" name="usuario" id="nombre_usuario" placeholder="Visiers">
         <i class="formulario__validacion-estado fas fa-times-circle"></i>
     </div>
-    <p class="formulario__input-error">El apellido tiene que ser de 2 a 16 dígitos</p>
+    <p class="formulario__input-error">Los apellidos no deben contener números</p>
 </div>
 
 
@@ -108,8 +108,8 @@ const inputs = document.querySelectorAll('#formulario input');
 
 
 const expresiones = {
-	usuario: /^[a-zA-Z0-9\_\-]{2,16}$/, // Letras, numeros, guion y guion_bajo
-	nombre: /^[a-zA-ZÀ-ÿ\s]{2,40}$/, // Letras y espacios, pueden llevar acentos.
+	usuario: /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s'-]+$/, // Letras, numeros, guion y guion_bajo
+	nombre: /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s'-]+$/, // Letras y espacios, pueden llevar acentos.
 	correo: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
 	telefono: /^\d{9}$/ // 9 numeros.
 }
