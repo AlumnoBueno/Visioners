@@ -11,6 +11,13 @@
   z-index: 1001;
 }
 
+.menu-index:hover {
+  color: rgb(219, 56, 56);
+}
+
+.menu-index-inicio:hover {
+  color: rgb(219, 56, 56);
+}
 #overlay,#overlayLogin {
   display: none;
   position: fixed;
@@ -216,7 +223,6 @@ border: none;
   .foto img{
       height: 278px;
   width: 180px;
-  border-radius: 0.75em;
   }
 
   #imagen_entradas{

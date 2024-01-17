@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,8 +15,8 @@
 <body>
 <br>
 <br><br><br><br>
-{{#unless status}} 
 <button href="#" class="btn btn-secondary" onclick="history.back();" style="margin-left: 12%">Volver</button>
+{{#unless status}} 
 <form action="/create-checkout-session" id="formulario" method="POST">
 <div class="container">
   <div class="row">
@@ -53,8 +53,8 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6 mb-2 col-12"> <!-- Centrar en dispositivos móviles -->
-          <div class="d-flex justify-content-center align-items-center"> <!-- Div adicional para centrar el contenido -->
+        <div class="col-md-6 mb-2 col-12"> 
+          <div class="d-flex justify-content-center align-items-center">
             <div>
               <span style="color: aliceblue;">Teléfono</span>
               <input type="text" class="form-control form-control-sm mb-2 short-input" placeholder="Teléfono" name="telefono_no_registrado" id="telefono_no_registrado">
@@ -87,10 +87,10 @@
                 <h5 id="precio"></h5>
                 <br>
                 {{#each compra}}
-                <p><strong>Pelicula:</strong> <span id="titulo">{{titulo}}</span></p>
+                <p><strong>Película:</strong> <span id="titulo">{{titulo}}</span></p>
                 <p  id="fecha"><strong>Fecha:</strong>  <span id="fecha_final">{{fecha}}</span></p>
                 {{/each}}
-                <p><strong>Butacas:</strong> 
+                <p><strong>Nº de butacas:</strong> 
                   <span id="butacas">
                     {{#each resultados}}
                     {{numero}}<span style="color: transparent;">,</span>
@@ -150,20 +150,20 @@ document.getElementById("precio").innerHTML = "Precio: " + precioFinal + "€";
  var fechaTexto = document.getElementById("fecha_final").innerHTML;
       var fechaProvida = new Date(fechaTexto);
 
-// Obtener el día y año
+
 var dia = fechaProvida.getDate();
 var anio = fechaProvida.getFullYear();
 
-// Array con los nombres de los meses en español
+
 var meses = [
   "Enero", "Febrero", "marzo", "abril", "mayo", "junio",
   "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
 ];
 
-// Obtener el nombre del mes en español
+
 var mesNombre = meses[fechaProvida.getMonth()];
 
-// Formatear para el formato "3 de enero de 2024"
+
 var fechaFormateada = `${dia} de ${mesNombre} de ${anio}`;
 
   document.getElementById("fecha_final").innerHTML = fechaFormateada
@@ -191,7 +191,7 @@ function validarNombre(message, e){
    
       const field = e.target;
       const fieldValue = e.target.value;
-      console.log(fieldValue)
+     
 
       if (fieldValue.trim().length === 0 || !regexNombre_compra.test(fieldValue)) {
         field.classList.add("invalid")
@@ -278,7 +278,7 @@ function validarNombre(message, e){
       error_compra = true;
     }
     {{/unless}}
-    console.log(error_compra)
+    
     if(error_compra == true){
  alert("Revise los datos")
     }
@@ -326,7 +326,7 @@ const datos = {
           body: JSON.stringify(datos)
         });
         const data = await response.json();
-        console.log(data);
+       
         window.location.href = data.url;
     } catch (error) {
         console.error('Error:', error);

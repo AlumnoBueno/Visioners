@@ -19,7 +19,7 @@ var meses = [
 // Obtener el nombre del mes en español
 var mesNombre = meses[fechaProvida.getMonth()];
 
-// Formatear para el formato "3 de enero de 2024"
+// Formatear 
 var fechaFormateada = `${dia} de ${mesNombre} de ${anio}`;
 
 document.getElementById("fecha").innerHTML = fechaFormateada
@@ -39,7 +39,7 @@ async function bloquearButacas() {
         },
         body: JSON.stringify({ butacaIds })
       });
-      console.log(JSON.stringify({ butacaIds }))
+    
       if (response.ok) {
         const butacas =  butacaIds
         alert('Butacas bloqueadas correctamente.');

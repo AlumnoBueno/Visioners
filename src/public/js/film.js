@@ -42,7 +42,7 @@ function desplegableFechas() {
   
     // Mostrar la fecha actual
     let formatoFechaActual = new Intl.DateTimeFormat('es-ES', { dateStyle: 'full' });
-    console.log('Fecha actual:', formatoFechaActual.format(fechaActual));
+   
   
     let selectFecha = document.getElementById("dateSelector");
     selectFecha.innerHTML = ''; // Limpiar el select antes de agregar nuevas fechas
@@ -77,7 +77,7 @@ function buscarPorFecha(){
   
     const fechaFinal =  `${year}-${month}-${day}`;
     var ahora = new Date();
-    var horaActual = ahora.getHours()  +":"+ ahora.getMinutes(); // Convertir a un número entero para facilitar la comparación
+    var horaActual = ahora.getHours()  +":"+ ahora.getMinutes(); 
 
 
     
@@ -90,10 +90,7 @@ function buscarPorFecha(){
      fetch(`/buscarPorFecha/${fechaFinal}/${idPelicula}`)
         .then(response => response.json())
          .then(data => {
-          // Mostrar los resultados en el div 'resultados'
           const resultadosDiv = document.getElementById('horario');
-          // Actualizar los datos en la página sin recargar
-
           resultadosDiv.innerHTML="";
 
         data.forEach(elemento =>{

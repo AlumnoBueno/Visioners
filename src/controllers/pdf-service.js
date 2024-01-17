@@ -10,8 +10,6 @@ import nodemailer from "nodemailer";
 export async function buildPDF(dataCallback, endCallback) {
 
 
-  //revisar VARIABLES
-
 var url;
 
   const qrImageFile = "temp_qr.png";
@@ -22,10 +20,13 @@ var url;
     "SELECT titulo_pelicula as Titulo, DATE_FORMAT(fecha,'%d/%m/%Y') as Fecha, hora as Hora, butacas as Butacas, sala as Sala, email_usuario as Email, email_usuario_no_registrado as Correo FROM reservas WHERE id = (SELECT MAX(id) FROM reservas)"
   );
 
+
   if (results[0].Correo) {
-     url = `https://visioners.onrender.com/historial/${results[0].Correo}`;
+  const [id] = await pool.query(`select max(id) as id from reservas where email_usuario_no_registrado = '${results[0].Correo}'`)
+     url = `https://visioners.onrender.com/entrada_final/${id[0].id}`;
   } else {
-     url = `https://visioners.onrender.com/historial/${results[0].Email}`;
+    const [id] = await pool.query(`select max(id) as id from reservas where email_usuario = '${results[0].Email}'`)
+     url = `https://visioners.onrender.com/entrada_final/${id[0].id}`;
   }
 
   const pelicula = results[0].Titulo;
@@ -49,8 +50,7 @@ var url;
   const caratulaPath = path.join(__dirname, `../public/img/caratulas/${caratula}`);
   const pdfPath = path.join(__dirname, "entrada.pdf"); // Ruta temporal donde se guardará el PDF
   doc.pipe(fs.createWriteStream(pdfPath));
-  // doc.rect(0, 0, doc.page.width, doc.page.height).fillColor('rgb(87, 87, 87)').fill();
-  // doc.fillColor('white');
+
   const pageWidth = doc.page.width;
   const pageHeight = doc.page.height;
 
@@ -73,13 +73,14 @@ var url;
     height: 300,
   });
 
-  // ... Tu código existente para generar el PDF y agregar contenido ...
+
 
   const buffer = await QRCode.toBuffer(url, { errorCorrectionLevel: "H" });
   // Agregar el código QR al PDF
   doc.image(buffer, xPosition + 80, yPosition + 600, { fit: [100, 100] }); // Ajusta la posición y el tamaño según tus necesidades
 
   let textYPosition = yPosition + imageHeight + 20; // Ajustar la distancia del texto desde la imagen
+
   if (results.length > 0) {
     // Iterar sobre cada fila del resultado y escribir en el PDF
 
@@ -119,8 +120,8 @@ var url;
     const mailOptions = {
       from: "visioners2024@gmail.com",
       to: `${correo_destino}`,
-      subject: "Documento adjunto",
-      text: "Se adjunta el documento generado.",
+      subject: "¡Gracias por reservar en VisiOners, aquí tiene su entrada!",
+      text: "Se adjunta la entrada reservada. ¡Disfrute de la película!",
       attachments: [
         {
           filename: "entrada.pdf",

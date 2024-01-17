@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -175,16 +175,15 @@ formulario_registro.addEventListener('submit', (e) => {
         const valor_texto = document.getElementById("texto").value
 
         const data = {valor_nombre,valor_usuario,valor_telefono,valor_correo,valor_texto};
-        console.log(data);
+       
 
         const xhr = new XMLHttpRequest();
     xhr.open('POST', '/atencion_cliente', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify(data));
-formulario_registro.reset();
-alert("Enviado");
-       
-
+    formulario_registro.reset();
+    alert("Enviado");
+    window.location.reload()
 		document.getElementById('formulario__mensaje-exito').classList.add('formulario__mensaje-exito-activo');
 		setTimeout(() => {
 			document.getElementById('formulario__mensaje-exito').classList.remove('formulario__mensaje-exito-activo');

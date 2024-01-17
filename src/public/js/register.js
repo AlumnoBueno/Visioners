@@ -143,10 +143,8 @@ error = true;
                 if (xhr.status === 201) {
                   const response = JSON.parse(xhr.responseText);
                   // Credenciales inválidas
-                  console.log(response.message);
                   var contenedor = document.getElementById("mensajeError2");
                   contenedor.innerText = response.message
-                  console.log(contenedor)
               }else{
                   
                   var modal = document.getElementById("modal2");
@@ -154,7 +152,7 @@ error = true;
                   modal.style.display = "block";
                   overlay.style.display = "block";
   
-                  // Oculta el mensaje emergente y redirige después de 3 segundos adicionales (puedes ajustar el tiempo)
+                  
                   setTimeout(function() {
                       modal.style.display = "none";
                       overlay.style.display = "none";

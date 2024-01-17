@@ -13,7 +13,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const router = Router();
 
 router.use((req, res, next) => {
-    res.locals.layout = null; // Otra opción podría ser 'adminLayout' si tienes un diseño específico para admin
+    res.locals.layout = null; 
     next();
   });
 

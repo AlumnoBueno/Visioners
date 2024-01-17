@@ -37,9 +37,7 @@ try{
                          Pelicula:  ${titulo}-
                          Butacas:  ${butacas}-
                           Sala: ${sala}
-                         
                           `
-             
             },
             currency: "eur",
             unit_amount: precioFinal

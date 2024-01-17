@@ -12,17 +12,7 @@
     <br>  <br>  <br>  <br>    <br>  <br>
       <button href="#" class="btn btn-secondary" onclick="window.location.href='https://visioners.onrender.com';" style="margin-left: 12%">Página principal</button>
       
-      {{#unless peliculas}}
-      <br><br>
-      <div class="container">
-  <div class="row">
-    <div class="col-md-6">
-<h1 style="color: aliceblue;">No ha hecho ninguna reserva</h1>
-    </div>
-  </div>
-      </div>
-      {{/unless}}
-    {{#each peliculas}}
+    {{#each reserva}}
    <br><br>
 
    <div class="container">

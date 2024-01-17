@@ -29,7 +29,7 @@ function verificarCredenciales() {
           modal2.style.display = "block";
           overlay2.style.display = "block";
 
-          // Oculta el mensaje emergente y redirige después de 3 segundos adicionales (puedes ajustar el tiempo)
+         
           setTimeout(function() {
               modal2.style.display = "none";
               overlay2.style.display = "none";

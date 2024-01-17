@@ -4,8 +4,7 @@ function filtrarPeliculas(){
     var genero = document.getElementById("generoSelect").value;
      fetch(`/filtrar?genero=${genero}`, { method: 'GET' })
      .then(response => response.json())
-     .then(data => {
-      console.log(data)
+     .then(data => {    
       if(data.length === 0){
         window.location.reload()
         window.scrollTo(0, scrollPosition);

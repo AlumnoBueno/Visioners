@@ -2,7 +2,7 @@ import { Router } from "express";
 import pool from "../database.js";
 import { isLoggedIn } from "../controllers/authController.js";
 import { logout } from "../controllers/logoutController.js";
-import { login } from "../controllers/LoginController.js";
+import { register } from "../controllers/registerController.js";
 import { signin } from "../controllers/signinController.js";
 import { createSession } from "../controllers/payment.controller.js";
 import PDFDocument from 'pdfkit';
@@ -23,7 +23,7 @@ const router = Router();
 
 //LOGIN
 
-router.post("/login", login);
+router.post("/login", register);
 
 //AUTH
 
@@ -82,31 +82,6 @@ router.get("/filtrar", async (req, res) => {
   res.status(500).json({ message: err.message });
 }
 });
-
-
-router.get("/historial/:email", isLoggedIn,async (req, res) => {
- 
-  try{
-    const {email} = req.params;
-   
-    const [comprobar] = await pool.query(
-      `SELECT r.id,r.titulo_pelicula,DATE_FORMAT(r.fecha, '%d/%m/%Y') as fecha,r.hora,r.butacas,r.precio,r.sala,p.titulo,p.caratula FROM reservas r,peliculas p where r.titulo_pelicula = p.titulo and (r.email_usuario= ? or r.email_usuario_no_registrado= ?) order by r.id desc`,
-      [email,email]
-    );
-
-    const mostrarPeliculasReservadas = comprobar;
-   
-    if(req.user){
-    res.render("historial.hbs", { peliculas: mostrarPeliculasReservadas, status: "DENTRO",
-    user: req.user, });
-    }else{
-      res.render("historial.hbs", { peliculas: mostrarPeliculasReservadas})
-    }
-} catch (err) {
-  res.status(500).json({ message: err.message });
-}
-});
-
 
 
 
@@ -186,7 +161,7 @@ router.get("/entradas/:id", isLoggedIn, async (req, res) => {
 });
 
 
-router.post("/procesar-checkboxes",isLoggedIn, (req, res) => {
+router.post("/procesar-checkboxes", (req, res) => {
   const opcionesSeleccionadas = req.body.opciones;
   var opciones = 0;
   if (opcionesSeleccionadas >= 10 || opcionesSeleccionadas <= 10) {
@@ -322,6 +297,53 @@ console.log(precio)
 });
 
 
+//HISTORIAL
+
+
+router.get("/historial/:email", isLoggedIn,async (req, res) => {
+ 
+  try{
+    const {email} = req.params;
+   
+    const [comprobar] = await pool.query(
+      `SELECT r.id,r.titulo_pelicula,DATE_FORMAT(r.fecha, '%d/%m/%Y') as fecha,r.hora,r.butacas,r.precio,r.sala,p.titulo,p.caratula FROM reservas r,peliculas p where r.titulo_pelicula = p.titulo and (r.email_usuario= ? or r.email_usuario_no_registrado= ?) order by r.id desc`,
+      [email,email]
+    );
+
+    const mostrarPeliculasReservadas = comprobar;
+   
+    if(req.user){
+    res.render("historial.hbs", { peliculas: mostrarPeliculasReservadas, status: "DENTRO",
+    user: req.user, });
+    }else{
+      res.render("historial.hbs", { peliculas: mostrarPeliculasReservadas})
+    }
+} catch (err) {
+  res.status(500).json({ message: err.message });
+}
+});
+
+
+//ENTRADA FINAL
+
+router.get('/entrada_final/:id', isLoggedIn,async (req, res) => {
+
+  const {id} = req.params;
+
+  const [comprobar] = await pool.query(
+    `SELECT r.id,r.titulo_pelicula,DATE_FORMAT(r.fecha, '%d/%m/%Y') as fecha,r.hora,r.butacas,r.precio,r.sala,p.titulo,p.caratula FROM reservas r,peliculas p where r.titulo_pelicula = p.titulo and r.id = ?`,
+    [id]
+  );
+
+  const mostrarPeliculaReservada = comprobar;
+
+  if (req.user) {
+    res.render("entrada_final.hbs", {reserva: mostrarPeliculaReservada, status: "DENTRO",user: req.user,
+    });
+  } else {
+    res.render("entrada_final.hbs",{reserva: mostrarPeliculaReservada});
+  }
+});
 
 //ENVIO DE ARCHIVO Y CORREO
 
@@ -367,7 +389,7 @@ const data = req.body
   const mailOptions = {
     from: "visioners2024@gmail.com",
     to: `visioners2024@gmail.com`,
-    subject: "Documento adjunto",
+    subject: "MENSAJE DE ATENCIÓN AL CLIENTE:",
     text: `MENSAJE DE ATENCIÓN AL CLIENTE:
 
     Nombre: ${data.valor_nombre}

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,11 +32,11 @@
          <a href="/#cine" class="centrar nav-link text-white" ><p class="menu-index">El cine</p></a>
        <a href="/#estamos" class="centrar nav-link text-white"><p class="menu-index">Ubicación&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p></a>
            <br>{{#if status}} 
-          <a class="nav-link logged-out" href="/historial/{{user.email}}" >{{user.nombre}}</a>
-          <a class="nav-link logged-out" href="/logout">Logout</a>
+          <a class="nav-link logged-out" href="/historial/{{user.email}}"><p class="menu-index-inicio" >{{user.nombre}}</p></a>
+          <a class="nav-link logged-out" href="/logout"><p class="menu-index-inicio" >Logout</p></a>
            {{else}} 
-          <a class="nav-link logged-out" href="#" data-bs-toggle="modal" data-bs-target="#signinModal"><p >Login</p></a>
-          <a class="nav-link logged-out" href="#" data-bs-toggle="modal" data-bs-target="#signupModal"><p >Registro</p></a>
+          <a class="nav-link logged-out" href="#" data-bs-toggle="modal" data-bs-target="#signinModal"><p class="menu-index-inicio" >Login</p></a>
+          <a class="nav-link logged-out" href="#" data-bs-toggle="modal" data-bs-target="#signupModal"><p class="menu-index-inicio">Registro</p></a>
            {{/if}} 
         </div>
       </div>
@@ -54,10 +54,8 @@
       <div class="modal-content bg-dark">
         <div class="modal-header">
            <div id="overlay"></div>
-    <div id="modal2">Registrado completado, ya puede iniciar sesión </div>
+    <div id="modal2">Registro completado, ya puede iniciar sesión </div>
     
-     <div id="overlayLogin"></div>
-    <div id="modalLogin">Registrado completado, ya puede iniciar sesión </div>
 
           <img src="../img/logo.png" class="modalLogo" alt="logo_visioners">
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -129,6 +127,8 @@
     <div class="modal-dialog">
         <div class="modal-content bg-dark">
             <div class="modal-header">
+                <div id="overlayLogin"></div>
+    <div id="modalLogin">Sesión iniciada correctamente</div>
                 <img src="../img/logo.png" class="modalLogo" alt="logo_visioners">
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>

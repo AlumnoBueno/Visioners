@@ -9,12 +9,11 @@ export const signin =  async (req,res) =>{
          const email = req.body.email;
       
          const [result] = await pool.query('SELECT * FROM usuarios WHERE email = ?', [email]);
-        console.log(result)
              if (result.length == 0 ) {
                 res.status(201).json({ success: false, message: 'Revise los datos' });
              }
              else if(!await bcrypt.compare(password, result[0].password)){
-                res.status(201).json({ success: false, message: 'Conraseña incorrecta' });
+                res.status(201).json({ success: false, message: 'Contraseña incorrecta' });
              }
              else{
                  const email = result[0].email;
