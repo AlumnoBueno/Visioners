@@ -176,7 +176,7 @@ error = true;
     campoApellidos.addEventListener("blur", (e) => validarApellido("Introduce un apellido correcto", e))
     campoTelefono.addEventListener("blur", (e) => validarTelefono("Introduce un telefono correcto", e))
     campoEmail.addEventListener("blur", (e) => validarEmail("Introduce un email correcto", e))
-    campoPassword.addEventListener("blur", (e) => validarPassword("De 8 a 15 digitos con al menos un simbolo,mayúscula y número", e))
+    campoPassword.addEventListener("blur", (e) => validarPassword("De 8 a 15 digitos con al menos un símbolo,mayúscula y número", e))
     document.getElementById("enviarSignup").addEventListener("click",ver);
  
    
