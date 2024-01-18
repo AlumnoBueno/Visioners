@@ -13,7 +13,7 @@ error = true;
 
     const regexNombre = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s']+$/;
     const regexApellidos = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s'-]+$/;
-    const regexTelefono = /(\+34|0034|34)?[ -]*(6|7)[ -]*([0-9][ -]*){8}/;
+    const regexTelefono = /^(\+34|0034|34)?[6-9]\d{8}$/;
     const regexEmail = /[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}/;
     const regexPassword = /^(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\\-])(?=.*[A-Z])(?=.*[0-9]).{8,15}$/;
 

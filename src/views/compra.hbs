@@ -183,7 +183,7 @@ var fechaFormateada = `${dia} de ${mesNombre} de ${anio}`;
 
       const regexNombre_compra = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s']+$/;
     const regexApellidos_compra = /^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ\s'-]+$/;
-    const regexTelefono_compra = /(\+34|0034|34)?[ -]*(6|7)[ -]*([0-9][ -]*){8}/;
+    const regexTelefono_compra = /^(\+34|0034|34)?[6-9]\d{8}$/;
     const regexCorreo_compra = /[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,5}/;
 
 
