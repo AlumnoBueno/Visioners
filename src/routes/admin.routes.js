@@ -86,7 +86,7 @@ router.get("/edit/:id",isLoggedIn, async (req, res) => {
         process.env.JWT_SECRET
       );
 
-        console.log(decoded.email)
+        
       if (decoded.email != "ka0@gmail.com") {
         res.render("admin/admin_index.hbs")
       }else{
@@ -98,6 +98,7 @@ router.get("/edit/:id",isLoggedIn, async (req, res) => {
       [id]
     );
     const mostrarPelicula = pelicula[0];
+    console.log(mostrarPelicula)
     res.render("admin/edit.hbs", { pelicula: mostrarPelicula });
       }
     }else{
@@ -123,8 +124,8 @@ router.post("/edit/:id", isLoggedIn, async (req, res) => {
   try {
 
     if (req.user){
-    const { titulo,direccion,sinopsis,trailer,caratula } = req.body;
-    const editarPelicula = { titulo,direccion,sinopsis,trailer,caratula }
+    const { titulo,direccion,sinopsis,trailer,caratula,genero } = req.body;
+    const editarPelicula = { titulo,direccion,sinopsis,trailer,caratula,genero }
     const {id} = req.params
     await pool.query('UPDATE peliculas set ? where id = ?',[editarPelicula,id])
     const [peliculas] = await pool.query('SELECT * FROM peliculas');
