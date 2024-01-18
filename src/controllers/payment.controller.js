@@ -6,8 +6,8 @@ const stripe = new Stripe('sk_test_51OU5tZDO1ysp3HwltZC8sjVI3DcklCZyQVkocDPbLlYV
 export const createSession = async (req,res) => {
 try{
 
-  
-  
+  var {opciones} = req.params
+  console.log(opciones)
     const {nombre,apellidos,correo,telefono,titulo,fecha,butacas, hora,sala,precio } = req.body;
     var precioFinal = precio * 100;
     const butacasArray = butacas.split(',').map(butaca => parseInt(butaca.trim(), 10));

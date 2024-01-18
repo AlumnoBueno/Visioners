@@ -5,10 +5,6 @@ function filtrarPeliculas(){
      fetch(`/filtrar?genero=${genero}`, { method: 'GET' })
      .then(response => response.json())
      .then(data => {    
-      if(data.length === 0){
-        window.location.reload()
-        window.scrollTo(0, scrollPosition);
-      }
       var contenedorPeliculas = document.getElementById("contenedorPeliculas")
       contenedorPeliculas.innerHTML = "";
 

@@ -70,12 +70,19 @@ router.get("/", isLoggedIn, async (req, res) => {
 //Filtro de generos
 router.get("/filtrar", async (req, res) => {
   const generoSeleccionado = req.query.genero;
+  console.log(generoSeleccionado)
 
   try{
-  const [comprobar] = await pool.query(
+    if(generoSeleccionado == "Todos"){
+      var [comprobar] = await pool.query(
+        "SELECT * FROM peliculas",
+      );
+    }else{
+  var [comprobar] = await pool.query(
     "SELECT * FROM peliculas WHERE genero=?",
     [generoSeleccionado]
   );
+    }
  
   res.json(comprobar);
 } catch (err) {
@@ -232,7 +239,6 @@ router.get("/resumen",isLoggedIn,async (req, res) => {
   var sala = req.query.sala;
   var fecha = req.query.fecha;
  var precio = parseInt(req.query.precio);
-console.log(precio)
 
   if(req.user){
     var correo = req.user.email;
@@ -262,7 +268,7 @@ console.log(precio)
        
       });
 
-        console.log(correo)
+        
 
         if (correo){
       await pool.query(`INSERT INTO reservas (titulo_pelicula, fecha, hora, butacas,email_usuario,email_usuario_no_registrado,precio,sala)  SELECT * FROM (SELECT '${titulo}', '${fechaFinal}', '${hora}', '${butacasArray}','${correo}',null,${precio},'${sala}') AS tmp
