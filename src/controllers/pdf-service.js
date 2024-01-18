@@ -113,9 +113,10 @@ var url;
       service: "gmail",
       auth: {
         user: "visioners2024@gmail.com",
-        pass: "fsbv mmby barw utva",
+        pass: "neje qocc aapj iqdo",
       },
     });
+   
 
     const mailOptions = {
       from: "visioners2024@gmail.com",

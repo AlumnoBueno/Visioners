@@ -388,7 +388,7 @@ const data = req.body
     service: "gmail",
     auth: {
       user: "visioners2024@gmail.com",
-      pass: "fsbv mmby barw utva",
+      pass: "neje qocc aapj iqdo",
     },
   });
 
